@@ -1,6 +1,6 @@
 {
-	"name": "ccvshop/api",
-	"description": "PHP Framework for CCVShop API calls",
+	"name": "ccvshop/ccvshop-api-sdk",
+	"description": "PHP SDK for CCVShop API calls",
 	"type": "library",
 	"license": "MIT",
 	"require": {
