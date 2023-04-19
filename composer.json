@@ -1,0 +1,30 @@
+{
+	"name": "ccvshop/api",
+	"description": "PHP Framework for CCVShop API calls",
+	"type": "library",
+	"license": "MIT",
+	"require": {
+		"ext-json": "*",
+		"ext-psr": "*",
+		"php": ">=7.4",
+		"guzzlehttp/guzzle": "~7.5",
+		"vlucas/phpdotenv": "~5.0",
+		"nesbot/carbon": "^2.0@dev"
+	},
+	"require-dev": {
+		"roave/security-advisories": "dev-latest"
+	},
+	"autoload": {
+		"psr-4": {
+			"CCVShop\\Api\\": "src/"
+		}
+	},
+	"homepage": "http://www.ccvshop.nl",
+	"authors": [
+		{
+			"name": "CCV Shop",
+			"email": "support@ccvshop.nl"
+		}
+	],
+	"minimum-stability": "dev"
+}
