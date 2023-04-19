@@ -3,9 +3,10 @@
 namespace CCVShop\Api\Resource;
 
 use Carbon\Carbon;
+use CCVShop\Api\Resource\Call\Post;
 use GuzzleHttp\Client;
 
-class Credentials
+class Credentials implements Post
 {
 	public function __construct(\CCVShop\Api\Credentials $credentials)
 	{
@@ -39,13 +40,11 @@ class Credentials
 					'x-hash' => $xHash,
 					'x-date' => $xDate,
 				],
-				'json' => $data
+				'json' => $data,
 
 			]
 		);
 		$this->validateResponse($res, $uri);
-
-		var_dump($res->getBody());
 
 		return \CCVShop\Api\Entity\Resource\Credentials::createFromJson($res->getBody());
 	}
