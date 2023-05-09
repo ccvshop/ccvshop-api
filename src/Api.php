@@ -8,11 +8,11 @@ use CCVShop\Api\Resource\Credentials;
 
 class Api
 {
-	private static $instance;
+	private static ?\CCVShop\Api\Api $instance = null;
 	public Webshops $webshops;
 	public \CCVShop\Api\Resource\Credentials $credentials;
 
-	public static function Call()
+	public static function Call(): Api
 	{
 		if (self::$instance === null) {
 			self::$instance = new self();
