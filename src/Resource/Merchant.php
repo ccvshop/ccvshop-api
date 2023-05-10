@@ -19,6 +19,9 @@ class Merchant implements Patch
 		$this->credentials = $credentials;
 	}
 
+
+
+
 	public function Patch(int $resourceId, array $data)
 	{
 		$client = new Client([
