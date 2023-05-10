@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace CCVShop\Api;
 
-class Credentials
+class ApiCredentials
 {
 	private string $ApiHostName;
 	private string $ApiPublic;

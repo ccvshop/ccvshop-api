@@ -1,6 +1,6 @@
 <?php
 
-namespace CCVShop\Api\Resource\Call;
+namespace CCVShop\Api\Endpoints\Call;
 
 interface GetOne
 {
