@@ -1,9 +1,14 @@
 <?php
 
-namespace CCVShop\Api\Entity\Resource;
+namespace CCVShop\Api\Resources;
 
-class Merchant
+use Carbon\Carbon;
+use CCVShop\Api\BaseResource;
+use GuzzleHttp\Client;
+
+class Merchant extends BaseResource
 {
+	public ?int $id = null;
 	public ?string $href = null;
 	public ?string $uuid = null;
 	public ?string $gender = null;
@@ -22,5 +27,4 @@ class Merchant
 	public ?string $telephone = null;
 	public ?string $tax_number = null;
 	public ?string $coc_number = null;
-	public ?string $parent = null;
 }
