@@ -4,7 +4,7 @@ namespace CCVShop\Api\Factory;
 
 use CCVShop\Api\BaseResource;
 
-class Resource
+class ResourceFactory
 {
 	public static function createFromApiResult($apiResult, BaseResource $resource): BaseResource
 	{

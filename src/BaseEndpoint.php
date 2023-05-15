@@ -39,19 +39,24 @@ abstract class BaseEndpoint
 
 		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
 
-		$res = $client->request('GET', $uri,
-			[
-				'headers' => [
-					'x-public' => $this->client->apiCredentials->GetApiPublic(),
-					'x-hash' => $xHash,
-					'x-date' => $xDate,
-				],
+		try {
+			$res = $client->request('GET', $uri,
+				[
+					'headers' => [
+						'x-public' => $this->client->apiCredentials->GetApiPublic(),
+						'x-hash' => $xHash,
+						'x-date' => $xDate,
+					],
 
-			]
-		);
+				]
+			);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			throw  \CCVShop\Api\Factory\ExceptionFactory::createFromApiResult($e->getResponse()->getBody());
+		}
+
 		$this->validateResponse($res, $uri, 'GET');
 
-		return Factory\Resource::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
+		return Factory\ResourceFactory::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
 	}
 
 	protected function rest_getAll($from = null, $limit = null, array $filters = [])
@@ -91,10 +96,10 @@ abstract class BaseEndpoint
 		$json = json_decode($res->getBody());
 
 		if (!isset($json->items)) {
-			$collection[] = Factory\Resource::createFromApiResult($json, $this->getResourceObject());;
+			$collection[] = Factory\ResourceFactory::createFromApiResult($json, $this->getResourceObject());;
 		} else {
 			foreach ($json->items as $item) {
-				$collection[] = Factory\Resource::createFromApiResult($item, $this->getResourceObject());;
+				$collection[] = Factory\ResourceFactory::createFromApiResult($item, $this->getResourceObject());;
 			}
 		}
 
@@ -135,7 +140,7 @@ abstract class BaseEndpoint
 
 		$this->validateResponse($res, $uri, 'POST');
 
-		return Factory\Resource::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
+		return Factory\ResourceFactory::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
 	}
 
 	protected function rest_patch(int $id, array $data): void
