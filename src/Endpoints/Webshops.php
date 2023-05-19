@@ -43,8 +43,8 @@ class Webshops extends BaseEndpoint
 		return $this->client->merchant->getForId($webshopId);
 	}
 
-	public function getAll()
+	public function getAll(array $parameters)
 	{
-		return $this->rest_getAll();
+		return $this->rest_getAll(null, null, $parameters);
 	}
 }

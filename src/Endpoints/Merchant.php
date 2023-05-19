@@ -34,7 +34,7 @@ class Merchant extends BaseEndpoint
 	{
 		$this->parentId = $webshopId;
 
-		return $this->rest_getAll(null, $parameters);
+		return $this->rest_getAll(null, null, $parameters);
 	}
 
 	public function patch(\CCVShop\Api\Resources\Merchant $merchant)
@@ -44,5 +44,10 @@ class Merchant extends BaseEndpoint
 		return $this->rest_patch($merchant->id, [
 			'uuid' => $merchant->uuid,
 		]);
+	}
+
+	public function getAll(array $parameters)
+	{
+		return $this->rest_getAll(null, null, $parameters);
 	}
 }

@@ -66,7 +66,7 @@ abstract class BaseEndpoint
 			'base_uri' => $this->client->apiCredentials->GetApiHostName(),
 		]);
 
-		$uri        = $apiPrefix . $this->getResourcePath();
+		$uri        = $apiPrefix . $this->getResourcePath() . $this->filtersToQuery($filters);
 		$xDate      = Carbon::Now('utc')->format('c');
 		$dataToHash = [
 			$this->client->apiCredentials->GetApiPublic(),
@@ -205,5 +205,14 @@ abstract class BaseEndpoint
 		if ($xHash !== $res->getHeader('x-hash')[0]) {
 			throw new \Exception('Result hash not equal');
 		}
+	}
+
+	protected function filtersToQuery(array $filters = []): string
+	{
+		if (empty($filters)) {
+			return '';
+		}
+
+		return '?' . http_build_query($filters);
 	}
 }
