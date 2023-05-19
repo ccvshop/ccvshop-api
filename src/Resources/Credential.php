@@ -16,7 +16,6 @@ class Credential extends BaseResource
 	public ?string $label = null;
 	public ?string $api_public = null;
 	public ?string $api_secret = null;
+	public bool $link_to_main_user = false;
 	public array $permissions = [];
-
-
 }
