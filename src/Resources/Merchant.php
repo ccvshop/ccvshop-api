@@ -27,4 +27,9 @@ class Merchant extends BaseResource
 	public ?string $telephone = null;
 	public ?string $tax_number = null;
 	public ?string $coc_number = null;
+
+	public function getWebshops(): WebshopCollection
+	{
+		return $this->client->webshops->getFor($this);
+	}
 }
