@@ -5,45 +5,43 @@ namespace CCVShop\Api;
 
 class ApiCredentials
 {
-	private string $ApiHostName;
-	private string $ApiPublic;
-	private string $ApiSecret;
+    private string $hostName;
+    private string $public;
+    private string $secret;
 
-	/**
-	 * @param string $ApiHostName
-	 * @param string $ApiPublic
-	 * @param string $ApiSecret
-	 */
-	public function __construct(string $ApiHostName, string $ApiPublic, string $ApiSecret)
-	{
-		$this->ApiHostName = $ApiHostName;
-		$this->ApiPublic   = $ApiPublic;
-		$this->ApiSecret   = $ApiSecret;
-	}
+    /**
+     * @param string $hostName
+     * @param string $public
+     * @param string $secret
+     */
+    public function __construct(string $hostName, string $public, string $secret)
+    {
+        $this->hostName = $hostName;
+        $this->public   = $public;
+        $this->secret   = $secret;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function GetApiHostName(): string
-	{
-		return $this->ApiHostName;
-	}
+    /**
+     * @return string
+     */
+    public function getHostName(): string
+    {
+        return $this->hostName;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function GetApiPublic(): string
-	{
-		return $this->ApiPublic;
-	}
+    /**
+     * @return string
+     */
+    public function getPublic(): string
+    {
+        return $this->public;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function GetApiSecret(): string
-	{
-		return $this->ApiSecret;
-	}
-
-
+    /**
+     * @return string
+     */
+    public function getSecret(): string
+    {
+        return $this->secret;
+    }
 }

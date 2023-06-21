@@ -1,218 +1,338 @@
 <?php
+declare(strict_types=1);
 
 namespace CCVShop\Api;
 
 use Carbon\Carbon;
+use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
+use CCVShop\Api\Factory\ExceptionFactory;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Response;
 
 abstract class BaseEndpoint
 {
-	protected ApiClient $client;
-	protected ?int $parentId = null;
-	protected ?string $parentResourcePath = null;
-	protected string $resourcePath;
+    protected ApiClient $client;
+    private ?ParentResource $parent = null;
+    protected ?int $parentId = null;
+    protected ?string $parentResourcePath = null;
+    protected string $resourcePath;
+    private ?string $currentMethod = null;
+    private ?string $currentDate = null;
+    private const DELETE = 'DELETE';
+    private const GET = 'GET';
+    private const POST = 'POST';
+    private const PUT = 'PUT';
+    private const PATCH = 'PATCH';
+    private const API_PREFIX = '/api/rest/v1/';
 
-	abstract protected function getResourceObject(): BaseResource;
+    abstract protected function getResourceObject(): BaseResource;
 
-	public function __construct(ApiClient $api)
-	{
-		$this->client = $api;
-	}
+    abstract protected function getResourceCollectionObject(): BaseResourceCollection;
 
-	protected function rest_getOne(int $id, array $filters): BaseResource
-	{
-		$apiPrefix = '/api/rest/v1/';
-		$client    = new Client([
-			'base_uri' => $this->client->apiCredentials->GetApiHostName(),
-		]);
+    /**
+     * @param ApiClient $api
+     */
+    public function __construct(ApiClient $api)
+    {
+        $this->client = $api;
+    }
 
-		$uri        = $apiPrefix . $this->getResourcePath() . '/' . $id;
-		$xDate      = Carbon::Now('utc')->format('c');
-		$dataToHash = [
-			$this->client->apiCredentials->GetApiPublic(),
-			'GET',
-			$uri,
-			'',
-			$xDate,
+    /**
+     * @param int $id
+     * @param array $filters
+     *
+     * @return BaseResource
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_getOne(int $id, array $filters): BaseResource
+    {
+        $this->setCurrentMethod(self::GET)
+            ->setCurrentDate();
 
-		];
+        $uri = $this->getUri() . '/' . $id . $this->filtersToQuery($filters);
 
-		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+            ],
+        ];
+        $result  = $this->doCall($uri, $headers);
 
-		try {
-			$res = $client->request('GET', $uri,
-				[
-					'headers' => [
-						'x-public' => $this->client->apiCredentials->GetApiPublic(),
-						'x-hash' => $xHash,
-						'x-date' => $xDate,
-					],
+        return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+    }
 
-				]
-			);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			throw  \CCVShop\Api\Factory\ExceptionFactory::createFromApiResult($e->getResponse()->getBody());
-		}
+    /**
+     * @param null $from
+     * @param null $limit
+     * @param array $filters
+     *
+     * @return BaseResourceCollection
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_getAll($from = null, $limit = null, array $filters = []): BaseResourceCollection
+    {
+        $this->setCurrentMethod(self::GET)->setCurrentDate();
 
-		$this->validateResponse($res, $uri, 'GET');
+        $uri = $this->getUri() . $this->filtersToQuery($filters);
 
-		return Factory\ResourceFactory::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
-	}
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+            ],
 
-	protected function rest_getAll($from = null, $limit = null, array $filters = [])
-	{
-		$apiPrefix = '/api/rest/v1/';
-		$client    = new Client([
-			'base_uri' => $this->client->apiCredentials->GetApiHostName(),
-		]);
+        ];
 
-		$uri        = $apiPrefix . $this->getResourcePath() . $this->filtersToQuery($filters);
-		$xDate      = Carbon::Now('utc')->format('c');
-		$dataToHash = [
-			$this->client->apiCredentials->GetApiPublic(),
-			'GET',
-			$uri,
-			'',
-			$xDate,
+        $result = $this->doCall($uri, $headers);
 
-		];
+        $collection = $this->getResourceCollectionObject();
 
-		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
+        if ($result === null) {
+            return $collection;
+        }
 
-		$res = $client->request('GET', $uri,
-			[
-				'headers' => [
-					'x-public' => $this->client->apiCredentials->GetApiPublic(),
-					'x-hash' => $xHash,
-					'x-date' => $xDate,
-				],
+        if (!isset($result->items)) {
+            $collection[] = Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        } else {
+            foreach ($result->items as $item) {
+                $collection[] = Factory\ResourceFactory::createFromApiResult($item, $this->getResourceObject());
+            }
+        }
 
-			]
-		);
-		$this->validateResponse($res, $uri, 'GET');
+        return $collection;
+    }
 
-		$collection = $this->getResourceCollectionObject();
+    /**
+     * @param array $data
+     *
+     * @return BaseResource
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_post(array $data): BaseResource
+    {
+        $this->setCurrentMethod(self::POST)->setCurrentDate();
 
-		$json = json_decode($res->getBody());
+        $uri = $this->getUri();
 
-		if (!isset($json->items)) {
-			$collection[] = Factory\ResourceFactory::createFromApiResult($json, $this->getResourceObject());;
-		} else {
-			foreach ($json->items as $item) {
-				$collection[] = Factory\ResourceFactory::createFromApiResult($item, $this->getResourceObject());;
-			}
-		}
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+            ],
+            'json' => $data,
 
-		return $collection;
-	}
+        ];
+        $result  = $this->doCall($uri, $headers);
 
-	protected function rest_post(array $data): BaseResource
-	{
-		$apiPrefix = '/api/rest/v1/';
-		$client    = new Client([
-			'base_uri' => $this->client->apiCredentials->GetApiHostName(),
-		]);
+        return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+    }
 
-		$uri        = $apiPrefix . $this->getResourcePath();
-		$xDate      = Carbon::Now('utc')->format('c');
-		$dataToHash = [
-			$this->client->apiCredentials->GetApiPublic(),
-			'POST',
-			$uri,
-			json_encode($data, JSON_THROW_ON_ERROR),
-			$xDate,
+    /**
+     * @param int $id
+     * @param array $data
+     *
+     * @return void
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_patch(int $id, array $data): void
+    {
+        $this->setCurrentMethod(self::PATCH)->setCurrentDate();
 
-		];
+        $uri = $this->getUri() . '/' . $id;
 
-		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+            ],
+            'json' => $data,
 
-		$res = $client->post($uri,
-			[
-				'headers' => [
-					'x-public' => $this->client->apiCredentials->GetApiPublic(),
-					'x-hash' => $xHash,
-					'x-date' => $xDate,
-				],
-				'json' => $data,
+        ];
+        $this->doCall($uri, $headers);
+    }
 
-			]
-		);
+    /**
+     * @return string
+     */
+    public function getUri(): string
+    {
+        if ($this->parent !== null) {
+            $uri = sprintf('%s%s/%s/%s', self::API_PREFIX, $this->parent->path, $this->parent->id, $this->resourcePath);
+            $this->setParent(null);
 
-		$this->validateResponse($res, $uri, 'POST');
+            return $uri;
+        }
 
-		return Factory\ResourceFactory::createFromApiResult(json_decode($res->getBody(), false, 512, JSON_THROW_ON_ERROR), $this->getResourceObject());
-	}
+        return sprintf('%s%s', self::API_PREFIX, $this->resourcePath);
+    }
 
-	protected function rest_patch(int $id, array $data): void
-	{
-		$apiPrefix = '/api/rest/v1/';
-		$client    = new Client([
-			'base_uri' => $this->client->apiCredentials->GetApiHostName(),
-		]);
+    /**
+     * @param Response $res
+     * @param string $uri
+     *
+     * @return void
+     * @throws Exceptions\InvalidHashOnResult
+     */
+    protected function validateResponse(Response $res, string $uri): void
+    {
+        $dataToHash = [
+            $this->client->apiCredentials->getPublic(),
+            $this->getCurrentMethod(),
+            $uri,
+            $res->getBody(),
+            $res->getHeader('x-date')[0],
 
-		$uri        = $apiPrefix . $this->getResourcePath() . '/' . $id;
-		$xDate      = Carbon::Now('utc')->format('c');
-		$dataToHash = [
-			$this->client->apiCredentials->GetApiPublic(),
-			'PATCH',
-			$uri,
-			json_encode($data, JSON_THROW_ON_ERROR),
-			$xDate,
+        ];
 
-		];
+        $xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
 
-		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
+        if ($xHash !== $res->getHeader('x-hash')[0]) {
+            throw new InvalidHashOnResult('Result hash not equal');
+        }
+    }
 
-		$res = $client->patch($uri,
-			[
-				'headers' => [
-					'x-public' => $this->client->apiCredentials->GetApiPublic(),
-					'x-hash' => $xHash,
-					'x-date' => $xDate,
-				],
-				'json' => $data,
+    /**
+     * @param array $filters
+     *
+     * @return string
+     */
+    protected function filtersToQuery(array $filters = []): string
+    {
+        if (empty($filters)) {
+            return '';
+        }
 
-			]
-		);
+        return '?' . http_build_query($filters);
+    }
 
-		$this->validateResponse($res, $uri, 'PATCH');
+    /**
+     * @param string $uri
+     * @param array $data
+     *
+     * @return null|\stdClass
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     */
+    private function doCall(string $uri, array $data): ?\stdClass
+    {
+        $client = new Client([
+            'base_uri' => $this->client->apiCredentials->getHostName(),
+        ]);
+        try {
+            $res = $client->request($this->getCurrentMethod(), $uri, $data);
 
-		return;
-	}
+            $this->validateResponse($res, $uri);
 
-	public function getResourcePath()
-	{
-		if (!empty($this->parentId) && $this->parentResourcePath !== null) {
-			return sprintf('%s/%s/%s', $this->parentResourcePath, $this->parentId, $this->resourcePath);
-		}
+            if (empty((string)$res->getBody())) {
+                return null;
+            }
 
-		return $this->resourcePath;
-	}
+            try {
+                return json_decode((string)$res->getBody(), false, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                throw new InvalidResponseException($e->getMessage());
+            }
+        } catch (ServerException|ClientException $e) {
+            throw ExceptionFactory::createFromApiResult((string)$e->getResponse()->getBody());
+        }
+    }
 
-	protected function validateResponse(\GuzzleHttp\Psr7\Response $res, string $uri, string $method): void
-	{
-		$dataToHash = [
-			$this->client->apiCredentials->GetApiPublic(),
-			$method,
-			$uri,
-			$res->getBody(),
-			$res->getHeader('x-date')[0],
+    /**
+     * @param string $uri
+     * @param array|null $data
+     *
+     * @return string
+     * @throws \JsonException
+     */
+    private function getHash(string $uri, ?array $data = null): string
+    {
+        $dataToHash = [
+            $this->client->apiCredentials->getPublic(),
+            $this->getCurrentMethod(),
+            $uri,
+            $data !== null ? json_encode($data, JSON_THROW_ON_ERROR) : '',
+            $this->getCurrentDate(),
 
-		];
+        ];
 
-		$xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->GetApiSecret());
+        return hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
+    }
 
-		if ($xHash !== $res->getHeader('x-hash')[0]) {
-			throw new \Exception('Result hash not equal');
-		}
-	}
+    /**
+     * @return string|null
+     */
+    private function getCurrentMethod(): ?string
+    {
+        return $this->currentMethod;
+    }
 
-	protected function filtersToQuery(array $filters = []): string
-	{
-		if (empty($filters)) {
-			return '';
-		}
+    /**
+     * @param string|null $currentMethod
+     *
+     * @return $this
+     */
+    private function setCurrentMethod(?string $currentMethod): self
+    {
+        $this->currentMethod = $currentMethod;
 
-		return '?' . http_build_query($filters);
-	}
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentDate(): string
+    {
+        return $this->currentDate;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setCurrentDate(): self
+    {
+        $this->currentDate = Carbon::Now('utc')->format('c');
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourcePath(): string
+    {
+        return $this->resourcePath;
+    }
+
+    /**
+     * @param ParentResource|null $parent
+     *
+     * @return void
+     */
+    protected function setParent(?ParentResource $parent): void
+    {
+        $this->parent = $parent;
+    }
 }
