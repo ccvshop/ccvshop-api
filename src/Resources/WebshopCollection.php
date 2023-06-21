@@ -2,18 +2,9 @@
 
 namespace CCVShop\Api\Resources;
 
-use CCVShop\Api\BaseCollection;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\BaseResource;
 
-class WebshopCollection extends BaseCollection
+class WebshopCollection extends BaseResourceCollection
 {
-	/**
-	 * @return string
-	 */
-	public function getCollectionResourceName()
-	{
-		return 'webshops';
-	}
-
-
 }

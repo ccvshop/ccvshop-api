@@ -6,15 +6,25 @@ use CCVShop\Api\BaseResource;
 
 class ResourceFactory
 {
-	public static function createFromApiResult($apiResult, BaseResource $resource): BaseResource
-	{
-		foreach ($apiResult as $property => $value) {
-			if (!property_exists($resource, $property)) {
-				continue;
-			}
-			$resource->{$property} = $value;
-		}
+    public static function createFromApiResult($apiResult, BaseResource $resource): BaseResource
+    {
+        foreach ($apiResult as $property => $value) {
+            if (!property_exists($resource, $property)) {
+                continue;
+            }
+            $resource->{$property} = $value;
+        }
 
-		return $resource;
-	}
+        return $resource;
+    }
+
+    public static function createParentFromResource(BaseResource $resource): \CCVShop\Api\ParentResource
+    {
+        return new \CCVShop\Api\ParentResource($resource->getEndpoint()->getResourcePath(), $resource->id);
+    }
+
+    public static function createParent(string $path, int $id): \CCVShop\Api\ParentResource
+    {
+        return new \CCVShop\Api\ParentResource($path, $id);
+    }
 }
