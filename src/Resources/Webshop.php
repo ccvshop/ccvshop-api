@@ -14,6 +14,7 @@ class Webshop extends BaseResource
     public ?int $id = null;
     public ?string $name = null;
     public ?bool $is_multishop_system = null;
+    public ?bool $is_salespos = null;
     public ?int $product_limit = null;
     public ?int $product_limit_left = null;
     public ?string $api_root = null;
