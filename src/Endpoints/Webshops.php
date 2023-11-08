@@ -101,18 +101,6 @@ class Webshops extends BaseEndpoint implements
     }
 
     /**
-     * @param int $webshopId
-     * @return AppCollection
-     * @throws InvalidHashOnResult
-     * @throws JsonException
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     */
-    public function getAppsById(int $webshopId): AppCollection
-    {
-        return $this->client->apps->getForId($webshopId);
-    }
-
-    /**
      * @param array $parameters
      *
      * @return WebshopCollection
