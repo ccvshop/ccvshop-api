@@ -3,7 +3,6 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -71,10 +70,10 @@ class Apps extends BaseEndpoint implements
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function patch(?BaseResource $app = null): void
+    public function patch(App $app = null): void
     {
         if ($app === null) {
-            throw new \InvalidArgumentException(\CCVShop\Api\Resources\App::class . ' required');
+            throw new \InvalidArgumentException(App::class . ' required');
         }
 
         $this->rest_patch($app->id, [
