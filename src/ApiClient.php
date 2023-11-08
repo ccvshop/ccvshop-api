@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\Credentials;
+use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
 use CCVShop\Api\Endpoints\Apps;
@@ -19,6 +20,7 @@ class ApiClient
     public Endpoints\Merchant $merchant;
     public Webshops $webshops;
     public Apps $apps;
+    public Webhooks $webhooks;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -37,5 +39,6 @@ class ApiClient
         $this->merchant    = new Merchant($this);
         $this->webshops    = new Webshops($this);
         $this->apps        = new Apps($this);
+        $this->webhooks    = new Webhooks($this);
     }
 }
