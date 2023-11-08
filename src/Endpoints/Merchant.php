@@ -3,6 +3,7 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -90,13 +91,12 @@ class Merchant extends BaseEndpoint implements
 
     /**
      * @param \CCVShop\Api\Resources\Merchant|null $merchant
-     *
      * @return void
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws JsonException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      */
-    public function patch(?\CCVShop\Api\Resources\Merchant $merchant = null): void
+    public function patch(?BaseResource $merchant = null): void
     {
         if ($merchant === null) {
             throw new \InvalidArgumentException(\CCVShop\Api\Resources\Merchant::class . ' required');
