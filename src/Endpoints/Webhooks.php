@@ -103,7 +103,7 @@ class Webhooks extends BaseEndpoint implements
 
         return $this->rest_post([
             'event' => $webhook->event,
-            'address ' => $webhook->address,
+            'address' => $webhook->address,
             'is_active' => $webhook->is_active
         ]);
     }
