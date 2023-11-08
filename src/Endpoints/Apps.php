@@ -38,11 +38,10 @@ class Apps extends BaseEndpoint implements
 
     /**
      * @param int $id
-     *
      * @return App
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
-     * @throws JsonException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
      */
     public function get(int $id): App
     {
@@ -53,10 +52,12 @@ class Apps extends BaseEndpoint implements
     }
 
     /**
-     * @param \CCVShop\Api\Resources\Webshop $webshop
+     * @param Webshop $webshop
      * @param array $parameters
-     *
      * @return AppCollection
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
      */
     public function getFor(\CCVShop\Api\Resources\Webshop $webshop, array $parameters = []): AppCollection
     {
@@ -69,12 +70,12 @@ class Apps extends BaseEndpoint implements
     }
 
     /**
-     * @param int $merchantId
+     * @param int $webshopId
      * @param array $parameters
-     *
      * @return WebshopCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
      */
     public function getForId(int $webshopId, array $parameters = []): WebshopCollection
     {
@@ -88,10 +89,10 @@ class Apps extends BaseEndpoint implements
 
     /**
      * @param array $parameters
-     *
      * @return AppCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
      */
     public function getAll(array $parameters = []): AppCollection
     {
