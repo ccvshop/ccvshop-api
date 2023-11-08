@@ -60,4 +60,22 @@ class Apps extends BaseEndpoint implements
 
         return $result;
     }
+
+    /**
+     * @param App|null $app
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function patch(?App $app = null): void
+    {
+        if ($app === null) {
+            throw new \InvalidArgumentException(\CCVShop\Api\Resources\App::class . ' required');
+        }
+
+        $this->rest_patch($app->id, [
+            'is_installed' => $app->is_installed
+        ]);
+    }
 }
