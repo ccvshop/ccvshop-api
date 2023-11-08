@@ -2,14 +2,11 @@
 
 namespace CCVShop\Api\Endpoints;
 
-use CCVShop\Api\BaseResourceCollection;
-use CCVShop\Api\BaseResource;
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
-use CCVShop\Api\Resources\AppCollection;
 use CCVShop\Api\Resources\MerchantCollection;
 use CCVShop\Api\Resources\Webshop;
 use CCVShop\Api\Resources\WebshopCollection;

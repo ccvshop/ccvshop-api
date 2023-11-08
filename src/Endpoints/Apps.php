@@ -14,7 +14,7 @@ class Apps extends BaseEndpoint implements
     GetAll
 {
     protected string $resourcePath = 'apps';
-    
+
     /**
      * @return App
      */
