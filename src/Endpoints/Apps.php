@@ -6,12 +6,14 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
+use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppCollection;
 
 class Apps extends BaseEndpoint implements
     Get,
-    GetAll
+    GetAll,
+    Patch
 {
     protected string $resourcePath = 'apps';
 

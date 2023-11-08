@@ -6,5 +6,5 @@ use CCVShop\Api\BaseResource;
 
 interface Patch
 {
-    public function patch(): void;
+    public function patch(?BaseResource $resource = null): void;
 }
