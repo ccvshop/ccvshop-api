@@ -82,7 +82,7 @@ class Webhooks extends BaseEndpoint implements
         }
 
         $this->rest_patch($webhook->id, [
-            'address ' => $webhook->address,
+            'address' => $webhook->address,
             'is_active' => $webhook->is_active
         ]);
     }
