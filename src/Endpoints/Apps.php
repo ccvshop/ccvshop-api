@@ -72,12 +72,12 @@ class Apps extends BaseEndpoint implements
     /**
      * @param int $webshopId
      * @param array $parameters
-     * @return WebshopCollection
+     * @return AppCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function getForId(int $webshopId, array $parameters = []): WebshopCollection
+    public function getForId(int $webshopId, array $parameters = []): AppCollection
     {
         $this->setParent(ResourceFactory::createParent($this->client->webshops->getResourcePath(), $webshopId));
 

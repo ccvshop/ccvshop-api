@@ -35,4 +35,15 @@ class Webshop extends BaseResource
     {
         return $this->client->credentials->postFor($this, $data);
     }
+
+    /**
+     * @return AppCollection
+     * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getApps(): AppCollection
+    {
+        return $this->client->apps->getFor($this);
+    }
 }

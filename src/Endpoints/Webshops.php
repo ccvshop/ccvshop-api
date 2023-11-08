@@ -9,6 +9,7 @@ use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
+use CCVShop\Api\Resources\AppCollection;
 use CCVShop\Api\Resources\MerchantCollection;
 use CCVShop\Api\Resources\Webshop;
 use CCVShop\Api\Resources\WebshopCollection;
@@ -97,6 +98,18 @@ class Webshops extends BaseEndpoint implements
     public function getMerchantsById(int $webshopId): MerchantCollection
     {
         return $this->client->merchant->getForId($webshopId);
+    }
+
+    /**
+     * @param int $webshopId
+     * @return AppCollection
+     * @throws InvalidHashOnResult
+     * @throws JsonException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     */
+    public function getAppsById(int $webshopId): AppCollection
+    {
+        return $this->client->apps->getForId($webshopId);
     }
 
     /**
