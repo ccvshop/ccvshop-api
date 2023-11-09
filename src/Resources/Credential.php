@@ -12,7 +12,6 @@ use GuzzleHttp\Client;
 
 class Credential extends BaseResource
 {
-    //SONAR_IGNORE_START
     public ?string $href = null;
     public ?int $id = null;
     public ?string $createdate = null;
@@ -21,8 +20,6 @@ class Credential extends BaseResource
     public ?string $api_secret = null;
     public bool $link_to_main_user = false;
     public array $permissions = [];
-
-    //SONAR_IGNORE_END
 
     public function getEndpoint(): Credentials
     {

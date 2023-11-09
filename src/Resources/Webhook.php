@@ -7,7 +7,6 @@ use CCVShop\Api\Endpoints\Webhooks;
 
 class Webhook extends BaseResource
 {
-    //SONAR_IGNORE_START
     public ?int $id = null;
     public ?string $href = null;
     public ?string $createdate = null;
