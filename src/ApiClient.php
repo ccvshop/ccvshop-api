@@ -5,7 +5,8 @@ namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\Webshops;
-use CCVShop\Api\Resources\Merchant;
+use CCVShop\Api\Endpoints\Merchant;
+use CCVShop\Api\Endpoints\Apps;
 
 class ApiClient
 {
@@ -17,6 +18,7 @@ class ApiClient
     public Credentials $credentials;
     public Endpoints\Merchant $merchant;
     public Webshops $webshops;
+    public Apps $apps;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -32,7 +34,8 @@ class ApiClient
         );
 
         $this->credentials = new Credentials($this);
-        $this->merchant    = new Endpoints\Merchant($this);
+        $this->merchant    = new Merchant($this);
         $this->webshops    = new Webshops($this);
+        $this->apps        = new Apps($this);
     }
 }
