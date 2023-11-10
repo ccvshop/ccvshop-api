@@ -7,7 +7,6 @@ use CCVShop\Api\Endpoints\Apps;
 
 class App extends BaseResource
 {
-    //SONAR_IGNORE_START
     public ?int $id = null;
     public ?string $href = null;
     public ?string $name = null;
