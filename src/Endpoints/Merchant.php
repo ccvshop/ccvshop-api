@@ -90,11 +90,10 @@ class Merchant extends BaseEndpoint implements
 
     /**
      * @param \CCVShop\Api\Resources\Merchant|null $merchant
-     *
      * @return void
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws JsonException
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      */
     public function patch(\CCVShop\Api\Resources\Merchant $merchant = null): void
     {

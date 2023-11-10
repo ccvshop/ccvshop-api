@@ -2,7 +2,7 @@
 
 namespace CCVShop\Api\Interfaces\Endpoints;
 
-interface Patch
+interface Post
 {
-    public function patch(): void;
+    public function post();
 }
