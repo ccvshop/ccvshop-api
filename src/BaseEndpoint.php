@@ -173,6 +173,30 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @param int $id
+     *
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_delete(int $id): void
+    {
+        $this->setCurrentMethod(self::DELETE)->setCurrentDate();
+
+        $uri = $this->getUri() . '/' . $id;
+
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+            ]
+        ];
+        $this->doCall($uri, $headers);
+    }
+
+    /**
      * @return string
      */
     public function getUri(): string

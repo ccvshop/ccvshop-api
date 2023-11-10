@@ -2,8 +2,6 @@
 
 namespace CCVShop\Api\Endpoints;
 
-use CCVShop\Api\BaseResourceCollection;
-use CCVShop\Api\BaseResource;
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
