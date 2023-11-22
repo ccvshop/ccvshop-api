@@ -20,6 +20,7 @@ class OrdinanceReceipts extends BaseEndpoint implements
     protected ?string $parentResourcePath = 'orders';
 
     /**
+     * @description Get the resource object
      * @return OrdinanceReceipt
      */
     protected function getResourceObject(): OrdinanceReceipt
@@ -28,6 +29,7 @@ class OrdinanceReceipts extends BaseEndpoint implements
     }
 
     /**
+     * @description Get the resource collection object
      * @return OrdinanceReceiptCollection
      */
     protected function getResourceCollectionObject(): OrdinanceReceiptCollection
@@ -36,6 +38,7 @@ class OrdinanceReceipts extends BaseEndpoint implements
     }
 
     /**
+     * @description Get one by id
      * @param int $id
      * @return OrdinanceReceipt
      * @throws InvalidHashOnResult
@@ -51,6 +54,7 @@ class OrdinanceReceipts extends BaseEndpoint implements
     }
 
     /**
+     * @description Get all by parameters
      * @param array $parameters
      * @return OrdinanceReceiptCollection
      * @throws InvalidHashOnResult
@@ -67,6 +71,7 @@ class OrdinanceReceipts extends BaseEndpoint implements
 
 
     /**
+     * @description Post a ordinance receipt.
      * @param OrdinanceReceipt|null $receipt
      * @return BaseResource|OrdinanceReceipt
      * @throws InvalidHashOnResult
