@@ -8,7 +8,7 @@ class Order extends BaseResource
 {
     public ?int $id = null;
     public ?string $href = null;
-    public ?string $ordernumber_prefix = null
+    public ?string $ordernumber_prefix = null;
     public ?int $ordernumber = null;
     public ?string $ordernumber_full = null;
     public ?int $invoicenumber = null;
@@ -81,8 +81,14 @@ class Order extends BaseResource
     public ?array $fiscaltransactionsignatures = null;
 
     public ?array $invoices = null;
+
     public function getEndpoint(): \CCVShop\Api\Endpoints\Orders
     {
         return $this->client->orders;
+    }
+
+    public function getFiscalTransactionSignatures(): FiscalTransactionSignatureCollection
+    {
+        return $this->client->fiscalTransactionSignature->getFor($this);
     }
 }

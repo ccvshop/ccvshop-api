@@ -5,15 +5,19 @@ namespace CCVShop\Api\Endpoints;
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
+use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\FiscalTransactionSignatureCollection;
+use CCVShop\Api\Resources\Order;
 
 class FiscalTransactionSignature extends BaseEndpoint implements
     Get,
     GetAll,
-    Post
+    Post,
+    Patch
 {
     protected string $resourcePath = 'fiscaltransactionsignature';
     protected ?string $parentResourcePath = 'orders';
@@ -52,6 +56,46 @@ class FiscalTransactionSignature extends BaseEndpoint implements
         return $result;
     }
 
+
+    /**
+     * @description Get all fiscal transaction signatures by order resource.
+     * @param Order $order
+     * @param array $parameters
+     * @return FiscalTransactionSignatureCollection
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getFor(Order $order, array $parameters = []): FiscalTransactionSignatureCollection
+    {
+        $this->setParent(ResourceFactory::createParentFromResource($order));
+        /** @var FiscalTransactionSignatureCollection $result */
+        $result = $this->rest_getAll(null, null, $parameters);
+
+        return $result;
+    }
+
+
+    /**
+     * @description Get all fiscal transaction signatures by order id.
+     * @param int $orderId
+     * @param array $parameters
+     * @return FiscalTransactionSignatureCollection
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getForId(int $orderId, array $parameters = []): FiscalTransactionSignatureCollection
+    {
+        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $orderId));
+
+        /** @var FiscalTransactionSignatureCollection $result */
+        $result = $this->rest_getAll(null, null, $parameters);
+
+        return $result;
+    }
+
+
     /**
      * @description Get all by parameters
      * @param array $parameters
@@ -76,8 +120,14 @@ class FiscalTransactionSignature extends BaseEndpoint implements
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function post(\CCVShop\Api\Resources\FiscalTransactionSignature $signature = null): \CCVShop\Api\Resources\FiscalTransactionSignature
+    public function post(int $orderId = null, \CCVShop\Api\Resources\FiscalTransactionSignature $signature = null): \CCVShop\Api\Resources\FiscalTransactionSignature
     {
+        if ($orderId === null) {
+            throw new \InvalidArgumentException('order id is required');
+        }
+
+        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $orderId));
+
         if ($signature === null) {
             throw new \InvalidArgumentException(\CCVShop\Api\Resources\FiscalTransactionSignature::class . ' required');
         }
@@ -90,4 +140,26 @@ class FiscalTransactionSignature extends BaseEndpoint implements
         ]);
     }
 
+    /**
+     * @description Patch a fiscal transaction signature.
+     * @param int|null $orderId
+     * @param \CCVShop\Api\Resources\FiscalTransactionSignature|null $signature
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function patch(int $orderId = null, \CCVShop\Api\Resources\FiscalTransactionSignature $signature = null): void
+    {
+        if ($orderId === null) {
+            throw new \InvalidArgumentException('order id is required');
+        }
+        if ($signature === null) {
+            throw new \InvalidArgumentException(\CCVShop\Api\Resources\FiscalTransactionSignature::class . ' required');
+        }
+
+        $this->rest_patch($signature->id, [
+            'signature_data' => $signature->signature_data
+        ]);
+    }
 }
