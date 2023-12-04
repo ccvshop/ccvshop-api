@@ -135,25 +135,21 @@ class FiscalTransactionSignature extends BaseEndpoint implements
         return $this->rest_post([
             'create_date' => $signature->create_date,
             'type' => $signature->type,
-            'ordinance_identifier' => $signature->ordinance_identifier,
+            'signature_identifier' => $signature->signature_identifier,
             'signature_data' => $signature->signature_data
         ]);
     }
 
     /**
      * @description Patch a fiscal transaction signature.
-     * @param int|null $orderId
      * @param \CCVShop\Api\Resources\FiscalTransactionSignature|null $signature
      * @return void
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function patch(int $orderId = null, \CCVShop\Api\Resources\FiscalTransactionSignature $signature = null): void
+    public function patch(\CCVShop\Api\Resources\FiscalTransactionSignature $signature = null): void
     {
-        if ($orderId === null) {
-            throw new \InvalidArgumentException('order id is required');
-        }
         if ($signature === null) {
             throw new \InvalidArgumentException(\CCVShop\Api\Resources\FiscalTransactionSignature::class . ' required');
         }

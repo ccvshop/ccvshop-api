@@ -9,7 +9,7 @@ class FiscalTransactionSignature extends BaseResource
     public ?int $id = null;
     public ?string $href = null;
     public ?string $create_date = null;
-    public ?string $ordinance_identifier = null;
+    public ?string $signature_identifier = null;
     public ?string $type = null;
     public ?string $signature_data = null;
 
