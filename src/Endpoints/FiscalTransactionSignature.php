@@ -19,7 +19,7 @@ class FiscalTransactionSignature extends BaseEndpoint implements
     Post,
     Patch
 {
-    protected string $resourcePath = 'fiscaltransactionsignature';
+    protected string $resourcePath = 'fiscaltransactionsignatures';
     protected ?string $parentResourcePath = 'orders';
 
     /**
