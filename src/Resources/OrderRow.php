@@ -192,9 +192,9 @@ class OrderRow extends BaseResource
     public ?array $uploads;
 
     /**
-     * @var array|null
+     * @var \stdClass|null
      */
-    public ?array $parent;
+    public ?\stdClass $parent;
 
     /**
      *
