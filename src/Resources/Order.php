@@ -64,23 +64,23 @@ class Order extends BaseResource
     public ?\stdClass $pickup_address = null;
     public ?string $packing_slip_deeplink = null;
 
-    public ?array $orderrows = null;
+    public ?\stdClass $orderrows = null;
 
-    public ?array $ordernotes = null;
+    public ?\stdClass $ordernotes = null;
 
-    public ?array $ordermessages = null;
+    public ?\stdClass $ordermessages = null;
 
-    public ?array $ordernotifications = null;
+    public ?\stdClass $ordernotifications = null;
 
-    public ?array $orderaffiliatenetworks = null;
+    public ?\stdClass $orderaffiliatenetworks = null;
 
-    public ?array $orderlabels = null;
+    public ?\stdClass $orderlabels = null;
 
-    public ?array $terminalreceipts = null;
+    public ?\stdClass $terminalreceipts = null;
 
-    public ?array $fiscaltransactionsignatures = null;
+    public ?\stdClass $fiscaltransactionsignatures = null;
 
-    public ?array $invoices = null;
+    public ?\stdClass $invoices = null;
 
     /**
      * @return \CCVShop\Api\Endpoints\Orders
