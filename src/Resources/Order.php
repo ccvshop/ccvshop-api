@@ -55,13 +55,13 @@ class Order extends BaseResource
     public ?string $reservationnumber = null;
     public ?string $delivery_option = null;
 
-    public ?array $user = null;
+    public ?\stdClass $user = null;
 
-    public ?array $discountcoupon = null;
+    public ?\stdClass $discountcoupon = null;
 
-    public ?array $customer = null;
+    public ?\stdClass $customer = null;
 
-    public ?array $pickup_address = null;
+    public ?\stdClass $pickup_address = null;
     public ?string $packing_slip_deeplink = null;
 
     public ?array $orderrows = null;
