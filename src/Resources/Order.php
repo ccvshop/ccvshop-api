@@ -82,13 +82,33 @@ class Order extends BaseResource
 
     public ?array $invoices = null;
 
+    /**
+     * @return \CCVShop\Api\Endpoints\Orders
+     */
     public function getEndpoint(): \CCVShop\Api\Endpoints\Orders
     {
         return $this->client->orders;
     }
 
+    /**
+     * @return FiscalTransactionSignatureCollection
+     * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
     public function getFiscalTransactionSignatures(): FiscalTransactionSignatureCollection
     {
         return $this->client->fiscalTransactionSignature->getFor($this);
+    }
+
+    /**
+     * @return OrderRowCollection
+     * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getOrderRows(): OrderRowCollection
+    {
+        return $this->client->orderrows->getFor($this);
     }
 }

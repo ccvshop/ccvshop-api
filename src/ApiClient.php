@@ -5,6 +5,7 @@ namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignature;
+use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
@@ -24,6 +25,7 @@ class ApiClient
     public Apps $apps;
     public Webhooks $webhooks;
     public Orders $orders;
+    public OrderRows $orderrows;
     public FiscalTransactionSignature $fiscalTransactionSignature;
 
     /**
@@ -45,6 +47,7 @@ class ApiClient
         $this->apps                         = new Apps($this);
         $this->webhooks                     = new Webhooks($this);
         $this->orders                       = new Orders($this);
+        $this->orderrows                    = new OrderRows($this);
         $this->fiscalTransactionSignature   = new FiscalTransactionSignature($this);
     }
 }
