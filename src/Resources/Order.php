@@ -16,7 +16,7 @@ class Order extends BaseResource
     public ?string $create_date = null;
     public ?string $deliver_method = null;
     public ?string $deliver_date = null;
-    public ?array $take_out_window = null;
+    public ?\stdClass $take_out_window = null;
     public ?bool $is_platform_sale = null;
     public ?string $orderedinlng = null;
     public ?int $status = null;
