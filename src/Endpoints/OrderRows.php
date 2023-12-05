@@ -18,17 +18,17 @@ class OrderRows extends BaseEndpoint implements Get
     protected ?string $parentResourcePath = 'orders';
 
     /**
-     * @return BaseResource
+     * @return OrderRow
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): OrderRow
     {
        return new OrderRow($this->client);
     }
 
     /**
-     * @return BaseResourceCollection
+     * @return OrderRowCollection
      */
-    protected function getResourceCollectionObject(): BaseResourceCollection
+    protected function getResourceCollectionObject(): OrderRowCollection
     {
         return new OrderRowCollection($this->client);
     }
