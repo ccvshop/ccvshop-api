@@ -30,7 +30,7 @@ class OrderRows extends BaseEndpoint implements Get
      */
     protected function getResourceCollectionObject(): OrderRowCollection
     {
-        return new OrderRowCollection($this->client);
+        return new OrderRowCollection();
     }
 
     /**
