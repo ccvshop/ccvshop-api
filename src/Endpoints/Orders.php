@@ -8,6 +8,7 @@ use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Resources\Order;
+use CCVShop\Api\Resources\OrderCollection;
 
 class Orders extends BaseEndpoint implements Get
 {
@@ -26,7 +27,7 @@ class Orders extends BaseEndpoint implements Get
      */
     protected function getResourceCollectionObject(): BaseResourceCollection
     {
-        return new \CCVShop\Api\Resources\OrderCollection($this->client);
+        return new OrderCollection();
     }
 
     /**

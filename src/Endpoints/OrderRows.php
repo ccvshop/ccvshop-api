@@ -3,8 +3,6 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
-use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -34,6 +32,7 @@ class OrderRows extends BaseEndpoint implements Get
     }
 
     /**
+     * @description Get one by id
      * @param int $id
      * @return OrderRow
      * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult

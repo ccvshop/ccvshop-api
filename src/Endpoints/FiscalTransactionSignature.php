@@ -75,27 +75,6 @@ class FiscalTransactionSignature extends BaseEndpoint implements
         return $result;
     }
 
-
-    /**
-     * @description Get all fiscal transaction signatures by order id.
-     * @param int $orderId
-     * @param array $parameters
-     * @return FiscalTransactionSignatureCollection
-     * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
-     */
-    public function getForId(int $orderId, array $parameters = []): FiscalTransactionSignatureCollection
-    {
-        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $orderId));
-
-        /** @var FiscalTransactionSignatureCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
-    }
-
-
     /**
      * @description Get all by parameters
      * @param array $parameters
