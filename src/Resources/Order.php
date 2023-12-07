@@ -91,6 +91,7 @@ class Order extends BaseResource
     }
 
     /**
+     * @description Retrieve the fiscal transaction signatures of the current order.
      * @return FiscalTransactionSignatureCollection
      * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
@@ -102,6 +103,7 @@ class Order extends BaseResource
     }
 
     /**
+     * @description Retrieve the order rows of the current order.
      * @return OrderRowCollection
      * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
