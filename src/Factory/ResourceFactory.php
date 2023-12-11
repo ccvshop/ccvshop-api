@@ -13,7 +13,7 @@ class ResourceFactory
                 continue;
             }
 
-            if (!empty($resource->dates) && in_array($property, $resource->dates)) {
+            if (!empty($resource->dates) && in_array($property, $resource->dates) && !empty($value)) {
                 $resource->{$property} = new \DateTime($value);
             } else {
                 $resource->{$property} = $value;

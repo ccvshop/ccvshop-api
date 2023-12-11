@@ -15,6 +15,8 @@ class Webhook extends BaseResource
     public ?string $key = null;
     public ?bool $is_active = null;
 
+    public array $dates = ['createdate'];
+
     public function getEndpoint(): Webhooks
     {
         return $this->client->webhooks;

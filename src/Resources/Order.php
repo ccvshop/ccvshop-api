@@ -16,7 +16,7 @@ class Order extends BaseResource
     public ?string $transaction_id = null;
     public ?\DateTime $create_date = null;
     public ?string $deliver_method = null;
-    public ?string $deliver_date = null;
+    public ?\DateTime $deliver_date = null;
     public ?\stdClass $take_out_window = null;
     public ?bool $is_platform_sale = null;
     public ?string $orderedinlng = null;
@@ -83,7 +83,7 @@ class Order extends BaseResource
 
     public ?\stdClass $invoices = null;
 
-    public array $dates = ['create_date'];
+    public array $dates = ['create_date', 'deliver_date'];
 
     /**
      * @return \CCVShop\Api\Endpoints\Orders
