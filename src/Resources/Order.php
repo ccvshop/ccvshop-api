@@ -114,6 +114,6 @@ class Order extends BaseResource
      */
     public function getOrderRows(): OrderRowCollection
     {
-        return $this->client->orderrows->getFor($this);
+        return $this->client->orderRows->getFor($this);
     }
 }

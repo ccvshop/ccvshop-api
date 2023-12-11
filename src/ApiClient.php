@@ -47,7 +47,7 @@ class ApiClient
         $this->apps                         = new Apps($this);
         $this->webhooks                     = new Webhooks($this);
         $this->orders                       = new Orders($this);
-        $this->orderrows                    = new OrderRows($this);
+        $this->orderRows                    = new OrderRows($this);
         $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
     }
 }
