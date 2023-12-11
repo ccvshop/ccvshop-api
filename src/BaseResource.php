@@ -17,8 +17,10 @@ abstract class BaseResource
     {
         $this->client = $client;
 
-        foreach($this->dates as $dateProperty) {
-            $this->{$dateProperty} = new \DateTime($this->{$dateProperty});
+        foreach($this->dates as $property) {
+            if (!empty($this->{$property})) {
+                $this->{$property} = new \DateTime($this->{$property});
+            }
         }
     }
 }
