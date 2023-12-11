@@ -83,7 +83,7 @@ class Order extends BaseResource
 
     public ?\stdClass $invoices = null;
 
-    protected array $dates = ['create_date'];
+    public array $dates = ['create_date'];
 
     /**
      * @return \CCVShop\Api\Endpoints\Orders
