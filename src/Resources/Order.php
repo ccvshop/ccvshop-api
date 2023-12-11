@@ -99,7 +99,7 @@ class Order extends BaseResource
      */
     public function getFiscalTransactionSignatures(): FiscalTransactionSignatureCollection
     {
-        return $this->client->fiscalTransactionSignature->getFor($this);
+        return $this->client->fiscalTransactionSignatures->getFor($this);
     }
 
     /**
