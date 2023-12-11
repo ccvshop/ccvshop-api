@@ -25,7 +25,7 @@ class ApiClient
     public Apps $apps;
     public Webhooks $webhooks;
     public Orders $orders;
-    public OrderRows $orderrows;
+    public OrderRows $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
 
     /**
