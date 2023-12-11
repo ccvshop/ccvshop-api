@@ -2,6 +2,7 @@
 
 namespace CCVShop\Api\Resources;
 
+use CCVShop\Api\ApiClient;
 use CCVShop\Api\BaseResource;
 
 class Order extends BaseResource
@@ -81,6 +82,8 @@ class Order extends BaseResource
     public ?\stdClass $fiscaltransactionsignatures = null;
 
     public ?\stdClass $invoices = null;
+
+    protected array $dates = ['create_date'];
 
     /**
      * @return \CCVShop\Api\Endpoints\Orders
