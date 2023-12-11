@@ -9,7 +9,7 @@ class Webhook extends BaseResource
 {
     public ?int $id = null;
     public ?string $href = null;
-    public ?string $createdate = null;
+    public ?\DateTime $createdate = null;
     public ?string $event = null;
     public ?string $address = null;
     public ?string $key = null;
