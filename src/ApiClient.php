@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\Credentials;
-use CCVShop\Api\Endpoints\FiscalTransactionSignature;
+use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
@@ -26,7 +26,7 @@ class ApiClient
     public Webhooks $webhooks;
     public Orders $orders;
     public OrderRows $orderrows;
-    public FiscalTransactionSignature $fiscalTransactionSignature;
+    public FiscalTransactionSignatures $fiscalTransactionSignatures;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -48,6 +48,6 @@ class ApiClient
         $this->webhooks                     = new Webhooks($this);
         $this->orders                       = new Orders($this);
         $this->orderrows                    = new OrderRows($this);
-        $this->fiscalTransactionSignature   = new FiscalTransactionSignature($this);
+        $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
     }
 }

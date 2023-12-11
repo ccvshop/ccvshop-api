@@ -13,7 +13,7 @@ class Order extends BaseResource
     public ?string $ordernumber_full = null;
     public ?int $invoicenumber = null;
     public ?string $transaction_id = null;
-    public ?string $create_date = null;
+    public ?\DateTime $create_date = null;
     public ?string $deliver_method = null;
     public ?string $deliver_date = null;
     public ?\stdClass $take_out_window = null;

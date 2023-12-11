@@ -17,7 +17,7 @@ class Orders extends BaseEndpoint implements Get
     /**
      * @return BaseResource
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Order
     {
         return new Order($this->client);
     }
@@ -25,7 +25,7 @@ class Orders extends BaseEndpoint implements Get
     /**
      * @return BaseResourceCollection
      */
-    protected function getResourceCollectionObject(): BaseResourceCollection
+    protected function getResourceCollectionObject(): OrderCollection
     {
         return new OrderCollection();
     }

@@ -3,6 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
+use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 
 class FiscalTransactionSignature extends BaseResource
 {
@@ -13,8 +14,8 @@ class FiscalTransactionSignature extends BaseResource
     public ?string $type = null;
     public ?string $signature_data = null;
 
-    public function getEndpoint(): \CCVShop\Api\Endpoints\FiscalTransactionSignature
+    public function getEndpoint(): FiscalTransactionSignatures
     {
-        return $this->client->fiscalTransactionSignature;
+        return $this->client->fiscalTransactionSignatures;
     }
 }
