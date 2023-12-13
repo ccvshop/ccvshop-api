@@ -12,8 +12,8 @@ class App extends BaseResource
     public ?string $name = null;
     public ?\stdClass $eur_prices = null;
     public ?\stdClass $chf_prices = null;
-    public ?string $create_date = null;
-    public ?string $modified_date = null;
+    public ?\DateTime $create_date = null;
+    public ?\DateTime $modified_date = null;
     public ?string $description = null;
     public ?string $cover = null;
     public ?string $logo = null;
@@ -25,6 +25,8 @@ class App extends BaseResource
     public ?\stdClass $categories = null;
     public ?\stdClass $code_blocks = null;
     public ?\stdClass $psp = null;
+
+    public array $dates = ['create_date', 'modified_date'];
 
     public function getEndpoint(): Apps
     {
