@@ -6,6 +6,7 @@ namespace CCVShop\Api;
 abstract class BaseResource
 {
     protected ApiClient $client;
+    public array $dates = [];
 
     abstract public function getEndpoint(): BaseEndpoint;
 

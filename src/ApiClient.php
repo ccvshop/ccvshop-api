@@ -4,10 +4,13 @@ declare(strict_types=1);
 namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\Credentials;
+use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
+use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
 use CCVShop\Api\Endpoints\Apps;
+use CCVShop\Api\Endpoints\Orders;
 
 class ApiClient
 {
@@ -21,6 +24,9 @@ class ApiClient
     public Webshops $webshops;
     public Apps $apps;
     public Webhooks $webhooks;
+    public Orders $orders;
+    public OrderRows $orderRows;
+    public FiscalTransactionSignatures $fiscalTransactionSignatures;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -35,10 +41,13 @@ class ApiClient
             $apiSecret ?? $_ENV['CCVSHOP_API_SECRET']
         );
 
-        $this->credentials = new Credentials($this);
-        $this->merchant    = new Merchant($this);
-        $this->webshops    = new Webshops($this);
-        $this->apps        = new Apps($this);
-        $this->webhooks    = new Webhooks($this);
+        $this->credentials                  = new Credentials($this);
+        $this->merchant                     = new Merchant($this);
+        $this->webshops                     = new Webshops($this);
+        $this->apps                         = new Apps($this);
+        $this->webhooks                     = new Webhooks($this);
+        $this->orders                       = new Orders($this);
+        $this->orderRows                    = new OrderRows($this);
+        $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
     }
 }
