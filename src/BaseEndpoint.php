@@ -46,7 +46,6 @@ abstract class BaseEndpoint
      * @param array $filters
      *
      * @return BaseResource
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws \JsonException
