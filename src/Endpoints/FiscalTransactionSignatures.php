@@ -113,7 +113,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
         }
 
         return $this->rest_post([
-            'create_date' => $signature->create_date,
+            'create_date' => $signature->create_date->format('Y-m-d\TH:i:s\Z'),
             'type' => $signature->type,
             'signature_identifier' => $signature->signature_identifier,
             'signature_data' => $signature->signature_data
