@@ -5,14 +5,12 @@ namespace CCVShop\Api\Endpoints;
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
-use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\AppCodeBlock;
 use CCVShop\Api\Resources\AppCodeBlockCollection;
 
 class AppCodeBlocks extends BaseEndpoint implements
     Get,
-    GetAll,
     Post
 {
     protected string $resourcePath = 'AppCodeBlocks';
@@ -48,29 +46,17 @@ class AppCodeBlocks extends BaseEndpoint implements
         return $result;
     }
 
-    /**
-     * @param array $parameters
-     * @return AppCodeBlockCollection
-     * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
-     */
-    public function getAll(array $parameters = []): AppCodeBlockCollection
-    {
-        /** @var AppCodeBlockCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
-    }
-
     public function post(?AppCodeBlock $appCodeBlock = null)
     {
         if (is_null($appCodeBlock)) {
             throw new \InvalidArgumentException(AppCodeBlock::class . ' required');
         }
 
-//        $this->rest_post($app->id, [
-//            'is_installed' => $app->is_installed
-//        ]);
+        $this->rest_post([
+            'placeholder' => $appCodeBlock->placeholder,
+            'value' => $appCodeBlock->value,
+            'title' => $appCodeBlock->title,
+            'interactive_content' => $appCodeBlock->interactive_content,
+        ]);
     }
 }
