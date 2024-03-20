@@ -14,7 +14,7 @@ class AppCodeBlock extends BaseResource
     public ?string $placeholder = null;
     public ?string $title = null;
     public ?string $value = null;
-    public ?\stdClass $interactive_content = null; //todo:: dit moet niet stdclass zijn maar viewcollectione
+    public ?\stdClass $interactive_content = null;
     public ?\stdClass  $parent = null;
 
     public function getEndpoint(): AppCodeBlocks

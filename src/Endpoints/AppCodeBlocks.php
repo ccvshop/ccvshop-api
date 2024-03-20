@@ -4,6 +4,7 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\AppCodeBlock;
@@ -46,17 +47,29 @@ class AppCodeBlocks extends BaseEndpoint implements
         return $result;
     }
 
-    public function post(?AppCodeBlock $appCodeBlock = null)
+    /**
+     * @param AppCodeBlock|null $appCodeBlock
+     * @return AppCodeBlock
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function post(?AppCodeBlock $appCodeBlock = null): AppCodeBlock
     {
         if (is_null($appCodeBlock)) {
             throw new \InvalidArgumentException(AppCodeBlock::class . ' required');
         }
 
-        $this->rest_post([
+        $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appCodeBlock->app_id));
+
+        /** @var AppCodeBlock $result */
+        $result = $this->rest_post([
             'placeholder' => $appCodeBlock->placeholder,
             'value' => $appCodeBlock->value,
             'title' => $appCodeBlock->title,
             'interactive_content' => $appCodeBlock->interactive_content,
         ]);
+
+        return $result;
     }
 }
