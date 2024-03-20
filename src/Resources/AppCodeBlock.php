@@ -17,6 +17,9 @@ class AppCodeBlock extends BaseResource
     public ?\stdClass $interactive_content = null;
     public ?\stdClass  $parent = null;
 
+    /**
+     * @return AppCodeBlocks
+     */
     public function getEndpoint(): AppCodeBlocks
     {
         return $this->client->appCodeBlocks;

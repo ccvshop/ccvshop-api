@@ -7,6 +7,7 @@ use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
+use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppCodeBlock;
 use CCVShop\Api\Resources\AppCodeBlockCollection;
 
@@ -15,6 +16,8 @@ class AppCodeBlocks extends BaseEndpoint implements
     Post
 {
     protected string $resourcePath = 'AppCodeBlocks';
+    protected ?string $parentResourcePath = 'apps';
+
 
     /**
      * @return AppCodeBlock
@@ -33,6 +36,8 @@ class AppCodeBlocks extends BaseEndpoint implements
     }
 
     /**
+     * Get an app code block.
+     *
      * @param int $id
      * @return AppCodeBlock
      * @throws InvalidHashOnResult
@@ -48,6 +53,27 @@ class AppCodeBlocks extends BaseEndpoint implements
     }
 
     /**
+     * Retrieve a collection of all app code blocks that are linked to the app.
+     *
+     * @param App $app
+     * @param array $parameters
+     * @return AppCodeBlockCollection
+     * @throws InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getFor(App $app, array $parameters = []): AppCodeBlockCollection
+    {
+        $this->setParent(ResourceFactory::createParentFromResource($app));
+        /** @var AppCodeBlockCollection $result */
+        $result = $this->rest_getAll(null, null, $parameters);
+
+        return $result;
+    }
+
+    /**
+     * Post an app code block.
+     *
      * @param AppCodeBlock|null $appCodeBlock
      * @return AppCodeBlock
      * @throws InvalidHashOnResult
