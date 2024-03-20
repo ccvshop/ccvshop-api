@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CCVShop\Api;
 
+use CCVShop\Api\Endpoints\AppCodeBlocks;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\OrderRows;
@@ -27,6 +28,7 @@ class ApiClient
     public Orders $orders;
     public OrderRows $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
+    public AppCodeBlocks $appCodeBlocks;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -49,5 +51,6 @@ class ApiClient
         $this->orders                       = new Orders($this);
         $this->orderRows                    = new OrderRows($this);
         $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
+        $this->appCodeBlocks                = new AppCodeBlocks($this);
     }
 }
