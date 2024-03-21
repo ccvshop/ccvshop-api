@@ -129,6 +129,12 @@ abstract class BaseEndpoint
 
         $uri = $this->getUri();
 
+//        dd($data);
+        dd($data['interactive_content']->getArrayCopy());
+
+        $data = json_decode(json_encode($data));
+//        $jsondata = json_encode($data, JSON_THROW_ON_ERROR);
+
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
@@ -138,7 +144,6 @@ abstract class BaseEndpoint
             'json' => $data,
 
         ];
-
         $result  = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());

@@ -4,7 +4,6 @@ namespace CCVShop\Api\Resources\Entities;
 
 abstract class BaseEntityCollection extends \ArrayObject
 {
-    protected array $items = [];
     public static $entityClass;
 
     public function AddItem($item): void
