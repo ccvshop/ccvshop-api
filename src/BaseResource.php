@@ -8,6 +8,8 @@ abstract class BaseResource
     protected ApiClient $client;
     public array $dates = [];
 
+    public array $elementObjects = [];
+
     abstract public function getEndpoint(): BaseEndpoint;
 
     /**

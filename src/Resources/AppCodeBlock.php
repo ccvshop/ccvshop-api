@@ -14,7 +14,9 @@ class AppCodeBlock extends BaseResource
     public ?string $placeholder = null;
     public ?string $title = null;
     public ?string $value = null;
-    public ?\stdClass $interactive_content = null;
+    public ?InteractiveContent $interactive_content = null;
+
+    public array $elementObjects = ['interactive_content' => \CCVShop\Api\Resources\InteractiveContent::class];
 
     /**
      * @return AppCodeBlocks
