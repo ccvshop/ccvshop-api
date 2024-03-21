@@ -15,7 +15,6 @@ class AppCodeBlock extends BaseResource
     public ?string $title = null;
     public ?string $value = null;
     public ?\stdClass $interactive_content = null;
-    public ?\stdClass  $parent = null;
 
     /**
      * @return AppCodeBlocks

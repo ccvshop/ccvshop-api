@@ -4,7 +4,9 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\App;
@@ -13,9 +15,10 @@ use CCVShop\Api\Resources\AppCodeBlockCollection;
 
 class AppCodeBlocks extends BaseEndpoint implements
     Get,
-    Post
+    Post,
+    Delete
 {
-    protected string $resourcePath = 'AppCodeBlocks';
+    protected string $resourcePath = 'appcodeblocks';
     protected ?string $parentResourcePath = 'apps';
 
 
@@ -97,5 +100,17 @@ class AppCodeBlocks extends BaseEndpoint implements
         ]);
 
         return $result;
+    }
+
+    /**
+     * Delete a codeblock.
+     *
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
