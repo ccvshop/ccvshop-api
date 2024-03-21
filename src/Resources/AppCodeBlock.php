@@ -4,7 +4,7 @@ namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Endpoints\AppCodeBlocks;
-use CCVShop\Api\Endpoints\Apps;
+use CCVShop\Api\Resources\Entities\AppCodeBlock\InteractiveContent;
 
 class AppCodeBlock extends BaseResource
 {
@@ -14,9 +14,9 @@ class AppCodeBlock extends BaseResource
     public ?string $placeholder = null;
     public ?string $title = null;
     public ?string $value = null;
-    public ?InteractiveContent $interactive_content = null;
+    public ?Entities\AppCodeBlock\InteractiveContent $interactive_content = null;
 
-    public array $elementObjects = ['interactive_content' => \CCVShop\Api\Resources\InteractiveContent::class];
+    public array $elementObjects = ['interactive_content' => Entities\AppCodeBlock\InteractiveContent::class];
 
     /**
      * @return AppCodeBlocks
