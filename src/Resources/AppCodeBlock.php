@@ -16,7 +16,7 @@ class AppCodeBlock extends BaseResource
     public ?string $value = null;
     public ?Entities\AppCodeBlock\InteractiveContent $interactive_content = null;
 
-    public array $elementObjects = ['interactive_content' => Entities\AppCodeBlock\InteractiveContent::class];
+    public const  elementObjects = ['interactive_content' => Entities\AppCodeBlock\InteractiveContent::class];
 
     /**
      * @return AppCodeBlocks

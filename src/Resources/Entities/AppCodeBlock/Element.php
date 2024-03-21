@@ -2,11 +2,7 @@
 
 namespace CCVShop\Api\Resources\Entities\AppCodeBlock;
 
-use Carbon\Carbon;
-use CCVShop\Api\Resources\Call\Post;
-use GuzzleHttp\Client;
-
-abstract class Element
+class Element
 {
     public ?string $name = null;
     public ?string $label = null; //TODO:: string|object {nl:'nl tekst', en: 'ENNGLISH'}

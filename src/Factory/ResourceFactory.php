@@ -16,7 +16,7 @@ class ResourceFactory
             if (!empty($resource->dates) && in_array($property, $resource->dates) && !empty($value)) {
                 $resource->{$property} = new \DateTime($value);
             } elseif (!empty($resource->elementObjects) && in_array($property, $resource->elementObjects) && !empty($value)) {
-                $resource->{$property} = new $resource->elementObjects[$property];
+                $resource->{$property} = new $resource->elementObjects[$property]::$entityClass;
             } else {
                 $resource->{$property} = $value;
             }
