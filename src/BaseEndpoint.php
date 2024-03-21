@@ -138,6 +138,7 @@ abstract class BaseEndpoint
             'json' => $data,
 
         ];
+
         $result  = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
