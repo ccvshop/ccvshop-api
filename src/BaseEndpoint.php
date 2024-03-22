@@ -193,8 +193,8 @@ abstract class BaseEndpoint
          */
 
 
-        if(is_array($data)) {
-            foreach($data as $property => $value) {
+        if (is_array($data)) {
+            foreach ($data as $property => $value) {
                 if ($value instanceof BaseEntity) {
                     $data[$property] = $this->entityToArray($value);
                 } elseif ($value instanceof BaseEntityCollection) {
@@ -205,8 +205,6 @@ abstract class BaseEndpoint
             }
         } elseif ($data instanceof BaseEntity) {
             $returndata = new \stdClass();
-            // Zet eerst alle normale
-
 
             // Loop through the collection properties to turn them into an array.
             foreach ($data::$elementObjects as $property => $class) {
@@ -215,7 +213,7 @@ abstract class BaseEndpoint
 
             // Set all the other variables that are not set yet through $elmentObjects.
             foreach (get_object_vars($data) as $property => $value) {
-                if(!isset($returndata->{$property})) {
+                if (!isset($returndata->{$property}) && !empty($value)) {
                     $returndata->{$property} = $data->{$property};
                 }
             }

@@ -41,13 +41,13 @@ class ResourceFactory
         } elseif ($entity instanceof BaseEntity) {
             foreach ($entity::$elementObjects as $property => $class) {
                 // properties that are not required and not filled in won't be set on the response.
-                if(isset($value->{$property})) {
+                if (isset($value->{$property})) {
                     $entity->{$property} = static::objectToEntity($class, $value->{$property});
                 }
             }
 
             foreach (get_object_vars($value) as $property => $element) {
-                if(empty($entity->{$property})) {
+                if (empty($entity->{$property})) {
                     $entity->{$property} = $element;
                 }
             }
