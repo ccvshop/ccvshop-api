@@ -2,11 +2,13 @@
 
 namespace CCVShop\Api\Resources\Entities\AppCodeBlock;
 
-class View
+use CCVShop\Api\Resources\Entities\BaseEntity;
+
+class View extends BaseEntity
 {
     public ?string $name = null;
     public ?string $endpoint = null;
     public ?ElementCollection $elements = null;
 
-    public const elementObjects = ['elements' => \CCVShop\Api\Resources\Entities\AppCodeBlock\ElementCollection::class];
+    public static array $elementObjects = ['elements' => \CCVShop\Api\Resources\Entities\AppCodeBlock\ElementCollection::class];
 }

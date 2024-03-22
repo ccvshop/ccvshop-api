@@ -6,6 +6,11 @@ abstract class BaseEntityCollection extends \ArrayObject
 {
     public static $entityClass;
 
+    public function __construct($array = [], $flags = \ArrayObject::ARRAY_AS_PROPS, $iteratorClass = "ArrayIterator")
+    {
+        parent::__construct($array, $flags, $iteratorClass);
+    }
+
     public function AddItem($item): void
     {
         if (!$item instanceof static::$entityClass) {

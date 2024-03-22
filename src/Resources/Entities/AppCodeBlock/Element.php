@@ -2,7 +2,9 @@
 
 namespace CCVShop\Api\Resources\Entities\AppCodeBlock;
 
-class Element
+use CCVShop\Api\Resources\Entities\BaseEntity;
+
+class Element extends BaseEntity
 {
     public ?string $name = null;
     public ?string $label = null; //TODO:: string|object {nl:'nl tekst', en: 'ENNGLISH'}

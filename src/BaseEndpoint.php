@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ExceptionFactory;
+use CCVShop\Api\Resources\Entities\BaseEntity;
+use CCVShop\Api\Resources\Entities\BaseEntityCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -129,12 +131,15 @@ abstract class BaseEndpoint
 
         $uri = $this->getUri();
 
+        $data = $this->entityToArray($data);
+
 //        dd($data);
-        dd($data['interactive_content']->getArrayCopy());
-
-        $data = json_decode(json_encode($data));
+//        dd($data);
+//dd($data);
+        //TODO:: dit maakt alles een array, eigenlijk moeten wij alleen iets wat instanceof arrayobject is veranderen naar een array.
+//        $data = json_decode(json_encode($data), true);
+//        dd($data['interactive_content']);
 //        $jsondata = json_encode($data, JSON_THROW_ON_ERROR);
-
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
@@ -147,6 +152,84 @@ abstract class BaseEndpoint
         $result  = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+    }
+
+    private function entityToArray($data)
+    {
+        /**
+         * Flow:
+         * we hebben een array met data.
+         * loop door de array,
+         * is de value instanceof BaseEntity? roep deze functie opnieuw aan.
+         * is de value instanceof collection? cast dan naar array
+         * anders, value = value
+         *
+         * daarna komen wij binnen met een baseentity:
+         * interactive_content {
+         *      views [
+         *          view {
+         *              naam => test
+         *              label => labeltje
+         *              elements [
+         *                  element {
+         *                      type => button
+         *                  },
+         *                  element {
+         *                      type => checkbox
+         *                  },
+         *              ]
+         *          },
+         *          view {
+         *              naam => naampie
+         *              label => babel!
+         *              elements [
+         *                  element {
+         *                      type => text
+         *                  },
+         *                  element {
+         *                      type => radio
+         *                  },
+         *              ]
+         *          },
+         *      ]
+         * }
+         *
+         * hier moeten wij het volgende doen:
+         * niet door array loopen, maar de collection properties ophalen van de baseentity. ($elementObjects)
+         * daar loopen wij door heen, en zetten wij de property
+         *
+         */
+
+
+        if(is_array($data)) {
+            foreach($data as $property => $value) {
+                if ($value instanceof BaseEntity) {
+                    $data[$property] = $this->entityToArray($value);
+                } elseif ($value instanceof BaseEntityCollection) {
+                    $data[$property] = $value->getArrayCopy();
+                } else {
+                    $data[$property] = $value;
+                }
+            }
+        } elseif ($data instanceof BaseEntity) {
+            $returndata = new \stdClass();
+
+            //TODO:: overige elementen moeten er ook nog in worden gezet.
+            foreach (get_object_vars($data) as $property => $value) {
+                $returndata->{$property} = $data->{$property};
+            }
+
+            // Loop through the collection properties to turn them into an array.
+            foreach ($data::$elementObjects as $property => $class) {
+                $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
+            }
+
+            $data = $returndata;
+        } elseif ($data instanceof BaseEntityCollection) {
+            $data = $data->getArrayCopy();
+        }
+
+        return $data;
     }
 
     /**
