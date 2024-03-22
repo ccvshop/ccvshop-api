@@ -11,7 +11,7 @@ abstract class BaseEntityCollection extends \ArrayObject
         parent::__construct($array, $flags, $iteratorClass);
     }
 
-    public function AddItem($item): void
+    public function addItem($item): void
     {
         if (!$item instanceof static::$entityClass) {
             throw new \InvalidArgumentException('$item (' .  get_class($item) . ') does not equal "' . static::$entityClass  . '"!');
