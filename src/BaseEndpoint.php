@@ -213,15 +213,19 @@ abstract class BaseEndpoint
             }
         } elseif ($data instanceof BaseEntity) {
             $returndata = new \stdClass();
+            // Zet eerst alle normale
 
-            //TODO:: overige elementen moeten er ook nog in worden gezet.
-            foreach (get_object_vars($data) as $property => $value) {
-                $returndata->{$property} = $data->{$property};
-            }
 
             // Loop through the collection properties to turn them into an array.
             foreach ($data::$elementObjects as $property => $class) {
                 $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
+            }
+
+            // Set all the other variables that are not set yet through $elmentObjects.
+            foreach (get_object_vars($data) as $property => $value) {
+                if(!isset($returndata->{$property})) {
+                    $returndata->{$property} = $data->{$property};
+                }
             }
 
             $data = $returndata;
