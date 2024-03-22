@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Factory;
 
 use CCVShop\Api\BaseResource;
+use CCVShop\Api\Resources\Entities\BaseEntity;
+use CCVShop\Api\Resources\Entities\BaseEntityCollection;
 
 class ResourceFactory
 {
@@ -13,10 +15,28 @@ class ResourceFactory
                 continue;
             }
 
+            if ($property === 'interactive_content') {
+//                dd($resource);
+                if (!empty($resource->elementObjects)) {
+                    if (array_key_exists($property, $resource->elementObjects)) {
+//                        dd(123);
+                    }
+                }
+            }
+
             if (!empty($resource->dates) && in_array($property, $resource->dates) && !empty($value)) {
                 $resource->{$property} = new \DateTime($value);
-            } elseif (!empty($resource->elementObjects) && in_array($property, $resource->elementObjects) && !empty($value)) {
-                $entity = new $resource->elementObjects[$property]::$entityClass;
+            } elseif (!empty($resource->elementObjects) && array_key_exists($property, $resource->elementObjects) && !empty($value)) {
+                //TODO:: dit moet, net zoals entityToArray in een functie en recursive, maar dan precies andersom.
+                $entity = new $resource->elementObjects[$property];
+                if ($entity instanceof BaseEntityCollection) {
+                    $entity = new $resource->elementObjects[$property]::$entityClass;
+                    dd($entity);
+                } elseif ($entity instanceof BaseEntity) {
+                    dd($entity);
+//                    dd($resource->elementObjects);
+                }
+//                dd($resource->elementObjects[$property]);
                 $resource->{$property} = $entity->items;
             } else {
                 $resource->{$property} = $value;

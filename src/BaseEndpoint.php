@@ -132,14 +132,6 @@ abstract class BaseEndpoint
         $uri = $this->getUri();
 
         $data = $this->entityToArray($data);
-
-//        dd($data);
-//        dd($data);
-//dd($data);
-        //TODO:: dit maakt alles een array, eigenlijk moeten wij alleen iets wat instanceof arrayobject is veranderen naar een array.
-//        $data = json_decode(json_encode($data), true);
-//        dd($data['interactive_content']);
-//        $jsondata = json_encode($data, JSON_THROW_ON_ERROR);
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),

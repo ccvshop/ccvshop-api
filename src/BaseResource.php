@@ -7,8 +7,7 @@ abstract class BaseResource
 {
     protected ApiClient $client;
     public array $dates = [];
-
-    public const elementObjects = [];
+    public array $elementObjects = [];
 
     abstract public function getEndpoint(): BaseEndpoint;
 
