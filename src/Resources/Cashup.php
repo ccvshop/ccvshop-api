@@ -14,8 +14,8 @@ class Cashup extends BaseResource
     public ?\DateTime $start_period = null;
     public ?\DateTime $end_period = null;
     public ?string $status = null;
-    public ?array $balances = null;
-    public ?array $vat_totals = null;
+    public array $balances = [];
+    public array $vat_totals = [];
 
     public array $dates = ['create_date', 'start_period', 'end_period'];
 
