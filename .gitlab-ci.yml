@@ -33,4 +33,4 @@ sonarqube_scan-merge_request:
         paths:
             - .sonar/cache
     script:
-        - /opt/sonarscanner/bin/sonar-scanner -D sonar.host.url="${SONAR_HOST_URL}" -D sonar.login="${SONAR_TOKEN}"
+        - /opt/sonarscanner/bin/sonar-scanner -D sonar.host.url="${SONAR_HOST_URL}" -D sonar.login="${SONAR_TOKEN}" -D sonar.projectKey="${SONAR_PROJECT_KEY}" -D sonar.qualitygate.wait=true
