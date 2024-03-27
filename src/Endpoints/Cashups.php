@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -36,7 +38,7 @@ class Cashups extends BaseEndpoint implements
     /**
      * @description Get one by id
      * @param int $id
-     * @return Cashup
+     * @return BaseResource|Cashup
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -44,16 +46,14 @@ class Cashups extends BaseEndpoint implements
     public function get(int $id): Cashup
     {
         /** @var Cashup $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
 
     /**
      * @description Get all by parameters
      * @param array $parameters
-     * @return CashupCollection
+     * @return BaseResourceCollection|CashupCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -62,8 +62,6 @@ class Cashups extends BaseEndpoint implements
     public function getAll(array $parameters = []): CashupCollection
     {
         /** @var CashupCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

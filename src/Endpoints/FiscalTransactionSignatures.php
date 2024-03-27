@@ -4,6 +4,7 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -44,7 +45,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     /**
      * @description Get one by id
      * @param int $id
-     * @return FiscalTransactionSignature
+     * @return BaseResource|FiscalTransactionSignature
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -52,9 +53,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     public function get(int $id): FiscalTransactionSignature
     {
         /** @var FiscalTransactionSignature $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
 
@@ -62,7 +61,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @description Get all fiscal transaction signatures by order resource.
      * @param Order $order
      * @param array $parameters
-     * @return FiscalTransactionSignatureCollection
+     * @return BaseResourceCollection|FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -71,15 +70,13 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     {
         $this->setParent(ResourceFactory::createParentFromResource($order));
         /** @var FiscalTransactionSignatureCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
      * @description Get all by parameters
      * @param array $parameters
-     * @return FiscalTransactionSignatureCollection
+     * @return BaseResourceCollection|FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -87,9 +84,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     public function getAll(array $parameters = []): FiscalTransactionSignatureCollection
     {
         /** @var FiscalTransactionSignatureCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**

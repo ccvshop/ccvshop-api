@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -40,7 +42,7 @@ class Merchant extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return \CCVShop\Api\Resources\Merchant
+     * @return BaseResource|\CCVShop\Api\Resources\Merchant
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws JsonException
@@ -48,16 +50,14 @@ class Merchant extends BaseEndpoint implements
     public function get(int $id): \CCVShop\Api\Resources\Merchant
     {
         /** @var \CCVShop\Api\Resources\Merchant $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
      * @param Webshop $webshop
      * @param array $parameters
      *
-     * @return MerchantCollection
+     * @return BaseResourceCollection|MerchantCollection
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      */
@@ -65,16 +65,14 @@ class Merchant extends BaseEndpoint implements
     {
         $this->setParent(ResourceFactory::createParentFromResource($webshop));
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
      * @param int $webshopId
      * @param array $parameters
      *
-     * @return MerchantCollection
+     * @return BaseResourceCollection|MerchantCollection
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      */
@@ -83,9 +81,7 @@ class Merchant extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->webshops->getResourcePath(), $webshopId));
 
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -108,15 +104,13 @@ class Merchant extends BaseEndpoint implements
     /**
      * @param array $parameters
      *
-     * @return MerchantCollection
+     * @return BaseResourceCollection|MerchantCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
     public function getAll(array $parameters = []): MerchantCollection
     {
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

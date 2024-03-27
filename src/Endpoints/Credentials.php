@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -39,7 +41,7 @@ class Credentials extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return Credential
+     * @return BaseResource|Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -47,31 +49,27 @@ class Credentials extends BaseEndpoint implements
     public function get(int $id): Credential
     {
         /** @var Credential $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
      * @param array $parameters
      *
-     * @return CredentialCollection<Credential>
+     * @return BaseResourceCollection|CredentialCollection<Credential>
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
     public function getAll(array $parameters = []): CredentialCollection
     {
         /** @var CredentialCollection<Credential> $collection */
-        $collection = $this->rest_getAll(null, null, $parameters);
-
-        return $collection;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
      * @param Webshop $webshop
      * @param array $data
      *
-     * @return Credential
+     * @return BaseResource|Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -81,16 +79,14 @@ class Credentials extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParentFromResource($webshop));
 
         /** @var Credential $result */
-        $result = $this->rest_post($data);
-
-        return $result;
+        return $this->rest_post($data);
     }
 
     /**
      * @param int $webshopId
      * @param array $data
      *
-     * @return Credential
+     * @return BaseResource|Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -100,8 +96,6 @@ class Credentials extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->webshops->getResourcePath(), $webshopId));
 
         /** @var Credential $result */
-        $result = $this->rest_post($data);
-
-        return $result;
+        return $this->rest_post($data);
     }
 }

@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -35,7 +37,7 @@ class Apps extends BaseEndpoint implements
 
     /**
      * @param int $id
-     * @return App
+     * @return BaseResource|App
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -43,14 +45,12 @@ class Apps extends BaseEndpoint implements
     public function get(int $id): App
     {
         /** @var App $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
      * @param array $parameters
-     * @return AppCollection
+     * @return BaseResourceCollection|AppCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -58,9 +58,7 @@ class Apps extends BaseEndpoint implements
     public function getAll(array $parameters = []): AppCollection
     {
         /** @var AppCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**

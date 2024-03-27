@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -39,7 +41,7 @@ class Webshops extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return Webshop
+     * @return BaseResource|Webshop
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -47,31 +49,27 @@ class Webshops extends BaseEndpoint implements
     public function get(int $id): Webshop
     {
         /** @var Webshop $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
      * @param \CCVShop\Api\Resources\Merchant $merchant
      * @param array $parameters
      *
-     * @return WebshopCollection
+     * @return BaseResourceCollection|WebshopCollection
      */
     public function getFor(\CCVShop\Api\Resources\Merchant $merchant, array $parameters = []): WebshopCollection
     {
         $this->setParent(ResourceFactory::createParentFromResource($merchant));
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
      * @param int $merchantId
      * @param array $parameters
      *
-     * @return WebshopCollection
+     * @return BaseResourceCollection|WebshopCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
@@ -80,9 +78,7 @@ class Webshops extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->merchant->getResourcePath(), $merchantId));
 
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -100,15 +96,13 @@ class Webshops extends BaseEndpoint implements
     /**
      * @param array $parameters
      *
-     * @return WebshopCollection
+     * @return BaseResourceCollection|WebshopCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
     public function getAll(array $parameters = []): WebshopCollection
     {
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

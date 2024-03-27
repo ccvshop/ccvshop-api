@@ -3,6 +3,8 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -34,7 +36,7 @@ class OrderRows extends BaseEndpoint implements Get
     /**
      * @description Get one by id
      * @param int $id
-     * @return OrderRow
+     * @return BaseResource|OrderRow
      * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -42,16 +44,14 @@ class OrderRows extends BaseEndpoint implements Get
     public function get(int $id): OrderRow
     {
         /** @var OrderRow $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
      * @description Get all order rows by order resource.
      * @param Order $order
      * @param array $parameters
-     * @return OrderRowCollection
+     * @return BaseResourceCollection|OrderRowCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -60,8 +60,6 @@ class OrderRows extends BaseEndpoint implements Get
     {
         $this->setParent(ResourceFactory::createParentFromResource($order));
         /** @var OrderRowCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

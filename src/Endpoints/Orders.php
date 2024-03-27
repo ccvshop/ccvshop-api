@@ -33,7 +33,7 @@ class Orders extends BaseEndpoint implements Get
     /**
      * @description Get one by id
      * @param int $id
-     * @return Order
+     * @return BaseResource|Order
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -41,8 +41,6 @@ class Orders extends BaseEndpoint implements Get
     public function get(int $id): Order
     {
         /** @var Order $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 }
