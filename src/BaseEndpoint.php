@@ -208,7 +208,9 @@ abstract class BaseEndpoint
 
             // Loop through the collection properties to turn them into an array.
             foreach ($data::$elementObjects as $property => $class) {
-                $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
+                if (!is_null($data->{$property})) {
+                    $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
+                }
             }
 
             // Set all the other variables that are not set yet through $elmentObjects.
