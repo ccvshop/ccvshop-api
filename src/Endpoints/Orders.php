@@ -3,8 +3,6 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
-use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Resources\Order;
@@ -15,7 +13,7 @@ class Orders extends BaseEndpoint implements Get
     protected string $resourcePath = 'orders';
 
     /**
-     * @return BaseResource
+     * @return Order
      */
     protected function getResourceObject(): Order
     {
@@ -23,7 +21,7 @@ class Orders extends BaseEndpoint implements Get
     }
 
     /**
-     * @return BaseResourceCollection
+     * @return OrderCollection
      */
     protected function getResourceCollectionObject(): OrderCollection
     {
