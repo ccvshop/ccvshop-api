@@ -45,7 +45,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     /**
      * @description Get one by id
      * @param int $id
-     * @return BaseResource|FiscalTransactionSignature
+     * @return FiscalTransactionSignature
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -61,7 +61,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @description Get all fiscal transaction signatures by order resource.
      * @param Order $order
      * @param array $parameters
-     * @return BaseResourceCollection|FiscalTransactionSignatureCollection
+     * @return FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -76,7 +76,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     /**
      * @description Get all by parameters
      * @param array $parameters
-     * @return BaseResourceCollection|FiscalTransactionSignatureCollection
+     * @return FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -90,12 +90,12 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     /**
      * @description Post a fiscal transaction signature.
      * @param FiscalTransactionSignature|null $signature
-     * @return BaseResource|FiscalTransactionSignatures
+     * @return FiscalTransactionSignature
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function post(int $orderId = null, FiscalTransactionSignature $signature = null): \CCVShop\Api\Resources\FiscalTransactionSignature
+    public function post(int $orderId = null, FiscalTransactionSignature $signature = null): FiscalTransactionSignature
     {
         if ($orderId === null) {
             throw new \InvalidArgumentException('order id is required');

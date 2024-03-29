@@ -41,7 +41,7 @@ class Credentials extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return BaseResource|Credential
+     * @return Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -55,7 +55,7 @@ class Credentials extends BaseEndpoint implements
     /**
      * @param array $parameters
      *
-     * @return BaseResourceCollection|CredentialCollection<Credential>
+     * @return CredentialCollection<Credential>
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
@@ -69,7 +69,7 @@ class Credentials extends BaseEndpoint implements
      * @param Webshop $webshop
      * @param array $data
      *
-     * @return BaseResource|Credential
+     * @return Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -86,7 +86,7 @@ class Credentials extends BaseEndpoint implements
      * @param int $webshopId
      * @param array $data
      *
-     * @return BaseResource|Credential
+     * @return Credential
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException

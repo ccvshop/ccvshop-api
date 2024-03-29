@@ -3,7 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\Cashups;
+use CCVShop\Api\Endpoints\CashUps;
 
 class Cashup extends BaseResource
 {
@@ -19,7 +19,7 @@ class Cashup extends BaseResource
 
     public array $dates = ['create_date', 'start_period', 'end_period'];
 
-    public function getEndpoint(): Cashups
+    public function getEndpoint(): CashUps
     {
         return $this->client->cashups;
     }

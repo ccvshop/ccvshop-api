@@ -33,7 +33,7 @@ class Orders extends BaseEndpoint implements Get
     /**
      * @description Get one by id
      * @param int $id
-     * @return BaseResource|Order
+     * @return Order
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException

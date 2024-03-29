@@ -42,7 +42,7 @@ class Merchant extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return BaseResource|\CCVShop\Api\Resources\Merchant
+     * @return \CCVShop\Api\Resources\Merchant
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws JsonException
@@ -57,7 +57,7 @@ class Merchant extends BaseEndpoint implements
      * @param Webshop $webshop
      * @param array $parameters
      *
-     * @return BaseResourceCollection|MerchantCollection
+     * @return MerchantCollection
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      */
@@ -72,7 +72,7 @@ class Merchant extends BaseEndpoint implements
      * @param int $webshopId
      * @param array $parameters
      *
-     * @return BaseResourceCollection|MerchantCollection
+     * @return MerchantCollection
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      */
@@ -104,7 +104,7 @@ class Merchant extends BaseEndpoint implements
     /**
      * @param array $parameters
      *
-     * @return BaseResourceCollection|MerchantCollection
+     * @return MerchantCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */

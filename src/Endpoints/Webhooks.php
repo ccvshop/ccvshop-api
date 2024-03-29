@@ -41,7 +41,7 @@ class Webhooks extends BaseEndpoint implements
 
     /**
      * @param int $id
-     * @return BaseResource|Webhook
+     * @return Webhook
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -54,7 +54,7 @@ class Webhooks extends BaseEndpoint implements
 
     /**
      * @param array $parameters
-     * @return BaseResourceCollection|WebhookCollection
+     * @return WebhookCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -87,7 +87,7 @@ class Webhooks extends BaseEndpoint implements
 
     /**
      * @param Webhook|null $webhook
-     * @return BaseResource|Webhook
+     * @return Webhook
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException

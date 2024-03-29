@@ -37,7 +37,7 @@ class Apps extends BaseEndpoint implements
 
     /**
      * @param int $id
-     * @return BaseResource|App
+     * @return App
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -50,7 +50,7 @@ class Apps extends BaseEndpoint implements
 
     /**
      * @param array $parameters
-     * @return BaseResourceCollection|AppCollection
+     * @return AppCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException

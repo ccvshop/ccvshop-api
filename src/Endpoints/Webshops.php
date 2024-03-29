@@ -41,7 +41,7 @@ class Webshops extends BaseEndpoint implements
     /**
      * @param int $id
      *
-     * @return BaseResource|Webshop
+     * @return Webshop
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      * @throws JsonException
@@ -56,7 +56,7 @@ class Webshops extends BaseEndpoint implements
      * @param \CCVShop\Api\Resources\Merchant $merchant
      * @param array $parameters
      *
-     * @return BaseResourceCollection|WebshopCollection
+     * @return WebshopCollection
      */
     public function getFor(\CCVShop\Api\Resources\Merchant $merchant, array $parameters = []): WebshopCollection
     {
@@ -69,7 +69,7 @@ class Webshops extends BaseEndpoint implements
      * @param int $merchantId
      * @param array $parameters
      *
-     * @return BaseResourceCollection|WebshopCollection
+     * @return WebshopCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */
@@ -96,7 +96,7 @@ class Webshops extends BaseEndpoint implements
     /**
      * @param array $parameters
      *
-     * @return BaseResourceCollection|WebshopCollection
+     * @return WebshopCollection
      * @throws InvalidHashOnResult
      * @throws GuzzleException
      */

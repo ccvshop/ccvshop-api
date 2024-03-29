@@ -36,7 +36,7 @@ class OrderRows extends BaseEndpoint implements Get
     /**
      * @description Get one by id
      * @param int $id
-     * @return BaseResource|OrderRow
+     * @return OrderRow
      * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
@@ -51,7 +51,7 @@ class OrderRows extends BaseEndpoint implements Get
      * @description Get all order rows by order resource.
      * @param Order $order
      * @param array $parameters
-     * @return BaseResourceCollection|OrderRowCollection
+     * @return OrderRowCollection
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException

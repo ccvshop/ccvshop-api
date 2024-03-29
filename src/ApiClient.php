@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace CCVShop\Api;
 
-use CCVShop\Api\Endpoints\Cashups;
+use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\OrderRows;
@@ -28,7 +28,7 @@ class ApiClient
     public Orders $orders;
     public OrderRows $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
-    public Cashups $cashups;
+    public CashUps $cashUps;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -51,6 +51,6 @@ class ApiClient
         $this->orders                       = new Orders($this);
         $this->orderRows                    = new OrderRows($this);
         $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
-        $this->cashups                      = new Cashups($this);
+        $this->cashUps                      = new CashUps($this);
     }
 }
