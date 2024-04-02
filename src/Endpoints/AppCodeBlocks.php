@@ -49,10 +49,8 @@ class AppCodeBlocks extends BaseEndpoint implements
      */
     public function get(int $id): AppCodeBlock
     {
-        /** @var AppCodeBlock $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        /** @var AppCodeBlock */
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -68,10 +66,8 @@ class AppCodeBlocks extends BaseEndpoint implements
     public function getFor(App $app, array $parameters = []): AppCodeBlockCollection
     {
         $this->setParent(ResourceFactory::createParentFromResource($app));
-        /** @var AppCodeBlockCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        /** @var AppCodeBlockCollection */
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -91,15 +87,13 @@ class AppCodeBlocks extends BaseEndpoint implements
 
         $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appCodeBlock->app_id));
 
-        /** @var AppCodeBlock $result */
-        $result = $this->rest_post([
+        /** @var AppCodeBlock */
+        return $this->rest_post([
             'placeholder' => $appCodeBlock->placeholder,
             'value' => $appCodeBlock->value,
             'title' => $appCodeBlock->title,
             'interactive_content' => $appCodeBlock->interactive_content,
         ]);
-
-        return $result;
     }
 
     /**

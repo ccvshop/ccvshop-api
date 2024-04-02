@@ -192,7 +192,6 @@ abstract class BaseEndpoint
          *
          */
 
-
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 if ($value instanceof BaseEntity) {
