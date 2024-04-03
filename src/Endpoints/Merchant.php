@@ -48,9 +48,7 @@ class Merchant extends BaseEndpoint implements
     public function get(int $id): \CCVShop\Api\Resources\Merchant
     {
         /** @var \CCVShop\Api\Resources\Merchant $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -65,9 +63,7 @@ class Merchant extends BaseEndpoint implements
     {
         $this->setParent(ResourceFactory::createParentFromResource($webshop));
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -83,9 +79,7 @@ class Merchant extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->webshops->getResourcePath(), $webshopId));
 
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -115,8 +109,6 @@ class Merchant extends BaseEndpoint implements
     public function getAll(array $parameters = []): MerchantCollection
     {
         /** @var MerchantCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

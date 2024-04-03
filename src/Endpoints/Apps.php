@@ -43,9 +43,7 @@ class Apps extends BaseEndpoint implements
     public function get(int $id): App
     {
         /** @var App $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -58,9 +56,7 @@ class Apps extends BaseEndpoint implements
     public function getAll(array $parameters = []): AppCollection
     {
         /** @var AppCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**

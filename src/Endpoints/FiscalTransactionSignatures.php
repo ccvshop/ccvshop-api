@@ -3,7 +3,6 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -52,9 +51,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     public function get(int $id): FiscalTransactionSignature
     {
         /** @var FiscalTransactionSignature $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
 
@@ -71,9 +68,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     {
         $this->setParent(ResourceFactory::createParentFromResource($order));
         /** @var FiscalTransactionSignatureCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -87,20 +82,18 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     public function getAll(array $parameters = []): FiscalTransactionSignatureCollection
     {
         /** @var FiscalTransactionSignatureCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
      * @description Post a fiscal transaction signature.
      * @param FiscalTransactionSignature|null $signature
-     * @return BaseResource|FiscalTransactionSignatures
+     * @return FiscalTransactionSignature
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function post(int $orderId = null, FiscalTransactionSignature $signature = null): \CCVShop\Api\Resources\FiscalTransactionSignature
+    public function post(int $orderId = null, FiscalTransactionSignature $signature = null): FiscalTransactionSignature
     {
         if ($orderId === null) {
             throw new \InvalidArgumentException('order id is required');

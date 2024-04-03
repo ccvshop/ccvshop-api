@@ -42,9 +42,7 @@ class OrderRows extends BaseEndpoint implements Get
     public function get(int $id): OrderRow
     {
         /** @var OrderRow $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -60,8 +58,6 @@ class OrderRows extends BaseEndpoint implements Get
     {
         $this->setParent(ResourceFactory::createParentFromResource($order));
         /** @var OrderRowCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }
