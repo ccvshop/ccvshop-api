@@ -47,9 +47,7 @@ class Webshops extends BaseEndpoint implements
     public function get(int $id): Webshop
     {
         /** @var Webshop $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -62,9 +60,7 @@ class Webshops extends BaseEndpoint implements
     {
         $this->setParent(ResourceFactory::createParentFromResource($merchant));
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -80,9 +76,7 @@ class Webshops extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->merchant->getResourcePath(), $merchantId));
 
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -107,8 +101,6 @@ class Webshops extends BaseEndpoint implements
     public function getAll(array $parameters = []): WebshopCollection
     {
         /** @var WebshopCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

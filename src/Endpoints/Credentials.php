@@ -47,9 +47,7 @@ class Credentials extends BaseEndpoint implements
     public function get(int $id): Credential
     {
         /** @var Credential $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -62,9 +60,7 @@ class Credentials extends BaseEndpoint implements
     public function getAll(array $parameters = []): CredentialCollection
     {
         /** @var CredentialCollection<Credential> $collection */
-        $collection = $this->rest_getAll(null, null, $parameters);
-
-        return $collection;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -81,9 +77,7 @@ class Credentials extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParentFromResource($webshop));
 
         /** @var Credential $result */
-        $result = $this->rest_post($data);
-
-        return $result;
+        return $this->rest_post($data);
     }
 
     /**
@@ -100,8 +94,6 @@ class Credentials extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->webshops->getResourcePath(), $webshopId));
 
         /** @var Credential $result */
-        $result = $this->rest_post($data);
-
-        return $result;
+        return $this->rest_post($data);
     }
 }
