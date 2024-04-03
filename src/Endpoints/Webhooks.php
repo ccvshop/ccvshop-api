@@ -3,7 +3,6 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -48,9 +47,7 @@ class Webhooks extends BaseEndpoint implements
     public function get(int $id): Webhook
     {
         /** @var Webhook $result */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
@@ -63,9 +60,7 @@ class Webhooks extends BaseEndpoint implements
     public function getAll(array $parameters = []): WebhookCollection
     {
         /** @var WebhookCollection $result */
-        $result = $this->rest_getAll(null, null, $parameters);
-
-        return $result;
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**
@@ -90,7 +85,7 @@ class Webhooks extends BaseEndpoint implements
 
     /**
      * @param Webhook|null $webhook
-     * @return BaseResource|Webhook
+     * @return Webhook
      * @throws InvalidHashOnResult
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
