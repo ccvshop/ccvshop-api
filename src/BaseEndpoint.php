@@ -130,8 +130,8 @@ abstract class BaseEndpoint
         $this->setCurrentMethod(self::POST)->setCurrentDate();
 
         $uri = $this->getUri();
-
         $data = $this->entityToArray($data);
+
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
@@ -146,52 +146,12 @@ abstract class BaseEndpoint
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
+    /**
+     * @param mixed $data
+     * @return array|mixed|\stdClass
+     */
     private function entityToArray($data)
     {
-        /**
-         * Flow:
-         * we hebben een array met data.
-         * loop door de array,
-         * is de value instanceof BaseEntity? roep deze functie opnieuw aan.
-         * is de value instanceof collection? cast dan naar array
-         * anders, value = value
-         *
-         * daarna komen wij binnen met een baseentity:
-         * interactive_content {
-         *      views [
-         *          view {
-         *              naam => test
-         *              label => labeltje
-         *              elements [
-         *                  element {
-         *                      type => button
-         *                  },
-         *                  element {
-         *                      type => checkbox
-         *                  },
-         *              ]
-         *          },
-         *          view {
-         *              naam => naampie
-         *              label => babel!
-         *              elements [
-         *                  element {
-         *                      type => text
-         *                  },
-         *                  element {
-         *                      type => radio
-         *                  },
-         *              ]
-         *          },
-         *      ]
-         * }
-         *
-         * hier moeten wij het volgende doen:
-         * niet door array loopen, maar de collection properties ophalen van de baseentity. ($entities)
-         * daar loopen wij door heen, en zetten wij de property
-         *
-         */
-
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 if ($value instanceof BaseEntity) {
@@ -203,23 +163,23 @@ abstract class BaseEndpoint
                 }
             }
         } elseif ($data instanceof BaseEntity) {
-            $returndata = new \stdClass();
+            $entity = new \stdClass();
 
             // Loop through the collection properties to turn them into an array.
             foreach ($data::$entities as $property => $class) {
                 if (!is_null($data->{$property})) {
-                    $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
+                    $entity->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
                 }
             }
 
-            // Set all the other variables that are not set yet through $elmentObjects.
+            // Set all the other variables that are not set yet through $$entities
             foreach (get_object_vars($data) as $property => $value) {
-                if (!isset($returndata->{$property}) && !empty($value)) {
-                    $returndata->{$property} = $data->{$property};
+                if (!isset($entity->{$property}) && !empty($value)) {
+                    $entity->{$property} = $data->{$property};
                 }
             }
 
-            $data = $returndata;
+            $data = $entity;
         } elseif ($data instanceof BaseEntityCollection) {
             $data = $data->getArrayCopy();
         }
