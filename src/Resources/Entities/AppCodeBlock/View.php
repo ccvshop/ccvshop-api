@@ -10,5 +10,5 @@ class View extends BaseEntity
     public ?string $endpoint = null;
     public ?ElementCollection $elements = null;
 
-    public static array $elementObjects = ['elements' => \CCVShop\Api\Resources\Entities\AppCodeBlock\ElementCollection::class];
+    public static array $entities = ['elements' => \CCVShop\Api\Resources\Entities\AppCodeBlock\ElementCollection::class];
 }

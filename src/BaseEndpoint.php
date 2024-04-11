@@ -187,7 +187,7 @@ abstract class BaseEndpoint
          * }
          *
          * hier moeten wij het volgende doen:
-         * niet door array loopen, maar de collection properties ophalen van de baseentity. ($elementObjects)
+         * niet door array loopen, maar de collection properties ophalen van de baseentity. ($entities)
          * daar loopen wij door heen, en zetten wij de property
          *
          */
@@ -206,7 +206,7 @@ abstract class BaseEndpoint
             $returndata = new \stdClass();
 
             // Loop through the collection properties to turn them into an array.
-            foreach ($data::$elementObjects as $property => $class) {
+            foreach ($data::$entities as $property => $class) {
                 if (!is_null($data->{$property})) {
                     $returndata->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
                 }

@@ -4,5 +4,5 @@ namespace CCVShop\Api\Resources\Entities;
 
 abstract class BaseEntity
 {
-    public static array $elementObjects = [];
+    public static array $entities = [];
 }

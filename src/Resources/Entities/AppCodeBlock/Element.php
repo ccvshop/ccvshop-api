@@ -14,7 +14,6 @@ class Element extends BaseEntity
     public ?string $icon = null;
     public ?string $action = null;
     public ?OptionCollection $options = null;
-    public static array $elementObjects = ['options' => \CCVShop\Api\Resources\Entities\AppCodeBlock\OptionCollection::class];
 
-
+    public static array $entities = ['options' => \CCVShop\Api\Resources\Entities\AppCodeBlock\OptionCollection::class];
 }
