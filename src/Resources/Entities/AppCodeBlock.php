@@ -2,7 +2,7 @@
 
 namespace CCVShop\Api\Resources\Entities;
 
-class AppCodeBlock extends BaseEntity
+abstract class AppCodeBlock extends BaseEntity
 {
 
 }
