@@ -2,9 +2,9 @@
 
 namespace CCVShop\Api\Resources\Entities\AppCodeBlock;
 
-use CCVShop\Api\Resources\Entities\BaseEntity;
+use CCVShop\Api\Resources\Entities\AppCodeBlock;
 
-class View extends BaseEntity
+class View extends AppCodeBlock
 {
     public ?string $name = null;
     public ?string $endpoint = null;

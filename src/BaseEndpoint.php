@@ -130,7 +130,7 @@ abstract class BaseEndpoint
         $this->setCurrentMethod(self::POST)->setCurrentDate();
 
         $uri = $this->getUri();
-        $data = $this->entityToArray($data);
+        $data = $this->checkForEntities($data);
 
         $headers = [
             'headers' => [
@@ -150,12 +150,12 @@ abstract class BaseEndpoint
      * @param mixed $data
      * @return array|mixed|\stdClass
      */
-    private function entityToArray($data)
+    private function checkForEntities($data)
     {
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 if ($value instanceof BaseEntity) {
-                    $data[$property] = $this->entityToArray($value);
+                    $data[$property] = $this->checkForEntities($value);
                 } elseif ($value instanceof BaseEntityCollection) {
                     $data[$property] = $value->getArrayCopy();
                 } else {
@@ -163,28 +163,37 @@ abstract class BaseEndpoint
                 }
             }
         } elseif ($data instanceof BaseEntity) {
-            $entity = new \stdClass();
-
-            // Loop through the collection properties to turn them into an array.
-            foreach ($data::$entities as $property => $class) {
-                if (!is_null($data->{$property})) {
-                    $entity->{$property} = $this->entityToArray($data->{$property}->getArrayCopy());
-                }
-            }
-
-            // Set all the other variables that are not set yet through $$entities
-            foreach (get_object_vars($data) as $property => $value) {
-                if (!isset($entity->{$property}) && !empty($value)) {
-                    $entity->{$property} = $data->{$property};
-                }
-            }
-
-            $data = $entity;
+            $data = $this->entityToObject($data);
         } elseif ($data instanceof BaseEntityCollection) {
             $data = $data->getArrayCopy();
         }
 
         return $data;
+    }
+
+    /**
+     * @param BaseEntity $data
+     * @return \StdClass
+     */
+    private function entityToObject(BaseEntity $data): \StdClass
+    {
+        $entity = new \stdClass();
+
+        // Loop through the collection properties to turn them into an array.
+        foreach ($data::$entities as $property => $class) {
+            if (!is_null($data->{$property})) {
+                $entity->{$property} = $this->checkForEntities($data->{$property}->getArrayCopy());
+            }
+        }
+
+        // Set all the other variables that are not set yet through $$entities
+        foreach (get_object_vars($data) as $property => $value) {
+            if (!isset($entity->{$property}) && !empty($value)) {
+                $entity->{$property} = $data->{$property};
+            }
+        }
+
+        return $entity;
     }
 
     /**

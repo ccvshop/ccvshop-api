@@ -53,17 +53,29 @@ class ResourceFactory
                 $entity->addItem($elementClass);
             }
         } elseif ($entity instanceof BaseEntity) {
-            foreach ($entity::$entities as $property => $class) {
-                // properties that are not required and not filled in won't be set on the response.
-                if (isset($value->{$property})) {
-                    $entity->{$property} = static::objectToEntity($class, $value->{$property});
-                }
-            }
+            $entity = static::assignValueToEntity($entity, $value);
+        }
 
-            foreach (get_object_vars($value) as $property => $element) {
-                if (empty($entity->{$property})) {
-                    $entity->{$property} = $element;
-                }
+        return $entity;
+    }
+
+    /**
+     * @param BaseEntity $entity
+     * @param $value
+     * @return BaseEntity
+     */
+    private static function assignValueToEntity(BaseEntity $entity, $value): BaseEntity
+    {
+        foreach ($entity::$entities as $property => $class) {
+            // properties that are not required and not filled in won't be set on the response.
+            if (isset($value->{$property})) {
+                $entity->{$property} = static::objectToEntity($class, $value->{$property});
+            }
+        }
+
+        foreach (get_object_vars($value) as $property => $element) {
+            if (empty($entity->{$property})) {
+                $entity->{$property} = $element;
             }
         }
 
