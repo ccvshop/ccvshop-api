@@ -44,6 +44,7 @@ class ResourceFactory
      */
     private static function objectToEntity(string $entityClass, $value)
     {
+        // @todo Pre valideren dat het een Entity of dan wel EntityCollection is.
         $entity = new $entityClass;
 
         if ($entity instanceof BaseEntityCollection) {

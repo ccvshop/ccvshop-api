@@ -12,7 +12,7 @@ abstract class BaseEntityCollection extends \ArrayObject
      * @param int $flags
      * @param string $iteratorClass
      */
-    public function __construct(array $array = [], int $flags = \ArrayObject::ARRAY_AS_PROPS, string $iteratorClass = "ArrayIterator")
+    public function __construct(array $array = [], int $flags = \ArrayObject::ARRAY_AS_PROPS, string $iteratorClass = 'ArrayIterator')
     {
         parent::__construct($array, $flags, $iteratorClass);
     }
