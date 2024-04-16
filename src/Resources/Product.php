@@ -12,6 +12,8 @@ use GuzzleHttp\Client;
 
 class Product extends BaseResource
 {
+    //SONAR_IGNORE_START
+    // Ignore vanwege Sonar, maar noodzakelijk om de representatie van de API gelijk te houden ....
     public ?string $href = null;
     public ?int $id = null;
     public bool $is_active = false;
@@ -92,7 +94,7 @@ class Product extends BaseResource
     public ?\stdClass $webshops = null;
     public ?\stdClass $attributecombinations = null;
     public ?\stdClass $producttopropertygroups = null;
-
+    //SONAR_IGNORE_END
     public array $permissions = [];
 
     public function getEndpoint(): Products

@@ -12,6 +12,8 @@ use GuzzleHttp\Client;
 
 class ProductPhoto extends BaseResource
 {
+    //SONAR_IGNORE_START
+    // Ignore vanwege Sonar, maar noodzakelijk om de representatie van de API gelijk te houden ....
     public ?string $href = null;
     public ?int $id = null;
     public ?string $filename = null;
@@ -19,6 +21,7 @@ class ProductPhoto extends BaseResource
     public bool $is_mainphoto = false;
     public ?string $deeplink = null;
     public ?\stdClass $parent = null;
+    //SONAR_IGNORE_END
     public array $permissions = [];
 
     public function getEndpoint(): ProductPhotos
