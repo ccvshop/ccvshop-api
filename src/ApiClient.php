@@ -8,11 +8,13 @@ use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\OrderRows;
+use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
 use CCVShop\Api\Endpoints\Apps;
 use CCVShop\Api\Endpoints\Orders;
+use CCVShop\Api\Endpoints\Products;
 
 class ApiClient
 {
@@ -31,6 +33,9 @@ class ApiClient
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
     public AppCodeBlocks $appCodeBlocks;
     public CashUps $cashUps;
+
+    public Products $products;
+    public ProductPhotos $productPhotos;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -55,5 +60,7 @@ class ApiClient
         $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
         $this->appCodeBlocks                = new AppCodeBlocks($this);
         $this->cashUps                      = new CashUps($this);
+        $this->products                     = new Products($this);
+        $this->productPhotos                = new ProductPhotos($this);
     }
 }
