@@ -2,7 +2,7 @@
 
 namespace CCVShop\Api\Resources\Entities;
 
-abstract class BaseEntityCollection extends \ArrayObject
+abstract class BaseEntityCollection extends \ArrayObject implements Entity
 {
 
     public static $entityClass;

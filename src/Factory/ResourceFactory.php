@@ -6,6 +6,7 @@ use CCVShop\Api\BaseResource;
 use CCVShop\Api\Resources\Entities\AppCodeBlock\OptionCollection;
 use CCVShop\Api\Resources\Entities\BaseEntity;
 use CCVShop\Api\Resources\Entities\BaseEntityCollection;
+use CCVShop\Api\Resources\Entities\Entity;
 
 class ResourceFactory
 {
@@ -39,12 +40,19 @@ class ResourceFactory
 
     /**
      * @param string $entityClass
-     * @param mixed $value
+     * @param $value
      * @return BaseEntity|BaseEntityCollection|mixed
+     * @throws \ReflectionException
      */
     private static function objectToEntity(string $entityClass, $value)
     {
-        // @todo Pre valideren dat het een Entity of dan wel EntityCollection is.
+        $reference = new \ReflectionClass($entityClass);
+
+        // Validate that the reflection is an actual entity of some sort.
+        if (!$reference->implementsInterface(Entity::class)) {
+            throw new \InvalidArgumentException('Object should implement entity interface.');
+        }
+
         $entity = new $entityClass;
 
         if ($entity instanceof BaseEntityCollection) {
