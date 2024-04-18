@@ -20,6 +20,7 @@ abstract class BaseEndpoint
     protected ?int $parentId = null;
     protected ?string $parentResourcePath = null;
     protected string $resourcePath;
+    protected string $acceptHeader = 'application/vnd.verto.webshop+json';
     private ?string $currentMethod = null;
     private ?string $currentDate = null;
     private const DELETE = 'DELETE';
@@ -62,6 +63,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
         ];
         $result  = $this->doCall($uri, $headers);
@@ -91,6 +93,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
 
         ];
@@ -134,6 +137,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri, $data),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
             'json' => $data,
 
@@ -164,6 +168,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri, $data),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
             'json' => $data,
 
@@ -190,6 +195,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ]
         ];
         $this->doCall($uri, $headers);
@@ -357,5 +363,22 @@ abstract class BaseEndpoint
     protected function setParent(?ParentResource $parent): void
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcceptHeader(): string
+    {
+        return $this->acceptHeader;
+    }
+
+    /**
+     * @param string $acceptHeader
+     * @return void
+     */
+    public function setAcceptHeader(string $acceptHeader): void
+    {
+        $this->acceptHeader = $acceptHeader;
     }
 }
