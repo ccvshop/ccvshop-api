@@ -20,7 +20,7 @@ abstract class BaseEndpoint
     protected ?int $parentId = null;
     protected ?string $parentResourcePath = null;
     protected string $resourcePath;
-    protected string $acceptHeader = 'application/vnd.verto.webshop+json';
+    protected string $acceptHeader = self::ACCEPT_HEADER_WEBSHOP;
     private ?string $currentMethod = null;
     private ?string $currentDate = null;
     private const DELETE = 'DELETE';
@@ -29,6 +29,13 @@ abstract class BaseEndpoint
     private const PUT = 'PUT';
     private const PATCH = 'PATCH';
     private const API_PREFIX = '/api/rest/v1/';
+    public const ACCEPT_HEADER_WEBSHOP = 'application/vnd.verto.webshop+json';
+    public const ACCEPT_HEADER_SALESPOS = 'application/vnd.verto.salespos+json';
+
+    private const ACCEPT_HEADERS = [
+        self::ACCEPT_HEADER_WEBSHOP,
+        self::ACCEPT_HEADER_SALESPOS
+    ];
 
     abstract protected function getResourceObject(): BaseResource;
 
@@ -374,11 +381,18 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @description when setting a different accept header.
+     * You'll be able to determine which schema you'll want to use in your requests.
+     * e.g. use: $apiClient->endpoint->setAcceptHeader($apiClient->endpoint::ACCEPT_HEADER_SALESPOS) in order to use CCV SalesPos specific API schema's in any following calls.
      * @param string $acceptHeader
      * @return void
      */
     public function setAcceptHeader(string $acceptHeader): void
     {
+        if (!in_array($acceptHeader, self::ACCEPT_HEADERS, true)) {
+            throw new \InvalidArgumentException('Accept header should be one of the following types: ' . implode(', ', self::ACCEPT_HEADERS));
+        }
+
         $this->acceptHeader = $acceptHeader;
     }
 }
