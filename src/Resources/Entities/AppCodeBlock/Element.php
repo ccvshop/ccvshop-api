@@ -11,13 +11,13 @@ class Element extends AppCodeBlock
      * @description could either be an string or a object.
      * @var mixed $label
      */
-    public $label = null;
+    public $label;
     public ?string $element_type = null;
     /**
      * @description could either be an string or a object.
      * @var mixed $value
      */
-    public $value = null;
+    public $value;
     public ?string $deeplink = null;
     public ?string $icon = null;
     public ?string $action = null;

@@ -18,15 +18,16 @@ abstract class BaseEntityCollection extends \ArrayObject implements Entity
     }
 
     /**
-     * @param mixed $item
-     * @return void
+     * @param BaseEntity $item
+     * @return $this
      */
-    public function addItem($item): void
+    public function addItem(BaseEntity $item): self
     {
         if (!$item instanceof static::$entityClass) {
             throw new \InvalidArgumentException('$item (' .  get_class($item) . ') does not equal "' . static::$entityClass  . '"!');
         }
 
         $this->append($item);
+        return $this;
     }
 }

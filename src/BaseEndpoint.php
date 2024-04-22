@@ -173,9 +173,9 @@ abstract class BaseEndpoint
 
     /**
      * @param BaseEntity $data
-     * @return \StdClass
+     * @return \stdClass
      */
-    private function entityToObject(BaseEntity $data): \StdClass
+    private function entityToObject(BaseEntity $data): \stdClass
     {
         $entity = new \stdClass();
 

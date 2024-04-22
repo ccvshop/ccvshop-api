@@ -28,7 +28,7 @@ class ResourceFactory
                 $resource->{$property} = new \DateTime($value);
             } elseif (!empty($resource->entities) && array_key_exists($property, $resource->entities) && !empty($value)) {
                 // An entity is an (sub element) of a resource, this could either be a collection or a single object.
-                $entity = static::objectToEntity($resource->entities[$property], $value);
+                $entity = static::objectToEntityClass($value, $resource->entities[$property]);
                 $resource->{$property} = $entity;
             } else {
                 $resource->{$property} = $value;
@@ -39,12 +39,12 @@ class ResourceFactory
     }
 
     /**
+     * @param mixed $value
      * @param string $entityClass
-     * @param $value
      * @return BaseEntity|BaseEntityCollection|mixed
      * @throws \ReflectionException
      */
-    private static function objectToEntity(string $entityClass, $value)
+    private static function objectToEntityClass($value, string $entityClass)
     {
         $reference = new \ReflectionClass($entityClass);
 
@@ -58,7 +58,7 @@ class ResourceFactory
         if ($entity instanceof BaseEntityCollection) {
             // Each entity collection property has it's own entity class.
             foreach ($value as $element) {
-                $elementClass = static::objectToEntity($entity::$entityClass, $element);
+                $elementClass = static::objectToEntityClass($element, $entity::$entityClass);
                 $entity->addItem($elementClass);
             }
         } elseif ($entity instanceof BaseEntity) {
@@ -78,7 +78,7 @@ class ResourceFactory
         foreach ($entity::$entities as $property => $class) {
             // properties that are not required and not filled in won't be set on the response.
             if (isset($value->{$property})) {
-                $entity->{$property} = static::objectToEntity($class, $value->{$property});
+                $entity->{$property} = static::objectToEntityClass($value->{$property}, $class);
             }
         }
 
