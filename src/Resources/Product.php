@@ -17,8 +17,8 @@ class Product extends BaseResource
     public ?string $href = null;
     public ?int $id = null;
     public bool $is_active = false;
-    public ?string $createdate = null;
-    public ?string $modifydate = null;
+    public ?\DateTime $createdate = null;
+    public ?\DateTime $modifydate = null;
     public ?string $productnumber = null;
     public ?string $eannumber = null;
     public ?string $mpnnumber = null;
@@ -96,6 +96,7 @@ class Product extends BaseResource
     public ?\stdClass $producttopropertygroups = null;
     //SONAR_IGNORE_END
     public array $permissions = [];
+    public array $dates = ['createdate', 'modifydate'];
 
     public function getEndpoint(): Products
     {
