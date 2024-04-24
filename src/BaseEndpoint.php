@@ -152,6 +152,7 @@ abstract class BaseEndpoint
      */
     private function checkForEntities($data)
     {
+        // If it is an array, check for defined sub entities and parse them.
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 if ($value instanceof BaseEntity) {
@@ -168,6 +169,8 @@ abstract class BaseEndpoint
             $data = $data->getArrayCopy();
         }
 
+        // It is an object not an entity, and not an array that holds any (more) sub entities.
+        // e.g. it could be an Resourcé\webhook.
         return $data;
     }
 
