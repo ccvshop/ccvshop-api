@@ -11,12 +11,12 @@ use CCVShop\Api\Resources\Entities\Entity;
 class ResourceFactory
 {
     /**
-     * @param $apiResult
+     * @param \stdClass $apiResult
      * @param BaseResource $resource
      * @return BaseResource
-     * @throws \Exception
+     * @throws \ReflectionException
      */
-    public static function createFromApiResult($apiResult, BaseResource $resource): BaseResource
+    public static function createFromApiResult(\stdClass $apiResult, BaseResource $resource): BaseResource
     {
         foreach ($apiResult as $property => $value) {
             if (!property_exists($resource, $property)) {
