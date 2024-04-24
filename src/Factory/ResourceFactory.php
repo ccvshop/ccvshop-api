@@ -55,13 +55,13 @@ class ResourceFactory
 
         $entity = new $entityClass;
 
-        if ($entity instanceof BaseEntityCollection) {
+        if ($entity instanceof BaseEntityCollection && is_array($value)) {
             // Each entity collection property has it's own entity class.
             foreach ($value as $element) {
                 $elementClass = static::objectToEntityClass($element, $entity::$entityClass);
                 $entity->addItem($elementClass);
             }
-        } elseif ($entity instanceof BaseEntity) {
+        } elseif ($entity instanceof BaseEntity && is_object($value)) {
             $entity = static::assignValueToEntity($entity, $value);
         }
 
@@ -70,10 +70,11 @@ class ResourceFactory
 
     /**
      * @param BaseEntity $entity
-     * @param $value
+     * @param \stdClass $value
      * @return BaseEntity
+     * @throws \ReflectionException
      */
-    private static function assignValueToEntity(BaseEntity $entity, $value): BaseEntity
+    private static function assignValueToEntity(BaseEntity $entity, \stdClass $value): BaseEntity
     {
         foreach ($entity::$entities as $property => $class) {
             // properties that are not required and not filled in won't be set on the response.
