@@ -32,4 +32,17 @@ class App extends BaseResource
     {
         return $this->client->apps;
     }
+
+    /**
+     * Get a collection of app code blocks linked to given app Id.
+     *
+     * @return AppCodeBlockCollection
+     * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
+     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws \JsonException
+     */
+    public function getAppCodeBlocks(): AppCodeBlockCollection
+    {
+        return $this->client->appCodeBlocks->getFor($this);
+    }
 }
