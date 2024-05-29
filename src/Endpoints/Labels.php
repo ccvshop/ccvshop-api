@@ -82,11 +82,11 @@ class Labels extends BaseEndpoint implements
         }
 
         return $this->rest_post([
-            'image_location ' => $label->image_location,
-            'tooltip ' => $label->tooltip ,
-            'show_on_products ' => $label->show_on_products,
-            'show_on_orders  ' => $label->show_on_orders,
-            'show_on_invoices   ' => $label->show_on_invoices ,
+            'image_location' => $label->image_location,
+            'tooltip' => $label->tooltip ,
+            'show_on_products' => $label->show_on_products,
+            'show_on_orders' => $label->show_on_orders,
+            'show_on_invoices' => $label->show_on_invoices ,
         ]);
     }
 
