@@ -241,6 +241,34 @@ abstract class BaseEndpoint
 
     /**
      * @param int $id
+     * @param array $data
+     *
+     * @return void
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_put(int $id, array $data): void
+    {
+        $this->setCurrentMethod(self::PUT)->setCurrentDate();
+
+        $uri = $this->getUri() . '/' . $id;
+
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+            ],
+            'json' => $data,
+
+        ];
+        $this->doCall($uri, $headers);
+    }
+
+    /**
+     * @param int $id
      *
      * @return void
      * @throws InvalidHashOnResult
