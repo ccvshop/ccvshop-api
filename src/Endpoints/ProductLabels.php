@@ -47,7 +47,7 @@ class ProductLabels extends BaseEndpoint implements
             throw new \InvalidArgumentException('product id is required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $id));
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
         /**
          * @var ProductLabel $result
          */
@@ -69,7 +69,7 @@ class ProductLabels extends BaseEndpoint implements
             throw new \InvalidArgumentException('product id is required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $id));
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
 
         $this->rest_put($id, $parameters);
 
