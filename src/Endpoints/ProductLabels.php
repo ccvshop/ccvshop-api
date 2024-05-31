@@ -70,8 +70,7 @@ class ProductLabels extends BaseEndpoint implements
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
-
-        $this->rest_put($id, $parameters);
+        $this->rest_put($parameters);
 
     }
 }

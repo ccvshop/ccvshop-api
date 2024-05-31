@@ -240,21 +240,17 @@ abstract class BaseEndpoint
     }
 
     /**
-     * @param int $id
      * @param array $data
      *
      * @return void
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws \JsonException
      */
-    protected function rest_put(int $id, array $data): void
+    protected function rest_put(array $data): void
     {
         $this->setCurrentMethod(self::PUT)->setCurrentDate();
-
-        $uri = $this->getUri() . '/' . $id;
-
+        $uri = $this->getUri();
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
