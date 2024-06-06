@@ -9,7 +9,7 @@ class ProductLabel extends BaseResource
 {
 
     public ?string $href = null;
-    public ?Entities\ProductLabel\Items $items = null;
+    public ?Entities\Label\Items $items = null;
     public ?array $labels = null;
     public array $permissions = [];
 
