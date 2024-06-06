@@ -256,6 +256,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri, $data),
                 'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
             'json' => $data,
 
