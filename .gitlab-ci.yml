@@ -31,7 +31,7 @@ sonarqube:
         paths:
             - .sonar/cache
     script:
-        - sonar-scanner -D sonar.host.url="${SONAR_HOST_URL}" -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}"
+        - sonar-scanner -D sonar.host.url="${SONAR_HOST_URL}" -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -D sonar.projectKey="${SONAR_PROJECT_KEY}"
     allow_failure: false
     rules:
         -   if: $CI_COMMIT_REF_NAME == 'master' || $CI_PIPELINE_SOURCE == 'merge_request_event'
