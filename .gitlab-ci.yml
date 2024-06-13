@@ -16,13 +16,8 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-stages: # List of stages for jobs, and their order of execution
-    - build
-    - test
-    - deploy
-
 sonarqube:
-    stage: tests
+    stage: test
     image: sonarsource/sonar-scanner-cli:5.0.1
     tags:
         - docker-sonar
@@ -39,4 +34,4 @@ sonarqube:
         - sonar-scanner -D sonar.host.url="${SONAR_HOST_URL}" -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}"
     allow_failure: false
     rules:
-        - if: $CI_COMMIT_REF_NAME == 'master' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+        -   if: $CI_COMMIT_REF_NAME == 'master' || $CI_PIPELINE_SOURCE == 'merge_request_event'
