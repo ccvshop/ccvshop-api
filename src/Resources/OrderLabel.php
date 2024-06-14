@@ -15,6 +15,6 @@ class OrderLabel extends BaseResource
 
     public function getEndpoint(): ProductLabels
     {
-        return $this->client->productLabels;
+        return $this->client->orderLabels;
     }
 }
