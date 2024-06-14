@@ -8,6 +8,7 @@ use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\Labels;
+use CCVShop\Api\Endpoints\OrderLabels;
 use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
@@ -43,6 +44,8 @@ class ApiClient
 
     public ProductLabels $productLabels;
 
+    public OrderLabels $orderLabels;
+
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
      * @param string|null $apiPublic Fallback in .env['CCVSHOP_API_PUBLIC']
@@ -70,5 +73,6 @@ class ApiClient
         $this->productPhotos                = new ProductPhotos($this);
         $this->labels                       = new Labels($this);
         $this->productLabels                = new ProductLabels($this);
+        $this->orderLabels                  = new OrderLabels($this);
     }
 }

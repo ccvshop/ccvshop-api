@@ -3,7 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\ProductLabels;
+use CCVShop\Api\Endpoints\OrderLabels;
 
 class OrderLabel extends BaseResource
 {
@@ -13,8 +13,8 @@ class OrderLabel extends BaseResource
     public ?array $labels = null;
     public array $permissions = [];
 
-    public function getEndpoint(): ProductLabels
+    public function getEndpoint(): OrderLabels
     {
-        return $this->client->productLabels;
+        return $this->client->orderLabels;
     }
 }
