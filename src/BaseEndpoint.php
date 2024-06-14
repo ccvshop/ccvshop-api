@@ -240,6 +240,31 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @param array $data
+     *
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    protected function rest_put(array $data): void
+    {
+        $this->setCurrentMethod(self::PUT)->setCurrentDate();
+        $uri = $this->getUri();
+        $headers = [
+            'headers' => [
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
+            ],
+            'json' => $data,
+
+        ];
+        $this->doCall($uri, $headers);
+    }
+
+    /**
      * @param int $id
      *
      * @return void
