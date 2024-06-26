@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\AppCodeBlocks;
+use CCVShop\Api\Endpoints\AppConfig;
 use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
@@ -35,6 +36,7 @@ class ApiClient
     public OrderRows $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
     public AppCodeBlocks $appCodeBlocks;
+    public AppConfig $appConfig;
     public CashUps $cashUps;
 
     public Products $products;
