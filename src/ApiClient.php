@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace CCVShop\Api;
 
 use CCVShop\Api\Endpoints\AppCodeBlocks;
-use CCVShop\Api\Endpoints\AppConfig;
+use CCVShop\Api\Endpoints\AppConfigs;
 use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
@@ -36,7 +36,7 @@ class ApiClient
     public OrderRows $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
     public AppCodeBlocks $appCodeBlocks;
-    public AppConfig $appConfig;
+    public AppConfigs $appConfigs;
     public CashUps $cashUps;
 
     public Products $products;
@@ -74,6 +74,7 @@ class ApiClient
         $this->products                     = new Products($this);
         $this->productPhotos                = new ProductPhotos($this);
         $this->labels                       = new Labels($this);
+        $this->appConfigs                   = new AppConfigs($this);
         $this->productLabels                = new ProductLabels($this);
         $this->orderLabels                  = new OrderLabels($this);
     }

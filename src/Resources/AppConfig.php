@@ -3,7 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\AppConfig as EndpointsAppConfig;
+use CCVShop\Api\Endpoints\AppConfigs as EndpointsAppConfig;
 
 class AppConfig extends BaseResource
 {
@@ -12,7 +12,8 @@ class AppConfig extends BaseResource
     public ?string $type = null;
     public ?string $url = null;
     public ?string $name = null;
-    public ?string $website_id = null;
+    public ?int $website_id = null;
+    public ?string $jwt = null;
 
     /**
      * @return EndpointsAppConfig

@@ -6,11 +6,11 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
-use CCVShop\Api\Interfaces\Endpoints\Post;
+use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppConfig;
 
-class AppConfig extends BaseEndpoint implements Post
+class AppConfigs extends BaseEndpoint implements Patch
 {
     protected string $resourcePath = 'appconfig';
     protected ?string $parentResourcePath = 'apps';
@@ -26,7 +26,7 @@ class AppConfig extends BaseEndpoint implements Post
     /**
      * @return AppConfigCollection
      */
-    protected function getResourceCollectionObject(): AppConfigCollection
+    protected function getResourceCollectionObject(): \CCVShop\Api\BaseResourceCollection
     {
         return new AppConfigCollection();
     }
@@ -72,20 +72,15 @@ class AppConfig extends BaseEndpoint implements Post
      * @throws \CCVShop\Api\Exceptions\InvalidResponseException
      * @throws \JsonException
      */
-    public function post(?AppConfig $appCodeBlock = null): AppConfig
+    public function patch(?AppConfig $appConfig = null): void
     {
-        if (is_null($appCodeBlock)) {
+        if (is_null($appConfig)) {
             throw new \InvalidArgumentException(AppConfig::class . ' required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appCodeBlock->app_id));
-
         /** @var AppConfig */
-        return $this->rest_post([
-            'placeholder' => $appCodeBlock->placeholder,
-            'value' => $appCodeBlock->value,
-            'title' => $appCodeBlock->title,
-            'interactive_content' => $appCodeBlock->interactive_content,
+        $this->rest_patch($appConfig->id, [
+            'jwt' => $appConfig->jwt
         ]);
     }
 
