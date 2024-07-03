@@ -7,10 +7,12 @@ use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
+use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppConfig;
+use CCVShop\Api\Resources\AppConfigCollection;
 
-class AppConfigs extends BaseEndpoint implements Patch
+class AppConfigs extends BaseEndpoint implements Patch, Post
 {
     protected string $resourcePath = 'appconfig';
     protected ?string $parentResourcePath = 'apps';
@@ -81,6 +83,31 @@ class AppConfigs extends BaseEndpoint implements Patch
         /** @var AppConfig */
         $this->rest_patch($appConfig->id, [
             'jwt' => $appConfig->jwt
+        ]);
+    }
+
+    /**
+     * @param AppConfig|null $appConfig
+     * @return AppConfig
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonException
+     */
+    public function post(?AppConfig $appConfig = null): AppConfig
+    {
+        if (is_null($appConfig)) {
+            throw new \InvalidArgumentException(AppConfig::class . ' required');
+        }
+
+        $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appConfig->app_id));
+
+        /** @var AppConfig */
+        return $this->rest_post([
+            'type' => $appConfig->type,
+            'url' => $appConfig->url,
+            'name' => $appConfig->name,
+            'jwt' => $appConfig->jwt,
         ]);
     }
 
