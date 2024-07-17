@@ -9,10 +9,12 @@ use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\Labels;
+use CCVShop\Api\Endpoints\Languages;
 use CCVShop\Api\Endpoints\OrderLabels;
 use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
+use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
@@ -38,6 +40,8 @@ class ApiClient
     public AppCodeBlocks $appCodeBlocks;
     public AppConfigs $appConfigs;
     public CashUps $cashUps;
+    public Languages $languages;
+    public Settings $settings;
 
     public Products $products;
     public ProductPhotos $productPhotos;
@@ -71,6 +75,8 @@ class ApiClient
         $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
         $this->appCodeBlocks                = new AppCodeBlocks($this);
         $this->cashUps                      = new CashUps($this);
+        $this->languages                    = new Languages($this);
+        $this->settings                     = new Settings($this);
         $this->products                     = new Products($this);
         $this->productPhotos                = new ProductPhotos($this);
         $this->labels                       = new Labels($this);

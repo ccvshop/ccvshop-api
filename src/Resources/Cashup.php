@@ -21,6 +21,6 @@ class Cashup extends BaseResource
 
     public function getEndpoint(): CashUps
     {
-        return $this->client->cashups;
+        return $this->client->cashUps;
     }
 }

@@ -444,6 +444,14 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @return string
+     */
+    public function getParentResourcePath(): string
+    {
+        return $this->parentResourcePath;
+    }
+
+    /**
      * @param ParentResource|null $parent
      *
      * @return void
