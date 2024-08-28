@@ -39,6 +39,8 @@ abstract class BaseEndpoint
         self::ACCEPT_HEADER_SALESPOS
     ];
 
+    protected ?string $acceptLanguage = null;
+
     abstract protected function getResourceObject(): BaseResource;
 
     abstract protected function getResourceCollectionObject(): BaseResourceCollection;
@@ -73,8 +75,10 @@ abstract class BaseEndpoint
                 'x-hash' => $this->getHash($uri),
                 'x-date' => $this->getCurrentDate(),
                 'accept' => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
         ];
+
         $result  = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
@@ -103,6 +107,7 @@ abstract class BaseEndpoint
                 'x-hash' => $this->getHash($uri),
                 'x-date' => $this->getCurrentDate(),
                 'accept' => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
 
         ];
@@ -147,7 +152,7 @@ abstract class BaseEndpoint
                 'x-public' => $this->client->apiCredentials->getPublic(),
                 'x-hash' => $this->getHash($uri, $data),
                 'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'accept' => $this->getAcceptHeader()
             ],
             'json' => $data,
 
@@ -232,6 +237,7 @@ abstract class BaseEndpoint
                 'x-hash' => $this->getHash($uri, $data),
                 'x-date' => $this->getCurrentDate(),
                 'accept' => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
             'json' => $data,
 
@@ -467,6 +473,20 @@ abstract class BaseEndpoint
     public function getAcceptHeader(): string
     {
         return $this->acceptHeader;
+    }
+
+    public function getAcceptLanguage(): ?string
+    {
+        return $this->acceptLanguage;
+    }
+
+    public function setAcceptLanguage(string $language): void
+    {
+        if (strlen($language) !== 2) {
+            throw new \InvalidArgumentException('Accept language should be an 2 code');
+        }
+
+        $this->acceptLanguage = $language;
     }
 
     /**
