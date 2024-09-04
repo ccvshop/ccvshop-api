@@ -76,7 +76,14 @@ class Products extends BaseEndpoint implements
 
         /** @var AppConfig */
         $this->rest_patch($product->id, [
-            'shortdescription' => $product->shortdescription
+            'shortdescription'  => $product->shortdescription,
+            'description'       => $product->description,
+            'name'              => $product->name,
+            'unit'              => $product->unit,
+            'meta_description'  => $product->meta_description,
+            'meta_keywords'     => $product->meta_keywords,
+            'page_title'        => $product->page_title,
+            'alias'             => $product->alias,
         ]);
     }
 }

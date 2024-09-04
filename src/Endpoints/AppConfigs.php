@@ -11,8 +11,9 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppConfig;
 use CCVShop\Api\Resources\AppConfigCollection;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 
-class AppConfigs extends BaseEndpoint implements Patch, Post
+class AppConfigs extends BaseEndpoint implements Patch, Post, Delete
 {
     protected string $resourcePath = 'appconfig';
     protected ?string $parentResourcePath = 'apps';
@@ -112,7 +113,7 @@ class AppConfigs extends BaseEndpoint implements Patch, Post
     }
 
     /**
-     * Delete a codeblock.
+     * Delete an app config.
      *
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
