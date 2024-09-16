@@ -110,7 +110,7 @@ class Merchant extends BaseEndpoint implements
             'coc_number'                => $merchant->coc_number,
             'tax_number'                => $merchant->tax_number,
             'iban'                      => $merchant->iban,
-            'bank_account_holder_name'  => $merchant->iban,
+            'bank_account_holder_name'  => $merchant->bank_account_holder_name,
         ]);
     }
 
