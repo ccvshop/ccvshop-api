@@ -105,7 +105,7 @@ class Merchant extends BaseEndpoint implements
             'housenumber'               => $merchant->housenumber,
             'zipcode'                   => $merchant->zipcode,
             'city'                      => $merchant->city,
-            'country'                   => $merchant->country,
+            'country_code'              => $merchant->country_code,
             'telephone'                 => $merchant->telephone,
             'coc_number'                => $merchant->coc_number,
             'tax_number'                => $merchant->tax_number,
