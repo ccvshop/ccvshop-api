@@ -363,6 +363,7 @@ abstract class BaseEndpoint
         $client = new Client([
             'base_uri' => $this->client->apiCredentials->getHostName(),
         ]);
+
         try {
             $res = $client->request($this->getCurrentMethod(), $uri, $data);
 
