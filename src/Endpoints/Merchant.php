@@ -95,7 +95,22 @@ class Merchant extends BaseEndpoint implements
             throw new \InvalidArgumentException(\CCVShop\Api\Resources\Merchant::class . ' required');
         }
         $this->rest_patch($merchant->id, [
-            'uuid' => $merchant->uuid,
+            'uuid'                      => $merchant->uuid,
+            'gender'                    => $merchant->gender,
+            'first_name'                => $merchant->first_name,
+            'last_name'                 => $merchant->last_name,
+            'company'                   => $merchant->company,
+            'email'                     => $merchant->email,
+            'street'                    => $merchant->street,
+            'housenumber'               => $merchant->housenumber,
+            'zipcode'                   => $merchant->zipcode,
+            'city'                      => $merchant->city,
+            'country_code'              => $merchant->country_code,
+            'telephone'                 => $merchant->telephone,
+            'coc_number'                => $merchant->coc_number,
+            'tax_number'                => $merchant->tax_number,
+            'iban'                      => $merchant->iban,
+            'bank_account_holder_name'  => $merchant->bank_account_holder_name,
         ]);
     }
 
