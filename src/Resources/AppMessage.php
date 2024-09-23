@@ -3,7 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\AppMEssages as EndpointsAppMessage;
+use CCVShop\Api\Endpoints\AppMessages as EndpointsAppMessage;
 
 class AppMessage extends BaseResource
 {
