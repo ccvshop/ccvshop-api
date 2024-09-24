@@ -14,6 +14,7 @@ use CCVShop\Api\Endpoints\Labels;
 use CCVShop\Api\Endpoints\Languages;
 use CCVShop\Api\Endpoints\OrderLabels;
 use CCVShop\Api\Endpoints\OrderRows;
+use CCVShop\Api\Endpoints\Packages;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
 use CCVShop\Api\Endpoints\Settings;
@@ -47,6 +48,7 @@ class ApiClient
     public Settings $settings;
 
     public Products $products;
+    public Packages $packages;
     public ProductPhotos $productPhotos;
 
     public Labels $labels;
@@ -83,6 +85,7 @@ class ApiClient
         $this->languages                    = new Languages($this);
         $this->settings                     = new Settings($this);
         $this->products                     = new Products($this);
+        $this->packages                     = new Packages($this);
         $this->categories                   = new Categories($this);
         $this->productPhotos                = new ProductPhotos($this);
         $this->labels                       = new Labels($this);
