@@ -186,7 +186,7 @@ abstract class BaseEndpoint
         }
 
         // It is an object not an entity, and not an array that holds any (more) sub entities.
-        // e.g. it could be an Resourcé\webhook.
+        // e.g. it could be a Resource\webhook.
         return $data;
     }
 
