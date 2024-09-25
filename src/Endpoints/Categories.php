@@ -13,6 +13,7 @@ use CCVShop\Api\Resources\CategoryCollection;
 
 class Categories extends BaseEndpoint implements
     Get,
+    GetAll,
     Patch
 {
     protected string $resourcePath = 'categories';
@@ -41,6 +42,12 @@ class Categories extends BaseEndpoint implements
     {
         /** @var Category $result */
         return $this->rest_getOne($id, []);
+    }
+
+    public function getAll(array $parameters = []): CategoryCollection
+    {
+        /** @var CategoryCollection */
+        return $this->rest_getAll(null, null, $parameters);
     }
 
     /**

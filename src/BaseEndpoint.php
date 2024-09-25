@@ -113,7 +113,6 @@ abstract class BaseEndpoint
         ];
 
         $result = $this->doCall($uri, $headers);
-
         $collection = $this->getResourceCollectionObject();
 
         if ($result === null) {
@@ -123,6 +122,8 @@ abstract class BaseEndpoint
         if (!isset($result->items)) {
             $collection[] = Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
         } else {
+            $collection->next = $result->next ?? null;
+            $collection->previous = $result->previous ?? null;
             foreach ($result->items as $item) {
                 $collection[] = Factory\ResourceFactory::createFromApiResult($item, $this->getResourceObject());
             }
