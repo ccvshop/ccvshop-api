@@ -9,4 +9,5 @@ use CCVShop\Api\BaseResourceCollection;
  */
 class ProductCollection extends BaseResourceCollection
 {
+
 }

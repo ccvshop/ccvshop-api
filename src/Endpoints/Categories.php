@@ -49,6 +49,12 @@ class Categories extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    public function getAll(array $parameters = []): CategoryCollection
+    {
+        /** @var CategoryCollection */
+        return $this->rest_getAll(null, null, $parameters);
+    }
+
     /**
      * @param Category|null $category
      * @return void

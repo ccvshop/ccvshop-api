@@ -58,7 +58,7 @@ class Products extends BaseEndpoint implements
      */
     public function getAll(array $parameters = []): ProductCollection
     {
-        /** @var ProductCollection $result */
+        /** @var ProductCollection */
         return $this->rest_getAll(null, null, $parameters);
     }
 
