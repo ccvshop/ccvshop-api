@@ -3,20 +3,25 @@
 namespace CCVShop\Api\Factory;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Resources\Entities\AppCodeBlock\OptionCollection;
+use CCVShop\Api\ParentResource;
 use CCVShop\Api\Resources\Entities\BaseEntity;
 use CCVShop\Api\Resources\Entities\BaseEntityCollection;
 use CCVShop\Api\Resources\Entities\Entity;
+use DateTime;
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionException;
+use stdClass;
 
 class ResourceFactory
 {
     /**
-     * @param \stdClass $apiResult
+     * @param stdClass $apiResult
      * @param BaseResource $resource
      * @return BaseResource
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public static function createFromApiResult(\stdClass $apiResult, BaseResource $resource): BaseResource
+    public static function createFromApiResult(stdClass $apiResult, BaseResource $resource): BaseResource
     {
         foreach ($apiResult as $property => $value) {
             if (!property_exists($resource, $property)) {
@@ -25,9 +30,9 @@ class ResourceFactory
 
             if (!empty($resource->dates) && in_array($property, $resource->dates) && !empty($value)) {
                 // return a correct date time object.
-                $resource->{$property} = new \DateTime($value);
+                $resource->{$property} = new DateTime($value);
             } elseif (!empty($resource->entities) && array_key_exists($property, $resource->entities) && !empty($value)) {
-                // An entity is an (sub element) of a resource, this could either be a collection or a single object.
+                // An entity is a (sub element) of a resource, this could either be a collection or a single object.
                 $entity = static::objectToEntityClass($value, $resource->entities[$property]);
                 $resource->{$property} = $entity;
             } else {
@@ -42,15 +47,15 @@ class ResourceFactory
      * @param mixed $value
      * @param string $entityClass
      * @return BaseEntity|BaseEntityCollection|mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private static function objectToEntityClass($value, string $entityClass)
     {
-        $reference = new \ReflectionClass($entityClass);
+        $reference = new ReflectionClass($entityClass);
 
         // Validate that the reflection is an actual entity of some sort.
         if (!$reference->implementsInterface(Entity::class)) {
-            throw new \InvalidArgumentException('Object should implement entity interface.');
+            throw new InvalidArgumentException('Object should implement entity interface.');
         }
 
         $entity = new $entityClass;
@@ -70,11 +75,11 @@ class ResourceFactory
 
     /**
      * @param BaseEntity $entity
-     * @param \stdClass $value
+     * @param stdClass $value
      * @return BaseEntity
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private static function assignValueToEntity(BaseEntity $entity, \stdClass $value): BaseEntity
+    private static function assignValueToEntity(BaseEntity $entity, stdClass $value): BaseEntity
     {
         foreach ($entity::$entities as $property => $class) {
             // properties that are not required and not filled in won't be set on the response.
@@ -94,20 +99,20 @@ class ResourceFactory
 
     /**
      * @param BaseResource $resource
-     * @return \CCVShop\Api\ParentResource
+     * @return ParentResource
      */
-    public static function createParentFromResource(BaseResource $resource): \CCVShop\Api\ParentResource
+    public static function createParentFromResource(BaseResource $resource): ParentResource
     {
-        return new \CCVShop\Api\ParentResource($resource->getEndpoint()->getResourcePath(), $resource->id);
+        return new ParentResource($resource->getEndpoint()->getResourcePath(), $resource->id);
     }
 
     /**
      * @param string $path
      * @param int $id
-     * @return \CCVShop\Api\ParentResource
+     * @return ParentResource
      */
-    public static function createParent(string $path, int $id): \CCVShop\Api\ParentResource
+    public static function createParent(string $path, int $id): ParentResource
     {
-        return new \CCVShop\Api\ParentResource($path, $id);
+        return new ParentResource($path, $id);
     }
 }

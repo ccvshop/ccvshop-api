@@ -60,7 +60,7 @@ abstract class BaseEndpoint
      * @return BaseResource
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_getOne(int $id, array $filters): BaseResource
     {
@@ -71,15 +71,15 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
         ];
 
-        $result  = $this->doCall($uri, $headers);
+        $result = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -93,7 +93,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_getAll($from = null, $limit = null, array $filters = []): BaseResourceCollection
     {
@@ -103,10 +103,10 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
 
@@ -139,7 +139,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_post(array $data): BaseResource
     {
@@ -151,14 +151,14 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader()
+                'x-hash'   => $this->getHash($uri, $data),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader()
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
-        $result  = $this->doCall($uri, $headers);
+        $result = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -234,13 +234,13 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri, $data),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -261,11 +261,11 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-hash'   => $this->getHash($uri, $data),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader(),
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -288,9 +288,9 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-hash'   => $this->getHash($uri),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader(),
             ]
         ];
         $this->doCall($uri, $headers);

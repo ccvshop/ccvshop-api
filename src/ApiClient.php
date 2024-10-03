@@ -8,6 +8,7 @@ use CCVShop\Api\Endpoints\AppConfigs;
 use CCVShop\Api\Endpoints\AppMessages;
 use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Categories;
+use CCVShop\Api\Endpoints\CategoryTree;
 use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\Labels;
@@ -51,6 +52,8 @@ class ApiClient
     public Packages $packages;
     public ProductPhotos $productPhotos;
 
+    public Categories $categories;
+    public CategoryTree $categoryTree;
     public Labels $labels;
 
     public ProductLabels $productLabels;
@@ -87,6 +90,7 @@ class ApiClient
         $this->products                     = new Products($this);
         $this->packages                     = new Packages($this);
         $this->categories                   = new Categories($this);
+        $this->categoryTree                 = new CategoryTree($this);
         $this->productPhotos                = new ProductPhotos($this);
         $this->labels                       = new Labels($this);
         $this->productLabels                = new ProductLabels($this);
