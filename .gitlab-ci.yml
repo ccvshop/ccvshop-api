@@ -18,7 +18,7 @@
 
 sonarqube:
     stage: test
-    image: sonarsource/sonar-scanner-cli:latest
+    image: sonarsource/sonar-scanner-cli:5.0.1
     tags:
         - docker-sonar
     variables:
