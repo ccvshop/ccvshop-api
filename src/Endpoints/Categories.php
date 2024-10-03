@@ -49,6 +49,13 @@ class Categories extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    /**
+     * @param array $parameters
+     * @return CategoryCollection
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
     public function getAll(array $parameters = []): CategoryCollection
     {
         /** @var CategoryCollection */
@@ -78,11 +85,5 @@ class Categories extends BaseEndpoint implements
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
         ]);
-    }
-
-    public function getAll(array $parameters = []): BaseResourceCollection
-    {
-        /** @var BaseResourceCollection $result */
-        return $this->rest_getAll(null, null, $parameters);
     }
 }
