@@ -3,26 +3,26 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
-use CCVShop\Api\BaseResource;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
-use CCVShop\Api\Interfaces\Endpoints\Get;
+use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Resources\Category;
 use CCVShop\Api\Resources\CategoryCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 
 class CategoryTree extends BaseEndpoint implements
-    Get
+    GetAll
 {
     protected string $resourcePath = 'categorytree';
 
     /**
-     * @return Category()
+     * @return \CCVShop\Api\Resources\CategoryTree ()
      */
-    protected function getResourceObject(): Category
+    protected function getResourceObject(): \CCVShop\Api\Resources\CategoryTree
     {
-        return new CategoryTre($this->client);
+        return new \CCVShop\Api\Resources\CategoryTree($this->client);
     }
 
     protected function getResourceCollectionObject(): CategoryCollection
@@ -31,15 +31,16 @@ class CategoryTree extends BaseEndpoint implements
     }
 
     /**
-     * @param int $id
-     * @return BaseResource
+     * @param array $parameters
+     * @return BaseResourceCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException
+     * @throws \ReflectionException
      */
-    public function get(int $id): BaseResource
+    public function getAll(array $parameters = []): BaseResourceCollection
     {
         /** @var Category $result */
-        return $this->rest_getOne($id, []);
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

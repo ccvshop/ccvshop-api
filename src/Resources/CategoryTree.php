@@ -3,7 +3,6 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\Categories;
 
 class CategoryTree extends BaseResource
 {
@@ -19,7 +18,7 @@ class CategoryTree extends BaseResource
 
     public array $permissions = [];
 
-    public function getEndpoint(): Categories
+    public function getEndpoint(): \CCVShop\Api\Endpoints\CategoryTree
     {
         return $this->client->categoryTree;
     }
