@@ -39,6 +39,8 @@ abstract class BaseEndpoint
         self::ACCEPT_HEADER_SALESPOS
     ];
 
+    protected ?string $acceptLanguage = null;
+
     abstract protected function getResourceObject(): BaseResource;
 
     abstract protected function getResourceCollectionObject(): BaseResourceCollection;
@@ -58,7 +60,7 @@ abstract class BaseEndpoint
      * @return BaseResource
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_getOne(int $id, array $filters): BaseResource
     {
@@ -69,13 +71,15 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
         ];
-        $result  = $this->doCall($uri, $headers);
+
+        $result = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -89,7 +93,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_getAll($from = null, $limit = null, array $filters = []): BaseResourceCollection
     {
@@ -99,16 +103,16 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
 
         ];
 
         $result = $this->doCall($uri, $headers);
-
         $collection = $this->getResourceCollectionObject();
 
         if ($result === null) {
@@ -118,6 +122,8 @@ abstract class BaseEndpoint
         if (!isset($result->items)) {
             $collection[] = Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
         } else {
+            $collection->next = $result->next ?? null;
+            $collection->previous = $result->previous ?? null;
             foreach ($result->items as $item) {
                 $collection[] = Factory\ResourceFactory::createFromApiResult($item, $this->getResourceObject());
             }
@@ -133,7 +139,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
     protected function rest_post(array $data): BaseResource
     {
@@ -145,14 +151,14 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-hash'   => $this->getHash($uri, $data),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader()
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
-        $result  = $this->doCall($uri, $headers);
+        $result = $this->doCall($uri, $headers);
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -181,7 +187,7 @@ abstract class BaseEndpoint
         }
 
         // It is an object not an entity, and not an array that holds any (more) sub entities.
-        // e.g. it could be an Resourcé\webhook.
+        // e.g. it could be a Resource\webhook.
         return $data;
     }
 
@@ -228,12 +234,13 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-public'        => $this->client->apiCredentials->getPublic(),
+                'x-hash'          => $this->getHash($uri, $data),
+                'x-date'          => $this->getCurrentDate(),
+                'accept'          => $this->getAcceptHeader(),
+                'accept-language' => $this->getAcceptLanguage()
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -254,11 +261,11 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri, $data),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-hash'   => $this->getHash($uri, $data),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader(),
             ],
-            'json' => $data,
+            'json'    => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -281,9 +288,9 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash' => $this->getHash($uri),
-                'x-date' => $this->getCurrentDate(),
-                'accept' => $this->getAcceptHeader(),
+                'x-hash'   => $this->getHash($uri),
+                'x-date'   => $this->getCurrentDate(),
+                'accept'   => $this->getAcceptHeader(),
             ]
         ];
         $this->doCall($uri, $headers);
@@ -357,6 +364,7 @@ abstract class BaseEndpoint
         $client = new Client([
             'base_uri' => $this->client->apiCredentials->getHostName(),
         ]);
+
         try {
             $res = $client->request($this->getCurrentMethod(), $uri, $data);
 
@@ -444,6 +452,14 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @return string
+     */
+    public function getParentResourcePath(): string
+    {
+        return $this->parentResourcePath;
+    }
+
+    /**
      * @param ParentResource|null $parent
      *
      * @return void
@@ -459,6 +475,20 @@ abstract class BaseEndpoint
     public function getAcceptHeader(): string
     {
         return $this->acceptHeader;
+    }
+
+    public function getAcceptLanguage(): ?string
+    {
+        return $this->acceptLanguage;
+    }
+
+    public function setAcceptLanguage(string $language): void
+    {
+        if (strlen($language) !== 2) {
+            throw new \InvalidArgumentException('Accept language should be an 2 code');
+        }
+
+        $this->acceptLanguage = $language;
     }
 
     /**

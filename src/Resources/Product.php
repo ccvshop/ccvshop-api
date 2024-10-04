@@ -19,6 +19,7 @@ class Product extends BaseResource
     public bool $is_active = false;
     public ?\DateTime $createdate = null;
     public ?\DateTime $modifydate = null;
+    public bool $active = true;
     public ?string $productnumber = null;
     public ?string $eannumber = null;
     public ?string $mpnnumber = null;
@@ -60,10 +61,15 @@ class Product extends BaseResource
     public ?string $deeplink = null;
     public ?string $specs = null;
     public ?int $decimal_amount= null;
+    public ?int $supplier_id = null;
+    public ?int $condition_id = null;
+    public ?int $color_id = null;
+    public ?int $package_id = null;
     public ?string $amount_sold = null;
     public ?string $minimal_order_amount = null;
     public ?int $stock_delivery_number = null;
     public ?string $stock_delivery_type = null;
+    public ?string $stock_delivery_standard = null;
     public bool $show_in_template = false;
     public bool $show_on_beginpage = false;
     public bool $show_on_facebook = false;
@@ -77,6 +83,13 @@ class Product extends BaseResource
     public ?\stdClass $supplier = null;
     public bool $is_included_for_export_feed = false;
     public bool $fixed_staggered_prices = false;
+    public ?bool $marktplaats_active = null;
+    public ?string $marktplaats_status = null;
+    public ?float $marktplaats_cpc = null;
+    public ?float $marktplaats_daily_budget = null;
+    public ?float $marktplaats_total_budget = null;
+    public ?int $marktplaats_category_id = null;
+    public ?string $marktplaats_price_type = null;
     public bool $is_visible = false;
     public bool $can_be_ordered = false;
     public ?\stdClass $productlabels = null;
@@ -97,6 +110,12 @@ class Product extends BaseResource
     //SONAR_IGNORE_END
     public array $permissions = [];
     public array $dates = ['createdate', 'modifydate'];
+
+    public const TAX_TARIF_NORMAL       = 'normal';
+    public const TAX_TARIF_LOW_A        = 'low a';
+    public const TAX_TARIF_LOW_B        = 'low b';
+    public const TAX_TARIF_EXTRA_LOW    = 'extra low';
+    public const TAX_TARIF_ZERO         = 'zero';
 
     public function getEndpoint(): Products
     {
