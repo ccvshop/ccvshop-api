@@ -7,7 +7,6 @@ use CCVShop\Api\BaseResourceCollection;
 /**
  *
  */
-class ProductCollection extends BaseResourceCollection
+class PackageCollection extends BaseResourceCollection
 {
-
 }

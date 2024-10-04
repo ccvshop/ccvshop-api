@@ -8,14 +8,15 @@ use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
+use CCVShop\Api\Interfaces\Endpoints\Put;
 use CCVShop\Api\Resources\Product;
-use CCVShop\Api\Resources\ProductCollection;
 use CCVShop\Api\Resources\ProductPhoto;
 use CCVShop\Api\Resources\ProductPhotosCollection;
 
 class ProductPhotos extends BaseEndpoint implements
     Get,
-    GetAll
+    GetAll,
+    Put
 {
     protected string $resourcePath = 'productphotos';
 
@@ -77,5 +78,24 @@ class ProductPhotos extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParentFromResource($product));
         /** @var ProductPhotosCollection $result */
         return $this->rest_getAll(null, null, $parameters);
+    }
+
+    /**
+     * @param int $id
+     * @param array $parameters
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws \JsonException
+     */
+    public function put(int $id, array $parameters = [])
+    {
+        if ($id === null) {
+            throw new \InvalidArgumentException('product id is required');
+        }
+
+        $parent = ResourceFactory::createParent($this->client->products->getResourcePath(), $id);
+        $this->setParent($parent);
+        $this->rest_put($parameters);
     }
 }
