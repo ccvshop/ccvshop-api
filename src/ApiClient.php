@@ -18,6 +18,7 @@ use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Packages;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
+use CCVShop\Api\Endpoints\ProductToCategories;
 use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
@@ -51,6 +52,8 @@ class ApiClient
     public Products $products;
     public Packages $packages;
     public ProductPhotos $productPhotos;
+
+    public ProductToCategories $productToCategories;
 
     public Categories $categories;
     public CategoryTree $categoryTree;
@@ -92,6 +95,7 @@ class ApiClient
         $this->categories                   = new Categories($this);
         $this->categoryTree                 = new CategoryTree($this);
         $this->productPhotos                = new ProductPhotos($this);
+        $this->productToCategories          = new ProductToCategories($this);
         $this->labels                       = new Labels($this);
         $this->productLabels                = new ProductLabels($this);
         $this->orderLabels                  = new OrderLabels($this);

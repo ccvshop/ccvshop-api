@@ -14,7 +14,7 @@ class ExceptionFactory
         try {
             $exceptionData = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
-            return new \CCVShop\Api\Exceptions\InvalidResponseException($e->getMessage());
+            return new \CCVShop\Api\Exceptions\InvalidResponseException('InvalidResponseException, could not decode json response:' . "\n" . $json . "\n" . 'Exit with message:'. $e->getMessage());
         }
         switch ($exceptionData->code) {
             case '405.10':
