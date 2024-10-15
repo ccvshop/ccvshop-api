@@ -18,6 +18,9 @@ use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Packages;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
+use CCVShop\Api\Endpoints\ProductProperties;
+use CCVShop\Api\Endpoints\ProductPropertyGroups;
+use CCVShop\Api\Endpoints\ProductPropertyValues;
 use CCVShop\Api\Endpoints\ProductToCategories;
 use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
@@ -63,6 +66,14 @@ class ApiClient
 
     public OrderLabels $orderLabels;
 
+    public ProductPropertyGroups $productPropertyGroups;
+
+    public ProductProperties $productProperties;
+
+    public ProductPropertyValues $productPropertyValues;
+
+
+
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
      * @param string|null $apiPublic Fallback in .env['CCVSHOP_API_PUBLIC']
@@ -99,5 +110,8 @@ class ApiClient
         $this->labels                       = new Labels($this);
         $this->productLabels                = new ProductLabels($this);
         $this->orderLabels                  = new OrderLabels($this);
+        $this->productPropertyGroups        = new ProductPropertyGroups($this);
+        $this->productProperties            = new ProductProperties($this);
+        $this->productPropertyValues        = new ProductPropertyValues($this);
     }
 }
