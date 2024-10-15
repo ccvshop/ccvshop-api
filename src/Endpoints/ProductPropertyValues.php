@@ -3,6 +3,7 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
@@ -12,6 +13,9 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Resources\ProductPropertyValue;
 use CCVShop\Api\Resources\ProductPropertyCollection;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class ProductPropertyValues extends BaseEndpoint implements
     Get,
@@ -20,7 +24,6 @@ class ProductPropertyValues extends BaseEndpoint implements
     Post
 {
     protected string $resourcePath = 'productpropertyvalues';
-
 
     /**
      * @return ProductPropertyValue
@@ -43,7 +46,7 @@ class ProductPropertyValues extends BaseEndpoint implements
      * @return ProductPropertyValue
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): ProductPropertyValue
     {
@@ -51,10 +54,18 @@ class ProductPropertyValues extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    /**
+     * @param ProductPropertyValue|null $productPropertyValue
+     * @return BaseResource
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
     public function post(ProductPropertyValue $productPropertyValue = null)
     {
         if ($productPropertyValue === null) {
-            throw new \InvalidArgumentException(ProductPropertyValue::class . ' required');
+            throw new InvalidArgumentException(ProductPropertyValue::class . ' required');
         }
 
         $data = [
@@ -76,12 +87,12 @@ class ProductPropertyValues extends BaseEndpoint implements
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|\JsonException
+     * @throws JsonException|JsonException
      */
     public function patch(?ProductPropertyValue $productPropertyValue = null): void
     {
         if (is_null($productPropertyValue)) {
-            throw new \InvalidArgumentException(ProductPropertyValue::class . ' required');
+            throw new InvalidArgumentException(ProductPropertyValue::class . ' required');
         }
 
         $data = [
@@ -103,7 +114,7 @@ class ProductPropertyValues extends BaseEndpoint implements
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|\JsonException
+     * @throws JsonException|JsonException
      */
     public function delete(int $id): void
     {

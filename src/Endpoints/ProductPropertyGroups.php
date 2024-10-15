@@ -3,6 +3,7 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Delete;
@@ -12,7 +13,9 @@ use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\ProductPropertyGroup;
 use CCVShop\Api\Resources\ProductPropertyGroupCollection;
+use InvalidArgumentException;
 use JsonException;
+use ReflectionException;
 
 class ProductPropertyGroups extends BaseEndpoint implements
     Get,
@@ -44,7 +47,7 @@ class ProductPropertyGroups extends BaseEndpoint implements
      * @return ProductPropertyGroup
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): ProductPropertyGroup
     {
@@ -57,7 +60,7 @@ class ProductPropertyGroups extends BaseEndpoint implements
      * @return ProductPropertyGroupCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): ProductPropertyGroupCollection
     {
@@ -65,11 +68,18 @@ class ProductPropertyGroups extends BaseEndpoint implements
         return $this->rest_getAll(null, null, $parameters);
     }
 
-
+    /**
+     * @param ProductPropertyGroup|null $productPropertyGroup
+     * @return BaseResource
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
     public function post(ProductPropertyGroup $productPropertyGroup = null)
     {
         if ($productPropertyGroup === null) {
-            throw new \InvalidArgumentException(ProductPropertyGroup::class . ' required');
+            throw new InvalidArgumentException(ProductPropertyGroup::class . ' required');
         }
 
         $data = [
@@ -106,7 +116,7 @@ class ProductPropertyGroups extends BaseEndpoint implements
     public function patch(?ProductPropertyGroup $productPropertyGroup = null): void
     {
         if (is_null($productPropertyGroup)) {
-            throw new \InvalidArgumentException(ProductPropertyGroup::class . ' required');
+            throw new InvalidArgumentException(ProductPropertyGroup::class . ' required');
         }
 
         $data = [

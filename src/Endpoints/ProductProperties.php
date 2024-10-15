@@ -13,6 +13,9 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\ProductProperty;
 use CCVShop\Api\Resources\ProductPropertyGroup;
 use CCVShop\Api\Resources\ProductPropertyCollection;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class ProductProperties extends BaseEndpoint implements
     Get,
@@ -55,7 +58,7 @@ class ProductProperties extends BaseEndpoint implements
      * @return ProductProperty
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): ProductProperty
     {
@@ -68,7 +71,7 @@ class ProductProperties extends BaseEndpoint implements
      * @return ProductPropertyCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): ProductPropertyCollection
     {
@@ -79,12 +82,13 @@ class ProductProperties extends BaseEndpoint implements
     /**
      * @description Get all product properties by a product property group resource.
      *
-     * @param ProductPropertyGroups $productPropertyGroups
+     * @param ProductPropertyGroup $productPropertyGroups
      * @param array $parameters
      * @return ProductPropertyCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getFor(ProductPropertyGroup $productPropertyGroups, array $parameters = []): ProductPropertyCollection
     {
@@ -101,19 +105,19 @@ class ProductProperties extends BaseEndpoint implements
      * @return ProductProperty
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function post(int $productPropertyGroupId = null, ProductProperty $productProperty = null): ProductProperty
     {
         if ($productPropertyGroupId === null) {
-            throw new \InvalidArgumentException('product property group id is required');
+            throw new InvalidArgumentException('product property group id is required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->productPropertyGroups->getResourcePath(), $productPropertyGroupId));
 
         if ($productProperty === null) {
-            throw new \InvalidArgumentException(ProductProperty::class . ' required');
+            throw new InvalidArgumentException(ProductProperty::class . ' required');
         }
 
         $data = [
@@ -137,12 +141,12 @@ class ProductProperties extends BaseEndpoint implements
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function patch(ProductProperty $productProperty = null): void
     {
         if ($productProperty === null) {
-            throw new \InvalidArgumentException(ProductProperty::class . ' required');
+            throw new InvalidArgumentException(ProductProperty::class . ' required');
         }
 
         $data = [
