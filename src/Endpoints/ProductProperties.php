@@ -11,6 +11,7 @@ use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\ProductProperty;
+use CCVShop\Api\Resources\ProductPropertyGroup;
 use CCVShop\Api\Resources\ProductPropertyCollection;
 
 class ProductProperties extends BaseEndpoint implements
@@ -19,6 +20,16 @@ class ProductProperties extends BaseEndpoint implements
     Patch,
     Post
 {
+
+    public const TYPE_TEXT = 'Text';
+    public const TYPE_OPTION = 'Option';
+    public const TYPE_OPTIONCHECKBOX = 'OptionCheckbox';
+    public const TYPE_CHECKBOX = 'Checkbox';
+    public const TYPE_GROUP = 'Group';
+    public const TYPE_COLLAPSEDGROUP = 'CollapsedGroup';
+    public const TYPE_TEXTAREA = 'TextArea';
+    public const TYPE_PRICE = 'Price';
+
     protected string $resourcePath = 'productproperties';
 
     protected ?string $parentResourcePath = 'productpropertygroups';
@@ -75,7 +86,7 @@ class ProductProperties extends BaseEndpoint implements
      * @throws InvalidResponseException
      * @throws \JsonException|\ReflectionException
      */
-    public function getFor(ProductPropertyGroups $productPropertyGroups, array $parameters = []): ProductPropertyCollection
+    public function getFor(ProductPropertyGroup $productPropertyGroups, array $parameters = []): ProductPropertyCollection
     {
         $this->setParent(ResourceFactory::createParentFromResource($productPropertyGroups));
         /** @var ProductPropertyCollection $result */
@@ -99,16 +110,16 @@ class ProductProperties extends BaseEndpoint implements
             throw new \InvalidArgumentException('product property group id is required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $productPropertyGroupId));
+        $this->setParent(ResourceFactory::createParent($this->client->productPropertyGroups->getResourcePath(), $productPropertyGroupId));
 
         if ($productProperty === null) {
             throw new \InvalidArgumentException(ProductProperty::class . ' required');
         }
 
         $data = [
-            'name' => $productProperty->name,
-            'type' => $productProperty->type,
-            'parent' => $productProperty->parent,
+            'name'     => $productProperty->name,
+            'type'     => $productProperty->type,
+            'parent'   => $productProperty->parent,
             'position' => $productProperty->position,
         ];
 
@@ -135,9 +146,9 @@ class ProductProperties extends BaseEndpoint implements
         }
 
         $data = [
-            'name' => $productProperty->name,
-            'type' => $productProperty->type,
-            'parent' => $productProperty->parent,
+            'name'     => $productProperty->name,
+            'type'     => $productProperty->type,
+            'parent'   => $productProperty->parent,
             'position' => $productProperty->position,
         ];
 

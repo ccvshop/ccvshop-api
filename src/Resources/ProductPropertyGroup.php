@@ -3,6 +3,7 @@
 namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
+use CCVShop\Api\Endpoints\ProductPropertyGroups;
 use CCVShop\Api\Endpoints\Products;
 
 class ProductPropertyGroup extends BaseResource
@@ -18,7 +19,7 @@ class ProductPropertyGroup extends BaseResource
 
     //SONAR_IGNORE_END
 
-    public function getEndpoint(): Products
+    public function getEndpoint(): ProductPropertyGroups
     {
         return $this->client->productPropertyGroups;
     }
