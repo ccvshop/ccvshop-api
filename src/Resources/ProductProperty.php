@@ -4,7 +4,6 @@ namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Endpoints\ProductProperties;
-use CCVShop\Api\Endpoints\Products;
 
 class ProductProperty extends BaseResource
 {

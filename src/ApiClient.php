@@ -22,6 +22,7 @@ use CCVShop\Api\Endpoints\ProductProperties;
 use CCVShop\Api\Endpoints\ProductPropertyGroups;
 use CCVShop\Api\Endpoints\ProductPropertyValues;
 use CCVShop\Api\Endpoints\ProductToCategories;
+use CCVShop\Api\Endpoints\ProductToPropertyGroups;
 use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
@@ -68,10 +69,11 @@ class ApiClient
 
     public ProductPropertyGroups $productPropertyGroups;
 
+    public ProductToPropertyGroups $productToPropertyGroups;
+
     public ProductProperties $productProperties;
 
     public ProductPropertyValues $productPropertyValues;
-
 
 
     /**
@@ -113,5 +115,6 @@ class ApiClient
         $this->productPropertyGroups        = new ProductPropertyGroups($this);
         $this->productProperties            = new ProductProperties($this);
         $this->productPropertyValues        = new ProductPropertyValues($this);
+        $this->productToPropertyGroups      = new ProductToPropertyGroups($this);
     }
 }

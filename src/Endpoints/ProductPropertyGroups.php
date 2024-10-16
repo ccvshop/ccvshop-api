@@ -24,7 +24,7 @@ class ProductPropertyGroups extends BaseEndpoint implements
     Delete,
     Patch
 {
-    protected string $resourcePath = 'ProductPropertyGroups';
+    protected string $resourcePath = 'productpropertygroups';
 
     /**
      * @return ProductPropertyGroup()

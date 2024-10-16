@@ -4,7 +4,6 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;

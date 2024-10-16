@@ -377,10 +377,10 @@ abstract class BaseEndpoint
             try {
                 return json_decode((string)$res->getBody(), false, 512, JSON_THROW_ON_ERROR);
             } catch (\JsonException $e) {
-                throw new InvalidResponseException($e->getMessage());
+                throw new InvalidResponseException($e->getMessage(). "\n\n" . $e->getTraceAsString());
             }
         } catch (ServerException|ClientException $e) {
-            throw ExceptionFactory::createFromApiResult((string)$e->getResponse()->getBody());
+            throw ExceptionFactory::createFromApiResult((string)$e->getResponse()->getBody(),  $e->getTraceAsString(), $uri, $this->getCurrentMethod());
         }
     }
 
