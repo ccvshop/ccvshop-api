@@ -60,7 +60,7 @@ class ProductToCategories extends BaseEndpoint implements
     }
 
     /**
-     * @description Get all product photos by product resource.
+     * @description Get all product categories by product resource.
      * @param Product $product
      * @param array $parameters
      * @return ProductToCategoriesCollection

@@ -71,10 +71,10 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public'        => $this->client->apiCredentials->getPublic(),
-                'x-hash'          => $this->getHash($uri),
-                'x-date'          => $this->getCurrentDate(),
-                'accept'          => $this->getAcceptHeader(),
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
         ];
@@ -103,10 +103,10 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public'        => $this->client->apiCredentials->getPublic(),
-                'x-hash'          => $this->getHash($uri),
-                'x-date'          => $this->getCurrentDate(),
-                'accept'          => $this->getAcceptHeader(),
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
 
@@ -151,14 +151,20 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash'   => $this->getHash($uri, $data),
-                'x-date'   => $this->getCurrentDate(),
-                'accept'   => $this->getAcceptHeader()
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader()
             ],
-            'json'    => $data,
+            'json' => $data,
 
         ];
+
         $result = $this->doCall($uri, $headers);
+
+        // Result on POST should not be null, but the api gives sometimes a no-content, even on succes. So we do not want to crash.
+        if($result == null) {
+            return Factory\ResourceFactory::createFromApiResult((object)[], $this->getResourceObject());
+        }
 
         return Factory\ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -234,13 +240,13 @@ abstract class BaseEndpoint
 
         $headers = [
             'headers' => [
-                'x-public'        => $this->client->apiCredentials->getPublic(),
-                'x-hash'          => $this->getHash($uri, $data),
-                'x-date'          => $this->getCurrentDate(),
-                'accept'          => $this->getAcceptHeader(),
+                'x-public' => $this->client->apiCredentials->getPublic(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
                 'accept-language' => $this->getAcceptLanguage()
             ],
-            'json'    => $data,
+            'json' => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -261,11 +267,11 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash'   => $this->getHash($uri, $data),
-                'x-date'   => $this->getCurrentDate(),
-                'accept'   => $this->getAcceptHeader(),
+                'x-hash' => $this->getHash($uri, $data),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ],
-            'json'    => $data,
+            'json' => $data,
 
         ];
         $this->doCall($uri, $headers);
@@ -288,9 +294,9 @@ abstract class BaseEndpoint
         $headers = [
             'headers' => [
                 'x-public' => $this->client->apiCredentials->getPublic(),
-                'x-hash'   => $this->getHash($uri),
-                'x-date'   => $this->getCurrentDate(),
-                'accept'   => $this->getAcceptHeader(),
+                'x-hash' => $this->getHash($uri),
+                'x-date' => $this->getCurrentDate(),
+                'accept' => $this->getAcceptHeader(),
             ]
         ];
         $this->doCall($uri, $headers);
@@ -316,9 +322,9 @@ abstract class BaseEndpoint
      * @param string $uri
      *
      * @return void
-     * @throws Exceptions\InvalidHashOnResult
+     * @throws Exceptions\InvalidHashOnResult|\JsonException
      */
-    protected function validateResponse(Response $res, string $uri): void
+    protected function validateResponse(Response $res, string $uri, ?array $data = null): void
     {
         $dataToHash = [
             $this->client->apiCredentials->getPublic(),
@@ -332,7 +338,24 @@ abstract class BaseEndpoint
         $xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
 
         if ($xHash !== $res->getHeader('x-hash')[0]) {
-            throw new InvalidHashOnResult('Result hash not equal');
+            if ($res->getStatusCode() == 204) {
+                // CCV Shop uses in some cases the POST data on a no-content in return. So we do a retry on the validation if this is the case.
+                $dataToHash = [
+                    $this->client->apiCredentials->getPublic(),
+                    $this->getCurrentMethod(),
+                    $uri,
+                    $data !== null ? json_encode($data, JSON_THROW_ON_ERROR) : '',
+                    $res->getHeader('x-date')[0],
+                ];
+
+                $xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
+
+                if ($xHash !== $res->getHeader('x-hash')[0]) {
+                    throw new InvalidHashOnResult('Result hash not equal for ' . $this->getCurrentMethod() . '::' . $uri);
+                }
+            } else {
+                throw new InvalidHashOnResult('Result hash not equal for ' . $this->getCurrentMethod() . '::' . $uri);
+            }
         }
     }
 
@@ -368,7 +391,7 @@ abstract class BaseEndpoint
         try {
             $res = $client->request($this->getCurrentMethod(), $uri, $data);
 
-            $this->validateResponse($res, $uri);
+            $this->validateResponse($res, $uri, $data['json'] ?? null);
 
             if (empty((string)$res->getBody())) {
                 return null;
@@ -377,10 +400,10 @@ abstract class BaseEndpoint
             try {
                 return json_decode((string)$res->getBody(), false, 512, JSON_THROW_ON_ERROR);
             } catch (\JsonException $e) {
-                throw new InvalidResponseException($e->getMessage(). "\n\n" . $e->getTraceAsString());
+                throw new InvalidResponseException($e->getMessage() . "\n\n" . $e->getTraceAsString());
             }
         } catch (ServerException|ClientException $e) {
-            throw ExceptionFactory::createFromApiResult((string)$e->getResponse()->getBody(),  $e->getTraceAsString(), $uri, $this->getCurrentMethod());
+            throw ExceptionFactory::createFromApiResult((string)$e->getResponse()->getBody(), $e->getTraceAsString(), $uri, $this->getCurrentMethod());
         }
     }
 

@@ -98,7 +98,7 @@ class ProductProperties extends BaseEndpoint implements
     }
 
     /**
-     * @description Post a product property into a group
+     * @description Post a product property
      *
      * @param int|null $productPropertyGroupId
      * @param ProductProperty|null $productProperty
@@ -137,6 +137,7 @@ class ProductProperties extends BaseEndpoint implements
 
     /**
      * @description Patch a product property.
+     *
      * @param ProductProperty|null $productProperty
      * @return void
      * @throws InvalidHashOnResult
