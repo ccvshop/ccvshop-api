@@ -338,24 +338,7 @@ abstract class BaseEndpoint
         $xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
 
         if ($xHash !== $res->getHeader('x-hash')[0]) {
-            if ($res->getStatusCode() == 204) {
-                // CCV Shop uses in some cases the POST data on a no-content in return. So we do a retry on the validation if this is the case.
-                $dataToHash = [
-                    $this->client->apiCredentials->getPublic(),
-                    $this->getCurrentMethod(),
-                    $uri,
-                    $data !== null ? json_encode($data, JSON_THROW_ON_ERROR) : '',
-                    $res->getHeader('x-date')[0],
-                ];
-
-                $xHash = hash_hmac('sha512', implode('|', $dataToHash), $this->client->apiCredentials->getSecret());
-
-                if ($xHash !== $res->getHeader('x-hash')[0]) {
-                    throw new InvalidHashOnResult('Result hash not equal for ' . $this->getCurrentMethod() . '::' . $uri);
-                }
-            } else {
-                throw new InvalidHashOnResult('Result hash not equal for ' . $this->getCurrentMethod() . '::' . $uri);
-            }
+            throw new InvalidHashOnResult('Result hash not equal for ' . $this->getCurrentMethod() . '::' . $uri);
         }
     }
 
