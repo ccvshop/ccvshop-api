@@ -6,5 +6,5 @@ use CCVShop\Api\Resources\Entities\AppCodeBlockCollection;
 
 class ElementCollection extends AppCodeBlockCollection
 {
-    public static $entityClass = \CCVShop\Api\Resources\Entities\AppCodeBlock\Element::class;
+    public static $entityClass = Element::class;
 }

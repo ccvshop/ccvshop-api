@@ -25,6 +25,9 @@ class CategoryTree extends BaseEndpoint implements
         return new \CCVShop\Api\Resources\CategoryTree($this->client);
     }
 
+    /**
+     * @return CategoryCollection
+     */
     protected function getResourceCollectionObject(): CategoryCollection
     {
         return new CategoryCollection();

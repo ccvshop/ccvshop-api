@@ -41,13 +41,13 @@ class ProductToCategories extends BaseEndpoint implements
     }
 
     /**
-     * @param int $id
+     * @param ?int $id
      * @return ProductToCategory
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException|ReflectionException
      */
-    public function get(int $id): ProductToCategory
+    public function get(?int $id): ProductToCategory
     {
         if ($id === null) {
             throw new InvalidArgumentException('producttocategories id is required');
@@ -83,7 +83,7 @@ class ProductToCategories extends BaseEndpoint implements
      * @throws JsonException
      * @throws ReflectionException
      */
-    public function post(?ProductToCategory $productToCategory = null)
+    public function post(?ProductToCategory $productToCategory = null): BaseResource
     {
         if (is_null($productToCategory)) {
             throw new \InvalidArgumentException(ProductToCategory::class . ' required');
@@ -91,7 +91,7 @@ class ProductToCategories extends BaseEndpoint implements
 
         $data = [
             'category_id' => $productToCategory->category_id,
-            'product_id' => $productToCategory->product_id,
+            'product_id'  => $productToCategory->product_id,
         ];
 
         // Filter the array to remove entries with null values

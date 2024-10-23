@@ -12,13 +12,16 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppCodeBlock;
 use CCVShop\Api\Resources\AppCodeBlockCollection;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class AppCodeBlocks extends BaseEndpoint implements
     Get,
     Post,
     Delete
 {
-    protected string $resourcePath = 'appcodeblocks';
+    protected string  $resourcePath       = 'appcodeblocks';
     protected ?string $parentResourcePath = 'apps';
 
 
@@ -44,8 +47,8 @@ class AppCodeBlocks extends BaseEndpoint implements
      * @param int $id
      * @return AppCodeBlock
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): AppCodeBlock
     {
@@ -60,8 +63,8 @@ class AppCodeBlocks extends BaseEndpoint implements
      * @param array $parameters
      * @return AppCodeBlockCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getFor(App $app, array $parameters = []): AppCodeBlockCollection
     {
@@ -76,22 +79,22 @@ class AppCodeBlocks extends BaseEndpoint implements
      * @param AppCodeBlock|null $appCodeBlock
      * @return AppCodeBlock
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function post(?AppCodeBlock $appCodeBlock = null): AppCodeBlock
     {
         if (is_null($appCodeBlock)) {
-            throw new \InvalidArgumentException(AppCodeBlock::class . ' required');
+            throw new InvalidArgumentException(AppCodeBlock::class . ' required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appCodeBlock->app_id));
 
         /** @var AppCodeBlock */
         return $this->rest_post([
-            'placeholder' => $appCodeBlock->placeholder,
-            'value' => $appCodeBlock->value,
-            'title' => $appCodeBlock->title,
+            'placeholder'         => $appCodeBlock->placeholder,
+            'value'               => $appCodeBlock->value,
+            'title'               => $appCodeBlock->title,
             'interactive_content' => $appCodeBlock->interactive_content,
         ]);
     }
@@ -101,7 +104,7 @@ class AppCodeBlocks extends BaseEndpoint implements
      *
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function delete(int $id): void
     {

@@ -12,6 +12,9 @@ use CCVShop\Api\Interfaces\Endpoints\Put;
 use CCVShop\Api\Resources\Product;
 use CCVShop\Api\Resources\ProductPhoto;
 use CCVShop\Api\Resources\ProductPhotosCollection;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class ProductPhotos extends BaseEndpoint implements
     Get,
@@ -43,7 +46,7 @@ class ProductPhotos extends BaseEndpoint implements
      * @return ProductPhoto
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): ProductPhoto
     {
@@ -56,7 +59,7 @@ class ProductPhotos extends BaseEndpoint implements
      * @return ProductPhotosCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): ProductPhotosCollection
     {
@@ -71,7 +74,7 @@ class ProductPhotos extends BaseEndpoint implements
      * @return ProductPhotosCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException|ReflectionException
      */
     public function getFor(Product $product, array $parameters = []): ProductPhotosCollection
     {
@@ -86,12 +89,12 @@ class ProductPhotos extends BaseEndpoint implements
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function put(int $id, array $parameters = [])
     {
         if ($id === null) {
-            throw new \InvalidArgumentException('product id is required');
+            throw new InvalidArgumentException('product id is required');
         }
 
         $parent = ResourceFactory::createParent($this->client->products->getResourcePath(), $id);

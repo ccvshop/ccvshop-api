@@ -73,7 +73,7 @@ class Apps extends BaseEndpoint implements
         }
 
         $this->rest_patch($app->id, [
-            'is_installed' => $app->is_installed
+            'is_installed' => $app->is_installed,
         ]);
     }
 }

@@ -4,15 +4,18 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Resources\Order;
 use CCVShop\Api\Resources\OrderRow;
 use CCVShop\Api\Resources\OrderRowCollection;
+use JsonException;
+use ReflectionException;
 
 class OrderRows extends BaseEndpoint implements Get
 {
-    protected string $resourcePath = 'orderrows';
+    protected string  $resourcePath       = 'orderrows';
     protected ?string $parentResourcePath = 'orders';
 
     /**
@@ -20,7 +23,7 @@ class OrderRows extends BaseEndpoint implements Get
      */
     protected function getResourceObject(): OrderRow
     {
-       return new OrderRow($this->client);
+        return new OrderRow($this->client);
     }
 
     /**
@@ -35,9 +38,9 @@ class OrderRows extends BaseEndpoint implements Get
      * @description Get one by id
      * @param int $id
      * @return OrderRow
-     * @throws \CCVShop\Api\Exceptions\InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): OrderRow
     {
@@ -51,8 +54,8 @@ class OrderRows extends BaseEndpoint implements Get
      * @param array $parameters
      * @return OrderRowCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getFor(Order $order, array $parameters = []): OrderRowCollection
     {

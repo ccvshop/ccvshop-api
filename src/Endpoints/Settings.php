@@ -9,10 +9,13 @@ use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Resources\Setting;
 use CCVShop\Api\Resources\SettingCollection;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class Settings extends BaseEndpoint
 {
-    protected string $resourcePath = 'settings';
+    protected string  $resourcePath       = 'settings';
     protected ?string $parentResourcePath = 'webshops';
 
     /**
@@ -35,12 +38,12 @@ class Settings extends BaseEndpoint
 
     /**
      * @description Get all by parameters
-     * @param array $parameters
+     * @param int $iWebsiteId
      * @return SettingCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getFor(int $iWebsiteId): SettingCollection
     {
@@ -57,22 +60,21 @@ class Settings extends BaseEndpoint
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws GuzzleException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function putFor(int $iWebsiteId, ?Setting $settings = null): void
     {
         if (is_null($settings)) {
-            throw new \InvalidArgumentException(Settings::class . ' required');
+            throw new InvalidArgumentException(Settings::class . ' required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->settings->getParentResourcePath(), $iWebsiteId));
 
-        /** @var Setting */
         $this->rest_put([
-            'languages' => $settings->languages,
-            'webshop_enabled' => $settings->webshop_enabled,
+            'languages'              => $settings->languages,
+            'webshop_enabled'        => $settings->webshop_enabled,
             'webshop_disabled_title' => $settings->webshop_disabled_title,
-            'webshop_disabled_text' => $settings->webshop_disabled_text
+            'webshop_disabled_text'  => $settings->webshop_disabled_text,
         ]);
     }
 }

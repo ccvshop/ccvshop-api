@@ -4,20 +4,23 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
+use CCVShop\Api\Resources\Merchant;
 use CCVShop\Api\Resources\MerchantCollection;
 use CCVShop\Api\Resources\Webshop;
 use CCVShop\Api\Resources\WebshopCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
+use ReflectionException;
 
 class Webshops extends BaseEndpoint implements
     Get,
     GetAll
 {
-    protected string $resourcePath = 'webshops';
+    protected string  $resourcePath       = 'webshops';
     protected ?string $parentResourcePath = 'merchant';
 
     /**
@@ -41,8 +44,9 @@ class Webshops extends BaseEndpoint implements
      *
      * @return Webshop
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
      * @throws JsonException
+     * @throws ReflectionException
      */
     public function get(int $id): Webshop
     {
@@ -51,12 +55,16 @@ class Webshops extends BaseEndpoint implements
     }
 
     /**
-     * @param \CCVShop\Api\Resources\Merchant $merchant
+     * @param Merchant $merchant
      * @param array $parameters
      *
      * @return WebshopCollection
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
-    public function getFor(\CCVShop\Api\Resources\Merchant $merchant, array $parameters = []): WebshopCollection
+    public function getFor(Merchant $merchant, array $parameters = []): WebshopCollection
     {
         $this->setParent(ResourceFactory::createParentFromResource($merchant));
         /** @var WebshopCollection $result */
@@ -69,7 +77,9 @@ class Webshops extends BaseEndpoint implements
      *
      * @return WebshopCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getForId(int $merchantId, array $parameters = []): WebshopCollection
     {
@@ -84,7 +94,9 @@ class Webshops extends BaseEndpoint implements
      *
      * @return MerchantCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getMerchantsById(int $webshopId): MerchantCollection
     {
@@ -96,7 +108,9 @@ class Webshops extends BaseEndpoint implements
      *
      * @return WebshopCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws JsonException
+     * @throws InvalidResponseException
+     * @throws ReflectionException
      */
     public function getAll(array $parameters = []): WebshopCollection
     {

@@ -24,14 +24,14 @@ class ProductProperties extends BaseEndpoint implements
     Post
 {
 
-    public const TYPE_TEXT = 'Text';
-    public const TYPE_OPTION = 'Option';
+    public const TYPE_TEXT           = 'Text';
+    public const TYPE_OPTION         = 'Option';
     public const TYPE_OPTIONCHECKBOX = 'OptionCheckbox';
-    public const TYPE_CHECKBOX = 'Checkbox';
-    public const TYPE_GROUP = 'Group';
+    public const TYPE_CHECKBOX       = 'Checkbox';
+    public const TYPE_GROUP          = 'Group';
     public const TYPE_COLLAPSEDGROUP = 'CollapsedGroup';
-    public const TYPE_TEXTAREA = 'TextArea';
-    public const TYPE_PRICE = 'Price';
+    public const TYPE_TEXTAREA       = 'TextArea';
+    public const TYPE_PRICE          = 'Price';
 
     protected string $resourcePath = 'productproperties';
 

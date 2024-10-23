@@ -4,6 +4,7 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -11,14 +12,16 @@ use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Resources\MerchantCollection;
 use CCVShop\Api\Resources\Webshop;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use JsonException;
+use ReflectionException;
 
 class Merchant extends BaseEndpoint implements
     Get,
     GetAll,
     Patch
 {
-    protected string $resourcePath = 'merchant';
+    protected string  $resourcePath       = 'merchant';
     protected ?string $parentResourcePath = 'webshops';
 
     /**
@@ -41,9 +44,10 @@ class Merchant extends BaseEndpoint implements
      * @param int $id
      *
      * @return \CCVShop\Api\Resources\Merchant
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
      * @throws JsonException
+     * @throws ReflectionException
      */
     public function get(int $id): \CCVShop\Api\Resources\Merchant
     {
@@ -56,8 +60,10 @@ class Merchant extends BaseEndpoint implements
      * @param array $parameters
      *
      * @return MerchantCollection
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getFor(Webshop $webshop, array $parameters = []): MerchantCollection
     {
@@ -71,8 +77,10 @@ class Merchant extends BaseEndpoint implements
      * @param array $parameters
      *
      * @return MerchantCollection
-     * @throws GuzzleException
      * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getForId(int $webshopId, array $parameters = []): MerchantCollection
     {
@@ -87,30 +95,30 @@ class Merchant extends BaseEndpoint implements
      * @return void
      * @throws InvalidHashOnResult
      * @throws JsonException
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
+     * @throws InvalidResponseException
      */
     public function patch(\CCVShop\Api\Resources\Merchant $merchant = null): void
     {
         if ($merchant === null) {
-            throw new \InvalidArgumentException(\CCVShop\Api\Resources\Merchant::class . ' required');
+            throw new InvalidArgumentException(\CCVShop\Api\Resources\Merchant::class . ' required');
         }
         $this->rest_patch($merchant->id, [
-            'uuid'                      => $merchant->uuid,
-            'gender'                    => $merchant->gender,
-            'first_name'                => $merchant->first_name,
-            'last_name'                 => $merchant->last_name,
-            'company'                   => $merchant->company,
-            'email'                     => $merchant->email,
-            'street'                    => $merchant->street,
-            'housenumber'               => $merchant->housenumber,
-            'zipcode'                   => $merchant->zipcode,
-            'city'                      => $merchant->city,
-            'country_code'              => $merchant->country_code,
-            'telephone'                 => $merchant->telephone,
-            'coc_number'                => $merchant->coc_number,
-            'tax_number'                => $merchant->tax_number,
-            'iban'                      => $merchant->iban,
-            'bank_account_holder_name'  => $merchant->bank_account_holder_name,
+            'uuid'                     => $merchant->uuid,
+            'gender'                   => $merchant->gender,
+            'first_name'               => $merchant->first_name,
+            'last_name'                => $merchant->last_name,
+            'company'                  => $merchant->company,
+            'email'                    => $merchant->email,
+            'street'                   => $merchant->street,
+            'housenumber'              => $merchant->housenumber,
+            'zipcode'                  => $merchant->zipcode,
+            'city'                     => $merchant->city,
+            'country_code'             => $merchant->country_code,
+            'telephone'                => $merchant->telephone,
+            'coc_number'               => $merchant->coc_number,
+            'tax_number'               => $merchant->tax_number,
+            'iban'                     => $merchant->iban,
+            'bank_account_holder_name' => $merchant->bank_account_holder_name,
         ]);
     }
 
@@ -119,7 +127,9 @@ class Merchant extends BaseEndpoint implements
      *
      * @return MerchantCollection
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws JsonException
+     * @throws InvalidResponseException
+     * @throws ReflectionException
      */
     public function getAll(array $parameters = []): MerchantCollection
     {

@@ -4,7 +4,6 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
@@ -15,6 +14,7 @@ use CCVShop\Api\Resources\CategoryCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use JsonException;
+use ReflectionException;
 
 class Categories extends BaseEndpoint implements
     Get,
@@ -31,6 +31,9 @@ class Categories extends BaseEndpoint implements
         return new Category($this->client);
     }
 
+    /**
+     * @return CategoryCollection
+     */
     protected function getResourceCollectionObject(): CategoryCollection
     {
         return new CategoryCollection();
@@ -41,7 +44,7 @@ class Categories extends BaseEndpoint implements
      * @return BaseResource
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): BaseResource
     {
@@ -54,7 +57,7 @@ class Categories extends BaseEndpoint implements
      * @return CategoryCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): CategoryCollection
     {

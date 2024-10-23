@@ -86,7 +86,7 @@ class ProductToPropertyGroups extends BaseEndpoint implements
         }
 
         $data = [
-            'product_id' => $productToPropertyGroup->product_id,
+            'product_id'                => $productToPropertyGroup->product_id,
             'product_property_group_id' => $productToPropertyGroup->product_property_group_id,
         ];
 

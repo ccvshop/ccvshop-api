@@ -3,7 +3,9 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
@@ -11,6 +13,10 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\AppConfig;
 use CCVShop\Api\Resources\Product;
 use CCVShop\Api\Resources\ProductCollection;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class Products extends BaseEndpoint implements
     Get,
@@ -40,8 +46,8 @@ class Products extends BaseEndpoint implements
      * @param int $id
      * @return Product
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): Product
     {
@@ -53,8 +59,8 @@ class Products extends BaseEndpoint implements
      * @param array $parameters
      * @return ProductCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): ProductCollection
     {
@@ -66,74 +72,74 @@ class Products extends BaseEndpoint implements
      * @param Product|null $product
      * @return void
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws GuzzleException
+     * @throws JsonException
      */
     public function patch(?Product $product = null): void
     {
         if (is_null($product)) {
-            throw new \InvalidArgumentException(Product::class . ' required');
+            throw new InvalidArgumentException(Product::class . ' required');
         }
 
         $data = [
-            'name'                          => $product->name,
-            'productnumber'                 => $product->productnumber,
-            'active'                        => $product->active,
-            'eannumber'                     => $product->eannumber,
-            'description'                   => $product->description,
-            'taxtariff'                     => $product->taxtariff,
-            'price'                         => $product->price,
-            'discount'                      => $product->discount,
-            'purchaseprice'                 => $product->purchaseprice,
-            'container_deposit_price'       => $product->container_deposit_price,
-            'safety_deposit_price'          => $product->safety_deposit_price,
-            'credit_points_custom'          => $product->credit_points_custom,
-            'unit'                          => $product->unit,
-            'stockenabled'                  => $product->stockenabled,
-            'stocktype'                     => $product->stocktype,
-            'stock'                         => $product->stock,
-            'stocklocation'                 => $product->stocklocation,
-            'ordering_without_stock'        => $product->ordering_without_stock,
-            'weight'                        => $product->weight,
-            'brand'                         => $product->brand,
-            'condition'                     => $product->condition,
-            'condition_id'                  => $product->condition_id,
-            'color_id'                      => $product->color_id,
-            'maincategory'                  => $product->maincategory,
-            'subcategory'                   => $product->subcategory,
-            'package_id'                    => $product->package_id,
-            'meta_description'              => $product->meta_description,
-            'meta_keywords'                 => $product->meta_keywords,
-            'no_index'                      => $product->no_index,
-            'no_follow'                     => $product->no_follow,
-            'alias'                         => $product->alias,
-            'specs'                         => $product->specs,
-            'decimal_amount'                => $product->decimal_amount,
-            'amount_sold'                   => $product->amount_sold,
-            'minimal_order_amount'          => $product->minimal_order_amount,
-            'stock_delivery_number'         => $product->stock_delivery_number,
-            'stock_delivery_type'           => $product->stock_delivery_type,
-            'stock_delivery_standard'       => $product->stock_delivery_standard,
-            'show_in_template'              => $product->show_in_template,
-            'show_on_beginpage'             => $product->show_on_beginpage,
-            'show_on_facebook'              => $product->show_on_facebook,
-            'show_order_button'             => $product->show_order_button,
-            'product_layout'                => $product->product_layout,
-            'photo_size'                    => $product->photo_size,
-            'hide_without_category'         => $product->hide_without_category,
-            'memo'                          => $product->memo,
-            'supplier_id'                   => $product->supplier_id,
-            'fixed_staggered_prices'        => $product->fixed_staggered_prices,
-            'marktplaats_active'            => $product->marktplaats_active,
-            'marktplaats_status'            => $product->marktplaats_status,
-            'marktplaats_cpc'               => $product->marktplaats_cpc,
-            'marktplaats_daily_budget'      => $product->marktplaats_daily_budget,
-            'marktplaats_total_budget'      => $product->marktplaats_total_budget,
-            'marktplaats_category_id'       => $product->marktplaats_category_id,
-            'marktplaats_price_type'        => $product->marktplaats_price_type,
-            'google_shopping_category'      => $product->google_shopping_category,
-            'is_included_for_export_feed'   => $product->is_included_for_export_feed,
+            'name'                        => $product->name,
+            'productnumber'               => $product->productnumber,
+            'active'                      => $product->active,
+            'eannumber'                   => $product->eannumber,
+            'description'                 => $product->description,
+            'taxtariff'                   => $product->taxtariff,
+            'price'                       => $product->price,
+            'discount'                    => $product->discount,
+            'purchaseprice'               => $product->purchaseprice,
+            'container_deposit_price'     => $product->container_deposit_price,
+            'safety_deposit_price'        => $product->safety_deposit_price,
+            'credit_points_custom'        => $product->credit_points_custom,
+            'unit'                        => $product->unit,
+            'stockenabled'                => $product->stockenabled,
+            'stocktype'                   => $product->stocktype,
+            'stock'                       => $product->stock,
+            'stocklocation'               => $product->stocklocation,
+            'ordering_without_stock'      => $product->ordering_without_stock,
+            'weight'                      => $product->weight,
+            'brand'                       => $product->brand,
+            'condition'                   => $product->condition,
+            'condition_id'                => $product->condition_id,
+            'color_id'                    => $product->color_id,
+            'maincategory'                => $product->maincategory,
+            'subcategory'                 => $product->subcategory,
+            'package_id'                  => $product->package_id,
+            'meta_description'            => $product->meta_description,
+            'meta_keywords'               => $product->meta_keywords,
+            'no_index'                    => $product->no_index,
+            'no_follow'                   => $product->no_follow,
+            'alias'                       => $product->alias,
+            'specs'                       => $product->specs,
+            'decimal_amount'              => $product->decimal_amount,
+            'amount_sold'                 => $product->amount_sold,
+            'minimal_order_amount'        => $product->minimal_order_amount,
+            'stock_delivery_number'       => $product->stock_delivery_number,
+            'stock_delivery_type'         => $product->stock_delivery_type,
+            'stock_delivery_standard'     => $product->stock_delivery_standard,
+            'show_in_template'            => $product->show_in_template,
+            'show_on_beginpage'           => $product->show_on_beginpage,
+            'show_on_facebook'            => $product->show_on_facebook,
+            'show_order_button'           => $product->show_order_button,
+            'product_layout'              => $product->product_layout,
+            'photo_size'                  => $product->photo_size,
+            'hide_without_category'       => $product->hide_without_category,
+            'memo'                        => $product->memo,
+            'supplier_id'                 => $product->supplier_id,
+            'fixed_staggered_prices'      => $product->fixed_staggered_prices,
+            'marktplaats_active'          => $product->marktplaats_active,
+            'marktplaats_status'          => $product->marktplaats_status,
+            'marktplaats_cpc'             => $product->marktplaats_cpc,
+            'marktplaats_daily_budget'    => $product->marktplaats_daily_budget,
+            'marktplaats_total_budget'    => $product->marktplaats_total_budget,
+            'marktplaats_category_id'     => $product->marktplaats_category_id,
+            'marktplaats_price_type'      => $product->marktplaats_price_type,
+            'google_shopping_category'    => $product->google_shopping_category,
+            'is_included_for_export_feed' => $product->is_included_for_export_feed,
         ];
 
         // Filter the array to remove entries with null values
@@ -145,71 +151,79 @@ class Products extends BaseEndpoint implements
         $this->rest_patch($product->id, $filteredData);
     }
 
+    /**
+     * @param Product|null $product
+     * @return BaseResource
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
     public function post(?Product $product = null)
     {
         if (is_null($product)) {
-            throw new \InvalidArgumentException(Product::class . ' required');
+            throw new InvalidArgumentException(Product::class . ' required');
         }
 
         /** @var AppConfig */
         $data = [
-            'name'                          => $product->name,
-            'productnumber'                 => $product->productnumber,
-            'active'                        => $product->active,
-            'eannumber'                     => $product->eannumber,
-            'description'                   => $product->description,
-            'taxtariff'                     => $product->taxtariff,
-            'price'                         => $product->price,
-            'discount'                      => $product->discount,
-            'purchaseprice'                 => $product->purchaseprice,
-            'container_deposit_price'       => $product->container_deposit_price,
-            'safety_deposit_price'          => $product->safety_deposit_price,
-            'credit_points_custom'          => $product->credit_points_custom,
-            'unit'                          => $product->unit,
-            'stockenabled'                  => $product->stockenabled,
-            'stocktype'                     => $product->stocktype,
-            'stock'                         => $product->stock,
-            'stocklocation'                 => $product->stocklocation,
-            'ordering_without_stock'        => $product->ordering_without_stock,
-            'weight'                        => $product->weight,
-            'brand'                         => $product->brand,
-            'condition'                     => $product->condition,
-            'condition_id'                  => $product->condition_id,
-            'color_id'                      => $product->color_id,
-            'maincategory'                  => $product->maincategory,
-            'subcategory'                   => $product->subcategory,
-            'package_id'                    => $product->package_id,
-            'meta_description'              => $product->meta_description,
-            'meta_keywords'                 => $product->meta_keywords,
-            'no_index'                      => $product->no_index,
-            'no_follow'                     => $product->no_follow,
-            'alias'                         => $product->alias,
-            'specs'                         => $product->specs,
-            'decimal_amount'                => $product->decimal_amount,
-            'amount_sold'                   => $product->amount_sold,
-            'minimal_order_amount'          => $product->minimal_order_amount,
-            'stock_delivery_number'         => $product->stock_delivery_number,
-            'stock_delivery_type'           => $product->stock_delivery_type,
-            'stock_delivery_standard'       => $product->stock_delivery_standard,
-            'show_in_template'              => $product->show_in_template,
-            'show_on_beginpage'             => $product->show_on_beginpage,
-            'show_on_facebook'              => $product->show_on_facebook,
-            'show_order_button'             => $product->show_order_button,
-            'product_layout'                => $product->product_layout,
-            'photo_size'                    => $product->photo_size,
-            'hide_without_category'         => $product->hide_without_category,
-            'memo'                          => $product->memo,
-            'supplier_id'                   => $product->supplier_id,
-            'fixed_staggered_prices'        => $product->fixed_staggered_prices,
-            'marktplaats_active'            => $product->marktplaats_active,
-            'marktplaats_status'            => $product->marktplaats_status,
-            'marktplaats_cpc'               => $product->marktplaats_cpc,
-            'marktplaats_daily_budget'      => $product->marktplaats_daily_budget,
-            'marktplaats_total_budget'      => $product->marktplaats_total_budget,
-            'marktplaats_category_id'       => $product->marktplaats_category_id,
-            'marktplaats_price_type'        => $product->marktplaats_price_type,
-            'google_shopping_category'      => $product->google_shopping_category,
-            'is_included_for_export_feed'   => $product->is_included_for_export_feed,
+            'name'                        => $product->name,
+            'productnumber'               => $product->productnumber,
+            'active'                      => $product->active,
+            'eannumber'                   => $product->eannumber,
+            'description'                 => $product->description,
+            'taxtariff'                   => $product->taxtariff,
+            'price'                       => $product->price,
+            'discount'                    => $product->discount,
+            'purchaseprice'               => $product->purchaseprice,
+            'container_deposit_price'     => $product->container_deposit_price,
+            'safety_deposit_price'        => $product->safety_deposit_price,
+            'credit_points_custom'        => $product->credit_points_custom,
+            'unit'                        => $product->unit,
+            'stockenabled'                => $product->stockenabled,
+            'stocktype'                   => $product->stocktype,
+            'stock'                       => $product->stock,
+            'stocklocation'               => $product->stocklocation,
+            'ordering_without_stock'      => $product->ordering_without_stock,
+            'weight'                      => $product->weight,
+            'brand'                       => $product->brand,
+            'condition'                   => $product->condition,
+            'condition_id'                => $product->condition_id,
+            'color_id'                    => $product->color_id,
+            'maincategory'                => $product->maincategory,
+            'subcategory'                 => $product->subcategory,
+            'package_id'                  => $product->package_id,
+            'meta_description'            => $product->meta_description,
+            'meta_keywords'               => $product->meta_keywords,
+            'no_index'                    => $product->no_index,
+            'no_follow'                   => $product->no_follow,
+            'alias'                       => $product->alias,
+            'specs'                       => $product->specs,
+            'decimal_amount'              => $product->decimal_amount,
+            'amount_sold'                 => $product->amount_sold,
+            'minimal_order_amount'        => $product->minimal_order_amount,
+            'stock_delivery_number'       => $product->stock_delivery_number,
+            'stock_delivery_type'         => $product->stock_delivery_type,
+            'stock_delivery_standard'     => $product->stock_delivery_standard,
+            'show_in_template'            => $product->show_in_template,
+            'show_on_beginpage'           => $product->show_on_beginpage,
+            'show_on_facebook'            => $product->show_on_facebook,
+            'show_order_button'           => $product->show_order_button,
+            'product_layout'              => $product->product_layout,
+            'photo_size'                  => $product->photo_size,
+            'hide_without_category'       => $product->hide_without_category,
+            'memo'                        => $product->memo,
+            'supplier_id'                 => $product->supplier_id,
+            'fixed_staggered_prices'      => $product->fixed_staggered_prices,
+            'marktplaats_active'          => $product->marktplaats_active,
+            'marktplaats_status'          => $product->marktplaats_status,
+            'marktplaats_cpc'             => $product->marktplaats_cpc,
+            'marktplaats_daily_budget'    => $product->marktplaats_daily_budget,
+            'marktplaats_total_budget'    => $product->marktplaats_total_budget,
+            'marktplaats_category_id'     => $product->marktplaats_category_id,
+            'marktplaats_price_type'      => $product->marktplaats_price_type,
+            'google_shopping_category'    => $product->google_shopping_category,
+            'is_included_for_export_feed' => $product->is_included_for_export_feed,
         ];
 
         // Filter the array to remove entries with null values

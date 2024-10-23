@@ -15,12 +15,12 @@ use ReflectionException;
 class ProductToCategory extends BaseResource
 {
     //SONAR_IGNORE_START
-    public ?string $href = null; // Link to self (Format: URI)
-    public ?int $id = null; // Unique id of the resource (Minimum: 1)
-    public ?int $position = null; // Position of product in category
-    public ?int $product_id = null; // Unique id of the product (Minimum: 1)
-    public ?int $category_id = null; // Unique id of the category
-    public ?string $product_href = null; // Link to product (Format: URI)
+    public ?string $href          = null; // Link to self (Format: URI)
+    public ?int    $id            = null; // Unique id of the resource (Minimum: 1)
+    public ?int    $position      = null; // Position of product in category
+    public ?int    $product_id    = null; // Unique id of the product (Minimum: 1)
+    public ?int    $category_id   = null; // Unique id of the category
+    public ?string $product_href  = null; // Link to product (Format: URI)
     public ?string $category_href = null; // Link to category (Format: URI)
 
     //SONAR_IGNORE_END
