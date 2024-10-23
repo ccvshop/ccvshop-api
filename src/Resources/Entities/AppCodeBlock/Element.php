@@ -25,17 +25,17 @@ class Element extends AppCodeBlock
      * @description could either be an string or a object.
      * @var mixed $label
      */
-    public $label;
+    public         $label;
     public ?string $element_type = null;
     /**
      * @description could either be an string or a object.
      * @var mixed $value
      */
-    public $value;
-    public ?string $deeplink = null;
-    public ?string $icon = null;
-    public ?string $action = null;
-    public ?OptionCollection $options = null;
+    public                   $value;
+    public ?string           $deeplink = null;
+    public ?string           $icon     = null;
+    public ?string           $action   = null;
+    public ?OptionCollection $options  = null;
 
-    public static array $entities = ['options' => \CCVShop\Api\Resources\Entities\AppCodeBlock\OptionCollection::class];
+    public static array $entities = ['options' => OptionCollection::class];
 }

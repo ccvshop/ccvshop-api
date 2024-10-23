@@ -3,19 +3,23 @@
 namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
+use CCVShop\Api\BaseResourceCollection;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
-use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\App;
 use CCVShop\Api\Resources\AppMessage;
 use CCVShop\Api\Resources\AppMessageCollection;
 use CCVShop\Api\Interfaces\Endpoints\Delete;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class AppMessages extends BaseEndpoint implements Post, Delete
 {
-    protected string $resourcePath = 'appmessages';
+    protected string  $resourcePath       = 'appmessages';
     protected ?string $parentResourcePath = 'apps';
 
     /**
@@ -29,7 +33,7 @@ class AppMessages extends BaseEndpoint implements Post, Delete
     /**
      * @return AppMessageCollection
      */
-    protected function getResourceCollectionObject(): \CCVShop\Api\BaseResourceCollection
+    protected function getResourceCollectionObject(): BaseResourceCollection
     {
         return new AppMessageCollection();
     }
@@ -40,8 +44,8 @@ class AppMessages extends BaseEndpoint implements Post, Delete
      * @param int $id
      * @return AppMessage
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): AppMessage
     {
@@ -56,8 +60,8 @@ class AppMessages extends BaseEndpoint implements Post, Delete
      * @param array $parameters
      * @return AppMessageCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getFor(App $app, array $parameters = []): AppMessageCollection
     {
@@ -71,21 +75,21 @@ class AppMessages extends BaseEndpoint implements Post, Delete
      * @return AppMessage
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws GuzzleException
+     * @throws JsonException|ReflectionException
      */
     public function post(?AppMessage $appMessage = null): AppMessage
     {
         if (is_null($appMessage)) {
-            throw new \InvalidArgumentException(AppMessage::class . ' required');
+            throw new InvalidArgumentException(AppMessage::class . ' required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $appMessage->app_id));
 
         $data = [
-            'type'      => $appMessage->type,
-            'message'   => $appMessage->message,
-            'level'     => $appMessage->level
+            'type'    => $appMessage->type,
+            'message' => $appMessage->message,
+            'level'   => $appMessage->level,
         ];
 
         if (!empty($appMessage->icon)) {
@@ -101,7 +105,7 @@ class AppMessages extends BaseEndpoint implements Post, Delete
      *
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function delete(int $id): void
     {

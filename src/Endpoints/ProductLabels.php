@@ -4,18 +4,21 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Put;
-use CCVShop\Api\Resources\Product;
 use CCVShop\Api\Resources\ProductLabel;
 use CCVShop\Api\Resources\ProductLabelCollection;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class ProductLabels extends BaseEndpoint implements
     Get,
     Put
 {
-    protected string $resourcePath = 'productlabels';
+    protected string  $resourcePath       = 'productlabels';
     protected ?string $parentResourcePath = 'products';
 
     /**
@@ -38,13 +41,13 @@ class ProductLabels extends BaseEndpoint implements
      * @param int $id
      * @return ProductLabel
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): ProductLabel
     {
         if ($id === null) {
-            throw new \InvalidArgumentException('product id is required');
+            throw new InvalidArgumentException('product id is required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
@@ -60,13 +63,13 @@ class ProductLabels extends BaseEndpoint implements
      * @param array $parameters
      * @return void
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException
      */
     public function put(int $id, array $parameters = []): void
     {
         if ($id === null) {
-            throw new \InvalidArgumentException('product id is required');
+            throw new InvalidArgumentException('product id is required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));

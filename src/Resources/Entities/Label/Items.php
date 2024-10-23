@@ -7,7 +7,7 @@ use CCVShop\Api\Resources\Entities\BaseEntity;
 class Items extends BaseEntity
 {
 
-    public ?int $label_id = null;
-    public ?string $parent = null;
+    public ?int    $label_id = null;
+    public ?string $parent   = null;
 
 }

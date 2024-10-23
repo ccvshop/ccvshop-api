@@ -10,6 +10,7 @@ use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Resources\Package;
 use CCVShop\Api\Resources\PackageCollection;
 use JsonException;
+use ReflectionException;
 
 class Packages extends BaseEndpoint implements
     Get,
@@ -38,7 +39,7 @@ class Packages extends BaseEndpoint implements
      * @return Package
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): Package
     {
@@ -51,13 +52,11 @@ class Packages extends BaseEndpoint implements
      * @return PackageCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): PackageCollection
     {
         /** @var PackageCollection $result */
         return $this->rest_getAll(null, null, $parameters);
     }
-
-
 }

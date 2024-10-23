@@ -11,6 +11,10 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Resources\Label;
 use CCVShop\Api\Resources\LabelCollection;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class Labels extends BaseEndpoint implements
     Get,
@@ -43,8 +47,8 @@ class Labels extends BaseEndpoint implements
      * @param int $id
      * @return Label
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): Label
     {
@@ -52,15 +56,14 @@ class Labels extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
-
     /**
      * @description Get all by parameters
      * @param array $parameters
      * @return LabelCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws GuzzleException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): LabelCollection
     {
@@ -68,25 +71,25 @@ class Labels extends BaseEndpoint implements
         return $this->rest_getAll(null, null, $parameters);
     }
 
-      /**
-       * @param Label|null $label
-       * @return Label
-       * @throws InvalidHashOnResult
-       * @throws InvalidResponseException
-       * @throws \JsonException
-       */
+    /**
+     * @param Label|null $label
+     * @return Label
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
+     */
     public function post(Label $label = null): Label
     {
         if ($label === null) {
-            throw new \InvalidArgumentException(Label::class . ' required');
+            throw new InvalidArgumentException(Label::class . ' required');
         }
 
         return $this->rest_post([
-            'image_location' => $label->image_location,
-            'tooltip' => $label->tooltip ,
+            'image_location'   => $label->image_location,
+            'tooltip'          => $label->tooltip,
             'show_on_products' => $label->show_on_products,
-            'show_on_orders' => $label->show_on_orders,
-            'show_on_invoices' => $label->show_on_invoices ,
+            'show_on_orders'   => $label->show_on_orders,
+            'show_on_invoices' => $label->show_on_invoices,
         ]);
     }
 
@@ -94,8 +97,8 @@ class Labels extends BaseEndpoint implements
      * @param int $id
      * @return void
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException
      */
     public function delete(int $id): void
     {

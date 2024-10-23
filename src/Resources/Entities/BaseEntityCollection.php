@@ -2,7 +2,10 @@
 
 namespace CCVShop\Api\Resources\Entities;
 
-abstract class BaseEntityCollection extends \ArrayObject implements Entity
+use ArrayObject;
+use InvalidArgumentException;
+
+abstract class BaseEntityCollection extends ArrayObject implements Entity
 {
 
     public static $entityClass;
@@ -12,7 +15,7 @@ abstract class BaseEntityCollection extends \ArrayObject implements Entity
      * @param int $flags
      * @param string $iteratorClass
      */
-    public function __construct(array $array = [], int $flags = \ArrayObject::ARRAY_AS_PROPS, string $iteratorClass = 'ArrayIterator')
+    public function __construct(array $array = [], int $flags = ArrayObject::ARRAY_AS_PROPS, string $iteratorClass = 'ArrayIterator')
     {
         parent::__construct($array, $flags, $iteratorClass);
     }
@@ -24,7 +27,7 @@ abstract class BaseEntityCollection extends \ArrayObject implements Entity
     public function addItem(BaseEntity $item): self
     {
         if (!$item instanceof static::$entityClass) {
-            throw new \InvalidArgumentException('$item (' .  get_class($item) . ') does not equal "' . static::$entityClass  . '"!');
+            throw new InvalidArgumentException('$item (' . get_class($item) . ') does not equal "' . static::$entityClass . '"!');
         }
 
         $this->append($item);
