@@ -14,6 +14,10 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
+use stdClass;
 
 abstract class BaseEndpoint
 {
@@ -41,8 +45,14 @@ abstract class BaseEndpoint
 
     protected ?string $acceptLanguage = null;
 
+    /**
+     * @return BaseResource
+     */
     abstract protected function getResourceObject(): BaseResource;
 
+    /**
+     * @return BaseResourceCollection
+     */
     abstract protected function getResourceCollectionObject(): BaseResourceCollection;
 
     /**
@@ -60,7 +70,7 @@ abstract class BaseEndpoint
      * @return BaseResource
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     protected function rest_getOne(int $id, array $filters): BaseResource
     {
@@ -93,7 +103,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     protected function rest_getAll($from = null, $limit = null, array $filters = []): BaseResourceCollection
     {
@@ -139,7 +149,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException|\ReflectionException
+     * @throws JsonException|ReflectionException
      */
     protected function rest_post(array $data): BaseResource
     {
@@ -171,7 +181,7 @@ abstract class BaseEndpoint
 
     /**
      * @param mixed $data
-     * @return array|mixed|\stdClass
+     * @return array|mixed|stdClass
      */
     private function checkForEntities($data)
     {
@@ -199,11 +209,11 @@ abstract class BaseEndpoint
 
     /**
      * @param BaseEntity $data
-     * @return \stdClass
+     * @return stdClass
      */
-    private function entityToObject(BaseEntity $data): \stdClass
+    private function entityToObject(BaseEntity $data): stdClass
     {
-        $entity = new \stdClass();
+        $entity = new stdClass();
 
         // Loop through the collection properties to turn them into an array.
         foreach ($data::$entities as $property => $class) {
@@ -230,7 +240,7 @@ abstract class BaseEndpoint
      * @throws GuzzleException
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function rest_patch(int $id, array $data): void
     {
@@ -258,7 +268,7 @@ abstract class BaseEndpoint
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function rest_put(array $data): void
     {
@@ -283,7 +293,7 @@ abstract class BaseEndpoint
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function rest_delete(int $id): void
     {
@@ -322,7 +332,7 @@ abstract class BaseEndpoint
      * @param string $uri
      *
      * @return void
-     * @throws Exceptions\InvalidHashOnResult|\JsonException
+     * @throws Exceptions\InvalidHashOnResult|JsonException
      */
     protected function validateResponse(Response $res, string $uri, ?array $data = null): void
     {
@@ -360,12 +370,12 @@ abstract class BaseEndpoint
      * @param string $uri
      * @param array $data
      *
-     * @return null|\stdClass
+     * @return null|stdClass
      * @throws GuzzleException
      * @throws InvalidHashOnResult
-     * @throws InvalidResponseException
+     * @throws InvalidResponseException|JsonException
      */
-    private function doCall(string $uri, array $data): ?\stdClass
+    private function doCall(string $uri, array $data): ?stdClass
     {
         $client = new Client([
             'base_uri' => $this->client->apiCredentials->getHostName(),
@@ -382,7 +392,7 @@ abstract class BaseEndpoint
 
             try {
                 return json_decode((string)$res->getBody(), false, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 throw new InvalidResponseException($e->getMessage() . "\n\n" . $e->getTraceAsString());
             }
         } catch (ServerException|ClientException $e) {
@@ -395,7 +405,7 @@ abstract class BaseEndpoint
      * @param array|null $data
      *
      * @return string
-     * @throws \JsonException
+     * @throws JsonException
      */
     private function getHash(string $uri, ?array $data = null): string
     {
@@ -483,15 +493,22 @@ abstract class BaseEndpoint
         return $this->acceptHeader;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAcceptLanguage(): ?string
     {
         return $this->acceptLanguage;
     }
 
+    /**
+     * @param string $language
+     * @return void
+     */
     public function setAcceptLanguage(string $language): void
     {
         if (strlen($language) !== 2) {
-            throw new \InvalidArgumentException('Accept language should be an 2 code');
+            throw new InvalidArgumentException('Accept language should be an 2 code');
         }
 
         $this->acceptLanguage = $language;
@@ -507,7 +524,7 @@ abstract class BaseEndpoint
     public function setAcceptHeader(string $acceptHeader): void
     {
         if (!in_array($acceptHeader, self::ACCEPT_HEADERS, true)) {
-            throw new \InvalidArgumentException('Accept header should be one of the following types: ' . implode(', ', self::ACCEPT_HEADERS));
+            throw new InvalidArgumentException('Accept header should be one of the following types: ' . implode(', ', self::ACCEPT_HEADERS));
         }
 
         $this->acceptHeader = $acceptHeader;

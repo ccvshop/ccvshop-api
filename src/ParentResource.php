@@ -5,7 +5,7 @@ namespace CCVShop\Api;
 class ParentResource
 {
     public string $path;
-    public int $id;
+    public int    $id;
 
     /**
      * @param string $path
