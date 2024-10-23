@@ -8,6 +8,7 @@ use stdClass;
 
 class Setting extends BaseResource
 {
+    //SONAR_IGNORE_START
     public ?bool     $webshop_enabled               = null;
     public ?string   $webshop_disabled_title        = null;
     public ?string   $webshop_disabled_text         = null;
@@ -31,6 +32,7 @@ class Setting extends BaseResource
     public ?array    $return_status                 = null;
     public ?stdClass $parent                        = null;
     public ?string   $href                          = null;
+    //SONAR_IGNORE_END
 
     public function getEndpoint(): Settings
     {

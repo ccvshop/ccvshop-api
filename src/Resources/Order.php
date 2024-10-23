@@ -13,6 +13,7 @@ use stdClass;
 
 class Order extends BaseResource
 {
+    //SONAR_IGNORE_START
     public ?int      $id                 = null;
     public ?string   $href               = null;
     public ?string   $ordernumber_prefix = null;
@@ -88,6 +89,7 @@ class Order extends BaseResource
     public ?stdClass $fiscaltransactionsignatures = null;
 
     public ?stdClass $invoices = null;
+    //SONAR_IGNORE_END
 
     public array $dates = ['create_date', 'deliver_date'];
 

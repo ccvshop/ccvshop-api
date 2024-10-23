@@ -8,6 +8,7 @@ use DateTime;
 
 class Cashup extends BaseResource
 {
+    //SONAR_IGNORE_START
     public ?int      $id           = null;
     public ?string   $href         = null;
     public ?string   $number_full  = null;
@@ -17,6 +18,7 @@ class Cashup extends BaseResource
     public ?string   $status       = null;
     public array     $balances     = [];
     public array      $vat_totals   = [];
+    //SONAR_IGNORE_END
 
     public array $dates = ['create_date', 'start_period', 'end_period'];
 

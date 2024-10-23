@@ -12,6 +12,7 @@ use stdClass;
 
 class App extends BaseResource
 {
+    //SONAR_IGNORE_START
     public ?int      $id            = null;
     public ?string   $href          = null;
     public ?string   $name          = null;
@@ -30,6 +31,7 @@ class App extends BaseResource
     public ?stdClass  $categories              = null;
     public ?stdClass  $code_blocks             = null;
     public ?stdClass  $psp                     = null;
+    //SONAR_IGNORE_END
 
     public array $dates = ['create_date', 'modified_date'];
 
