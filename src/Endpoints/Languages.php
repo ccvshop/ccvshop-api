@@ -4,10 +4,15 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\Language;
 use CCVShop\Api\Resources\LanguageCollection;
+use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class Languages extends BaseEndpoint implements
     GetAll,
@@ -38,9 +43,10 @@ class Languages extends BaseEndpoint implements
      * @param array $parameters
      * @return LanguageCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getAll(array $parameters = []): LanguageCollection
     {
@@ -52,21 +58,22 @@ class Languages extends BaseEndpoint implements
      * @param Language|null $language
      * @return Language
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws GuzzleException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function post(?Language $language = null): Language
     {
         if (is_null($language)) {
-            throw new \InvalidArgumentException(Language::class . ' required');
+            throw new InvalidArgumentException(Language::class . ' required');
         }
 
         /** @var Language */
         return $this->rest_post([
-            'label' => $language->label,
+            'label'         => $language->label,
             'base_language' => $language->base_language,
-            'flag_icon' => $language->flag_icon,
+            'flag_icon'     => $language->flag_icon,
         ]);
     }
 }

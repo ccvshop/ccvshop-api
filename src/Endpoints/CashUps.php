@@ -4,10 +4,14 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Resources\Cashup;
 use CCVShop\Api\Resources\CashupCollection;
+use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
+use ReflectionException;
 
 class CashUps extends BaseEndpoint implements
     Get,
@@ -38,8 +42,8 @@ class CashUps extends BaseEndpoint implements
      * @param int $id
      * @return Cashup
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): Cashup
     {
@@ -53,9 +57,9 @@ class CashUps extends BaseEndpoint implements
      * @param array $parameters
      * @return CashupCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws GuzzleException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): CashupCollection
     {

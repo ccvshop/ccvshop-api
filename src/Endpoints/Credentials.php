@@ -4,6 +4,7 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -12,12 +13,13 @@ use CCVShop\Api\Resources\CredentialCollection;
 use CCVShop\Api\Resources\Webshop;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
+use ReflectionException;
 
 class Credentials extends BaseEndpoint implements
     Get,
     GetAll
 {
-    protected string $resourcePath = 'credentials';
+    protected string  $resourcePath       = 'credentials';
     protected ?string $parentResourcePath = 'webshops';
 
     /**
@@ -41,8 +43,9 @@ class Credentials extends BaseEndpoint implements
      *
      * @return Credential
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
      * @throws JsonException
+     * @throws ReflectionException
      */
     public function get(int $id): Credential
     {
@@ -55,7 +58,9 @@ class Credentials extends BaseEndpoint implements
      *
      * @return CredentialCollection<Credential>
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function getAll(array $parameters = []): CredentialCollection
     {
@@ -69,8 +74,9 @@ class Credentials extends BaseEndpoint implements
      *
      * @return Credential
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
+     * @throws InvalidResponseException
      * @throws JsonException
+     * @throws ReflectionException
      */
     public function postFor(Webshop $webshop, array $data): Credential
     {
@@ -86,8 +92,9 @@ class Credentials extends BaseEndpoint implements
      *
      * @return Credential
      * @throws InvalidHashOnResult
-     * @throws GuzzleException
      * @throws JsonException
+     * @throws InvalidResponseException
+     * @throws ReflectionException
      */
     public function postForId(int $webshopId, array $data): Credential
     {

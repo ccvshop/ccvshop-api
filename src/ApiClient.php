@@ -18,6 +18,11 @@ use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Packages;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
+use CCVShop\Api\Endpoints\ProductProperties;
+use CCVShop\Api\Endpoints\ProductPropertyGroups;
+use CCVShop\Api\Endpoints\ProductPropertyValues;
+use CCVShop\Api\Endpoints\ProductToCategories;
+use CCVShop\Api\Endpoints\ProductToPropertyGroups;
 use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
@@ -32,33 +37,35 @@ class ApiClient
      * Stores Credentials of the API connection.
      * @var ApiCredentials
      */
-    public ApiCredentials $apiCredentials;
-    public Credentials $credentials;
-    public Endpoints\Merchant $merchant;
-    public Webshops $webshops;
-    public Apps $apps;
-    public Webhooks $webhooks;
-    public Orders $orders;
-    public OrderRows $orderRows;
+    public ApiCredentials              $apiCredentials;
+    public Credentials                 $credentials;
+    public Endpoints\Merchant          $merchant;
+    public Webshops                    $webshops;
+    public Apps                        $apps;
+    public Webhooks                    $webhooks;
+    public Orders                      $orders;
+    public OrderRows                   $orderRows;
     public FiscalTransactionSignatures $fiscalTransactionSignatures;
-    public AppCodeBlocks $appCodeBlocks;
-    public AppMessages $appMessages;
-    public AppConfigs $appConfigs;
-    public CashUps $cashUps;
-    public Languages $languages;
-    public Settings $settings;
+    public AppCodeBlocks               $appCodeBlocks;
+    public AppMessages                 $appMessages;
+    public AppConfigs                  $appConfigs;
+    public CashUps                     $cashUps;
+    public Languages                   $languages;
+    public Settings                    $settings;
+    public Products                    $products;
+    public Packages                    $packages;
+    public ProductPhotos               $productPhotos;
+    public ProductToCategories         $productToCategories;
+    public Categories                  $categories;
+    public CategoryTree                $categoryTree;
+    public Labels                      $labels;
+    public ProductLabels               $productLabels;
+    public OrderLabels                 $orderLabels;
+    public ProductPropertyGroups       $productPropertyGroups;
+    public ProductToPropertyGroups     $productToPropertyGroups;
+    public ProductProperties           $productProperties;
+    public ProductPropertyValues       $productPropertyValues;
 
-    public Products $products;
-    public Packages $packages;
-    public ProductPhotos $productPhotos;
-
-    public Categories $categories;
-    public CategoryTree $categoryTree;
-    public Labels $labels;
-
-    public ProductLabels $productLabels;
-
-    public OrderLabels $orderLabels;
 
     /**
      * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
@@ -73,27 +80,32 @@ class ApiClient
             $apiSecret ?? $_ENV['CCVSHOP_API_SECRET']
         );
 
-        $this->credentials                  = new Credentials($this);
-        $this->merchant                     = new Merchant($this);
-        $this->webshops                     = new Webshops($this);
-        $this->apps                         = new Apps($this);
-        $this->webhooks                     = new Webhooks($this);
-        $this->orders                       = new Orders($this);
-        $this->orderRows                    = new OrderRows($this);
-        $this->fiscalTransactionSignatures  = new FiscalTransactionSignatures($this);
-        $this->appCodeBlocks                = new AppCodeBlocks($this);
-        $this->appConfigs                   = new AppConfigs($this);
-        $this->appMessages                  = new AppMessages($this);
-        $this->cashUps                      = new CashUps($this);
-        $this->languages                    = new Languages($this);
-        $this->settings                     = new Settings($this);
-        $this->products                     = new Products($this);
-        $this->packages                     = new Packages($this);
-        $this->categories                   = new Categories($this);
-        $this->categoryTree                 = new CategoryTree($this);
-        $this->productPhotos                = new ProductPhotos($this);
-        $this->labels                       = new Labels($this);
-        $this->productLabels                = new ProductLabels($this);
-        $this->orderLabels                  = new OrderLabels($this);
+        $this->credentials = new Credentials($this);
+        $this->merchant = new Merchant($this);
+        $this->webshops = new Webshops($this);
+        $this->apps = new Apps($this);
+        $this->webhooks = new Webhooks($this);
+        $this->orders = new Orders($this);
+        $this->orderRows = new OrderRows($this);
+        $this->fiscalTransactionSignatures = new FiscalTransactionSignatures($this);
+        $this->appCodeBlocks = new AppCodeBlocks($this);
+        $this->appConfigs = new AppConfigs($this);
+        $this->appMessages = new AppMessages($this);
+        $this->cashUps = new CashUps($this);
+        $this->languages = new Languages($this);
+        $this->settings = new Settings($this);
+        $this->products = new Products($this);
+        $this->packages = new Packages($this);
+        $this->categories = new Categories($this);
+        $this->categoryTree = new CategoryTree($this);
+        $this->productPhotos = new ProductPhotos($this);
+        $this->productToCategories = new ProductToCategories($this);
+        $this->labels = new Labels($this);
+        $this->productLabels = new ProductLabels($this);
+        $this->orderLabels = new OrderLabels($this);
+        $this->productPropertyGroups = new ProductPropertyGroups($this);
+        $this->productProperties = new ProductProperties($this);
+        $this->productPropertyValues = new ProductPropertyValues($this);
+        $this->productToPropertyGroups = new ProductToPropertyGroups($this);
     }
 }

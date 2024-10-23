@@ -4,6 +4,7 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
@@ -12,6 +13,9 @@ use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\FiscalTransactionSignature;
 use CCVShop\Api\Resources\FiscalTransactionSignatureCollection;
 use CCVShop\Api\Resources\Order;
+use InvalidArgumentException;
+use JsonException;
+use ReflectionException;
 
 class FiscalTransactionSignatures extends BaseEndpoint implements
     Get,
@@ -19,7 +23,7 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
     Post,
     Patch
 {
-    protected string $resourcePath = 'fiscaltransactionsignatures';
+    protected string  $resourcePath       = 'fiscaltransactionsignatures';
     protected ?string $parentResourcePath = 'orders';
 
     /**
@@ -45,8 +49,8 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @param int $id
      * @return FiscalTransactionSignature
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): FiscalTransactionSignature
     {
@@ -61,8 +65,8 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @param array $parameters
      * @return FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getFor(Order $order, array $parameters = []): FiscalTransactionSignatureCollection
     {
@@ -76,8 +80,8 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @param array $parameters
      * @return FiscalTransactionSignatureCollection
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function getAll(array $parameters = []): FiscalTransactionSignatureCollection
     {
@@ -90,26 +94,26 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @param FiscalTransactionSignature|null $signature
      * @return FiscalTransactionSignature
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function post(int $orderId = null, FiscalTransactionSignature $signature = null): FiscalTransactionSignature
     {
         if ($orderId === null) {
-            throw new \InvalidArgumentException('order id is required');
+            throw new InvalidArgumentException('order id is required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $orderId));
 
         if ($signature === null) {
-            throw new \InvalidArgumentException(FiscalTransactionSignature::class . ' required');
+            throw new InvalidArgumentException(FiscalTransactionSignature::class . ' required');
         }
 
         return $this->rest_post([
-            'create_date' => $signature->create_date->format('Y-m-d\TH:i:s\Z'),
-            'type' => $signature->type,
+            'create_date'          => $signature->create_date->format('Y-m-d\TH:i:s\Z'),
+            'type'                 => $signature->type,
             'signature_identifier' => $signature->signature_identifier,
-            'signature_data' => $signature->signature_data
+            'signature_data'       => $signature->signature_data,
         ]);
     }
 
@@ -118,17 +122,17 @@ class FiscalTransactionSignatures extends BaseEndpoint implements
      * @param FiscalTransactionSignature|null $signature
      * @return void
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException
      */
     public function patch(FiscalTransactionSignature $signature = null): void
     {
         if ($signature === null) {
-            throw new \InvalidArgumentException(FiscalTransactionSignature::class . ' required');
+            throw new InvalidArgumentException(FiscalTransactionSignature::class . ' required');
         }
 
         $this->rest_patch($signature->id, [
-            'signature_data' => $signature->signature_data
+            'signature_data' => $signature->signature_data,
         ]);
     }
 }
