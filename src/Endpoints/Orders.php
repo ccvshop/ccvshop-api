@@ -4,9 +4,12 @@ namespace CCVShop\Api\Endpoints;
 
 use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
+use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Resources\Order;
 use CCVShop\Api\Resources\OrderCollection;
+use JsonException;
+use ReflectionException;
 
 class Orders extends BaseEndpoint implements Get
 {
@@ -33,8 +36,8 @@ class Orders extends BaseEndpoint implements Get
      * @param int $id
      * @return Order
      * @throws InvalidHashOnResult
-     * @throws \CCVShop\Api\Exceptions\InvalidResponseException
-     * @throws \JsonException
+     * @throws InvalidResponseException
+     * @throws JsonException|ReflectionException
      */
     public function get(int $id): Order
     {
