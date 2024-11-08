@@ -15,6 +15,8 @@ use CCVShop\Api\Exceptions\MethodNotImplementedException;
 use CCVShop\Api\Exceptions\OutputSchemeMatchException;
 use CCVShop\Api\Exceptions\ProductLimitExceededException;
 use CCVShop\Api\Exceptions\PropertyAlreadyExistsException;
+use CCVShop\Api\Exceptions\RateLimitResourceException;
+use CCVShop\Api\Exceptions\RateLimitTotalException;
 use CCVShop\Api\Exceptions\RequestedPayloadToBigException;
 use CCVShop\Api\Exceptions\RequiredAppNotInstalledException;
 use CCVShop\Api\Exceptions\ResourceNotImplementedException;
@@ -55,6 +57,14 @@ class ExceptionFactory
             case '405.10':
                 // Method Not Allowed
                 $ex = new MethodNotAllowedException($message, $exceptionData->status);
+                break;
+            case '429.10':
+                // Each method in each resource has a limit of of requests that can be made per minute. Please lower the frequency of your request rate.
+                $ex = new RateLimitResourceException($message, $exceptionData->status);
+                break;
+            case '429.11':
+                // The API has a total limit of requests that can be made per minute. Please lower the frequency of your request rate.
+                $ex = new RateLimitTotalException($message, $exceptionData->status);
                 break;
             case '500.10':
                 $ex = new UnknowRateLimitException($message, $exceptionData->status);
