@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
@@ -22,7 +23,8 @@ class Products extends BaseEndpoint implements
     Get,
     GetAll,
     Patch,
-    Post
+    Post,
+    Delete
 {
     protected string $resourcePath = 'products';
 
@@ -232,5 +234,17 @@ class Products extends BaseEndpoint implements
         });
 
         return $this->rest_post($filteredData);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
