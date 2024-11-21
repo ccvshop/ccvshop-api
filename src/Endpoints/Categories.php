@@ -9,6 +9,7 @@ use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
+use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\Category;
 use CCVShop\Api\Resources\CategoryCollection;
 use GuzzleHttp\Exception\GuzzleException;
@@ -19,7 +20,8 @@ use ReflectionException;
 class Categories extends BaseEndpoint implements
     Get,
     GetAll,
-    Patch
+    Patch,
+    Post
 {
     protected string $resourcePath = 'categories';
 
@@ -88,5 +90,31 @@ class Categories extends BaseEndpoint implements
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
         ]);
+    }
+
+    public function post(?Category $category = null)
+    {
+        if (is_null($category)) {
+            throw new InvalidArgumentException(Category::class . ' required');
+        }
+
+        $data = [
+            'name'               => $category->name,
+            'description'        => $category->description,
+            'description_bottom' => $category->description_bottom,
+            'searchwords'        => $category->searchwords,
+            'meta_description'   => $category->meta_description,
+            'meta_keywords'      => $category->meta_keywords,
+            'page_title'         => $category->page_title,
+            'alias'              => $category->alias,
+        ];
+
+        // Filter the array to remove entries with null values
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+
+        return $this->rest_post($data);
     }
 }
