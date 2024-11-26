@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
@@ -21,7 +22,8 @@ class Categories extends BaseEndpoint implements
     Get,
     GetAll,
     Patch,
-    Post
+    Post,
+    Delete
 {
     protected string $resourcePath = 'categories';
 
@@ -80,7 +82,7 @@ class Categories extends BaseEndpoint implements
             throw new InvalidArgumentException(Category::class . ' required');
         }
 
-        $this->rest_patch($category->id, [
+        $data = [
             'name'               => $category->name,
             'description'        => $category->description,
             'description_bottom' => $category->description_bottom,
@@ -89,7 +91,14 @@ class Categories extends BaseEndpoint implements
             'meta_keywords'      => $category->meta_keywords,
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
-        ]);
+        ];
+
+        // Filter the array to remove entries with null values
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+        $this->rest_patch($category->id, $data);
     }
 
     public function post(?Category $category = null)
@@ -114,7 +123,18 @@ class Categories extends BaseEndpoint implements
             return !is_null($value);
         });
 
-
         return $this->rest_post($data);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
