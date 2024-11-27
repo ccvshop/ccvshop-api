@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Put;
@@ -19,7 +20,8 @@ use ReflectionException;
 class ProductPhotos extends BaseEndpoint implements
     Get,
     GetAll,
-    Put
+    Put,
+    Delete
 {
     protected string $resourcePath = 'productphotos';
 
@@ -100,5 +102,17 @@ class ProductPhotos extends BaseEndpoint implements
         $parent = ResourceFactory::createParent($this->client->products->getResourcePath(), $id);
         $this->setParent($parent);
         $this->rest_put($parameters);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
