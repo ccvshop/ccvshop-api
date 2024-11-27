@@ -101,7 +101,15 @@ class Categories extends BaseEndpoint implements
         $this->rest_patch($category->id, $data);
     }
 
-    public function post(?Category $category = null)
+    /**
+     * @param Category|null $category
+     * @return Category
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
+    public function post(?Category $category = null): Category
     {
         if (is_null($category)) {
             throw new InvalidArgumentException(Category::class . ' required');
