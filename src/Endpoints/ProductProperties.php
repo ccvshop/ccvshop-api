@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
@@ -21,7 +22,8 @@ class ProductProperties extends BaseEndpoint implements
     Get,
     GetAll,
     Patch,
-    Post
+    Post,
+    Delete
 {
 
     public const TYPE_TEXT           = 'Text';
@@ -163,5 +165,17 @@ class ProductProperties extends BaseEndpoint implements
         });
 
         $this->rest_patch($productProperty->id, $data);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }

@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Resources\Order;
 use CCVShop\Api\Resources\OrderRow;
@@ -13,7 +14,9 @@ use CCVShop\Api\Resources\OrderRowCollection;
 use JsonException;
 use ReflectionException;
 
-class OrderRows extends BaseEndpoint implements Get
+class OrderRows extends BaseEndpoint implements
+    Get,
+    Delete
 {
     protected string  $resourcePath       = 'orderrows';
     protected ?string $parentResourcePath = 'orders';
@@ -62,5 +65,17 @@ class OrderRows extends BaseEndpoint implements Get
         $this->setParent(ResourceFactory::createParentFromResource($order));
         /** @var OrderRowCollection $result */
         return $this->rest_getAll(null, null, $parameters);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
