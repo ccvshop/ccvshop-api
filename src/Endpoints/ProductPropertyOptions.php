@@ -25,10 +25,19 @@ class ProductPropertyOptions extends BaseEndpoint implements
     Post,
     Delete
 {
+    /**
+     * @var string
+     */
     protected string $resourcePath = 'productpropertyoptions';
 
+    /**
+     * @var string|null
+     */
     protected ?string $parentResourcePath = 'productproperties';
 
+    /**
+     * @return ProductPropertyOption
+     */
     protected function getResourceObject(): ProductPropertyOption
     {
         return new ProductPropertyOption($this->client);
@@ -44,10 +53,11 @@ class ProductPropertyOptions extends BaseEndpoint implements
 
     /**
      * @param int $id
-     * @return ProductProperty
+     * @return ProductPropertyOption
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function get(int $id): ProductPropertyOption
     {
@@ -60,7 +70,9 @@ class ProductPropertyOptions extends BaseEndpoint implements
      * @return ProductPropertyOptionCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
-     * @throws JsonException|ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAll(array $parameters = []): ProductPropertyOptionCollection
     {
@@ -69,15 +81,14 @@ class ProductPropertyOptions extends BaseEndpoint implements
     }
 
     /**
-     * @description Get all product properties by a product property group resource.
-     *
-     * @param ProductProperty $productPropertyGroups
+     * @param ProductProperty $productProperty
      * @param array $parameters
      * @return ProductPropertyOptionCollection
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException
      * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getFor(ProductProperty $productProperty, array $parameters = []): ProductPropertyOptionCollection
     {
@@ -87,15 +98,14 @@ class ProductPropertyOptions extends BaseEndpoint implements
     }
 
     /**
-     * @description Post a product property
-     *
      * @param int|null $productPropertyId
-     * @param ProductProperty|null $productProperty
-     * @return ProductProperty
+     * @param ProductPropertyOption|null $productPropertyOption
+     * @return ProductPropertyOption
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException
      * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function post(int $productPropertyId = null, ProductPropertyOption $productPropertyOption = null): ProductPropertyOption
     {
@@ -123,13 +133,12 @@ class ProductPropertyOptions extends BaseEndpoint implements
     }
 
     /**
-     * @description Patch a product property.
-     *
      * @param ProductPropertyOption|null $productPropertyOption
      * @return void
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function patch(ProductPropertyOption $productPropertyOption = null): void
     {
