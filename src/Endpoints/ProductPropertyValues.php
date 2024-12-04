@@ -95,9 +95,7 @@ class ProductPropertyValues extends BaseEndpoint implements
         }
 
         $data = [
-            'product_id'          => $productPropertyValue->product_id,
-            'product_property_id' => $productPropertyValue->product_property_id,
-            'value'               => $productPropertyValue->value,
+            'value' => $productPropertyValue->value,
         ];
 
         // Filter the array to remove entries with null values
