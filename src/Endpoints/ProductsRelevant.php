@@ -18,6 +18,7 @@ use InvalidArgumentException;
 use JsonException;
 use ReflectionException;
 
+
 class ProductsRelevant extends BaseEndpoint implements
     Get,
     Post,
@@ -61,6 +62,16 @@ class ProductsRelevant extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    /**
+     * @param Product $product
+     * @param array $parameters
+     * @return ProductRelevantCollection
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function getFor(Product $product, array $parameters = []): ProductRelevantCollection
     {
         $this->setParent(ResourceFactory::createParentFromResource($product));
@@ -68,6 +79,16 @@ class ProductsRelevant extends BaseEndpoint implements
         return $this->rest_getAll(null, null, $parameters);
     }
 
+    /**
+     * @param int|null $productId
+     * @param ProductRelevant|null $productRelevant
+     * @return ProductRelevant
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function post(int $productId = null, ProductRelevant $productRelevant = null): ProductRelevant
     {
         if ($productId === null) {
@@ -91,6 +112,13 @@ class ProductsRelevant extends BaseEndpoint implements
         return $this->rest_post($data);
     }
 
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
     public function delete(int $id): void
     {
         $this->rest_delete($id);
