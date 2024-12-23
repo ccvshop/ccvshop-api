@@ -91,7 +91,7 @@ class Categories extends BaseEndpoint implements
             'meta_keywords'      => $category->meta_keywords,
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
-            'parentcategory_id ' => $category->parent->id,
+            'parentcategory_id'  => $category->parentcategory->id,
         ];
 
         // Filter the array to remove entries with null values
@@ -125,6 +125,7 @@ class Categories extends BaseEndpoint implements
             'meta_keywords'      => $category->meta_keywords,
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
+            'parentcategory_id'  => $category->parentcategory->id,
         ];
 
         // Filter the array to remove entries with null values
