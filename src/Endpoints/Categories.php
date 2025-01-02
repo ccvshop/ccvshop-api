@@ -92,6 +92,8 @@ class Categories extends BaseEndpoint implements
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
             'parentcategory_id'  => $category->parentcategory->id ?? null,
+            'photo_source'       => $category->photo_source,
+
         ];
 
         // Filter the array to remove entries with null values
@@ -126,6 +128,9 @@ class Categories extends BaseEndpoint implements
             'page_title'         => $category->page_title,
             'alias'              => $category->alias,
             'parentcategory_id'  => $category->parentcategory->id ?? null,
+            'photo_source'       => $category->photo_source,
+
+
         ];
 
         // Filter the array to remove entries with null values

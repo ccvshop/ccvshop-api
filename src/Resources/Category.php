@@ -38,7 +38,9 @@ class Category extends BaseResource
     public ?string $deeplink                   = null; // Deeplink to this resource
     public ?object $categories                 = null; // Children categories of this category
     public ?object $parentcategory             = null; // Parent category
+
     public ?object $parent                     = null; // Parent resource of this resource
+    public ?object $photo_source               = null; // Base 64 encode image source.
     //SONAR_IGNORE_END
 
     public array $permissions = [];
