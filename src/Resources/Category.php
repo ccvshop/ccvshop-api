@@ -40,7 +40,7 @@ class Category extends BaseResource
     public ?object $parentcategory             = null; // Parent category
 
     public ?object $parent                     = null; // Parent resource of this resource
-    public ?object $photo_source               = null; // Base 64 encode image source.
+    public ?string $photo_source               = null; // Base 64 encode image source.
     //SONAR_IGNORE_END
 
     public array $permissions = [];
