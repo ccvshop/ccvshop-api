@@ -20,6 +20,7 @@ use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
 use CCVShop\Api\Endpoints\ProductProperties;
 use CCVShop\Api\Endpoints\ProductPropertyGroups;
+use CCVShop\Api\Endpoints\ProductPropertyOptions;
 use CCVShop\Api\Endpoints\ProductPropertyValues;
 use CCVShop\Api\Endpoints\ProductToCategories;
 use CCVShop\Api\Endpoints\ProductToPropertyGroups;
@@ -30,6 +31,7 @@ use CCVShop\Api\Endpoints\Merchant;
 use CCVShop\Api\Endpoints\Apps;
 use CCVShop\Api\Endpoints\Orders;
 use CCVShop\Api\Endpoints\Products;
+use CCVShop\Api\Endpoints\ProductsRelevant;
 
 class ApiClient
 {
@@ -49,6 +51,7 @@ class ApiClient
     public AppCodeBlocks               $appCodeBlocks;
     public AppMessages                 $appMessages;
     public AppConfigs                  $appConfigs;
+    public ProductsRelevant            $productsRelevant;
     public CashUps                     $cashUps;
     public Languages                   $languages;
     public Settings                    $settings;
@@ -64,6 +67,7 @@ class ApiClient
     public ProductPropertyGroups       $productPropertyGroups;
     public ProductToPropertyGroups     $productToPropertyGroups;
     public ProductProperties           $productProperties;
+    public ProductPropertyOptions      $productPropertyOptions;
     public ProductPropertyValues       $productPropertyValues;
 
 
@@ -90,6 +94,7 @@ class ApiClient
         $this->fiscalTransactionSignatures = new FiscalTransactionSignatures($this);
         $this->appCodeBlocks = new AppCodeBlocks($this);
         $this->appConfigs = new AppConfigs($this);
+        $this->productsRelevant = new ProductsRelevant($this);
         $this->appMessages = new AppMessages($this);
         $this->cashUps = new CashUps($this);
         $this->languages = new Languages($this);
@@ -106,6 +111,7 @@ class ApiClient
         $this->productPropertyGroups = new ProductPropertyGroups($this);
         $this->productProperties = new ProductProperties($this);
         $this->productPropertyValues = new ProductPropertyValues($this);
+        $this->productPropertyOptions = new ProductPropertyOptions($this);
         $this->productToPropertyGroups = new ProductToPropertyGroups($this);
     }
 }
