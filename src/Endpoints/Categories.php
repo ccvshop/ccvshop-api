@@ -93,6 +93,8 @@ class Categories extends BaseEndpoint implements
             'alias'              => $category->alias,
             'parentcategory_id'  => $category->parentcategory->id ?? null,
             'photo_source'       => $category->photo_source,
+            'photo_file_type'    => $category->photo_file_type,
+
 
         ];
 
@@ -129,7 +131,7 @@ class Categories extends BaseEndpoint implements
             'alias'              => $category->alias,
             'parentcategory_id'  => $category->parentcategory->id ?? null,
             'photo_source'       => $category->photo_source,
-
+            'photo_file_type'    => $category->photo_file_type,
 
         ];
 
