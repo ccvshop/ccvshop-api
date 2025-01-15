@@ -104,6 +104,16 @@ class ProductPhotos extends BaseEndpoint implements
         $this->rest_put($parameters);
     }
 
+    /**
+     * @param int|null $productId
+     * @param ProductPhoto|null $productPhoto
+     * @return ProductPhoto
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function post(int $productId = null, ProductPhoto $productPhoto = null): ProductPhoto
     {
         if ($productId === null) {
