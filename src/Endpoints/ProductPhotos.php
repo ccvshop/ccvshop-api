@@ -105,6 +105,43 @@ class ProductPhotos extends BaseEndpoint implements
     }
 
     /**
+     * @param int|null $productId
+     * @param ProductPhoto|null $productPhoto
+     * @return ProductPhoto
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function post(int $productId = null, ProductPhoto $productPhoto = null): ProductPhoto
+    {
+        if ($productId === null) {
+            throw new InvalidArgumentException('product id is required');
+        }
+
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $productId));
+
+        if ($productPhoto === null) {
+            throw new InvalidArgumentException(ProductPhoto::class . ' required');
+        }
+
+        $data = [
+            'file_type'     => $productPhoto->file_type,
+            'alttext'       => $productPhoto->alttext,
+            'source'        => $productPhoto->source,
+            'is_mainphoto'  => $productPhoto->is_mainphoto,
+        ];
+
+        // Filter the array to remove entries with null values
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+        return $this->rest_post($data);
+    }
+
+    /**
      * @param int $id
      * @return void
      * @throws InvalidHashOnResult
