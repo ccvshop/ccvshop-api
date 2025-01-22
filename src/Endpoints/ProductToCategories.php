@@ -7,6 +7,7 @@ use CCVShop\Api\BaseResource;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
+use CCVShop\Api\Interfaces\Endpoints\Delete;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\Product;
@@ -18,7 +19,8 @@ use ReflectionException;
 
 class ProductToCategories extends BaseEndpoint implements
     Get,
-    Post
+    Post,
+    Delete
 {
     protected string $resourcePath = 'producttocategories';
     // ProductToCategories have 2 resources where products OR categories can be used as a parent. For now, we support product as parent.
@@ -100,5 +102,10 @@ class ProductToCategories extends BaseEndpoint implements
         });
 
         return $this->rest_post($filteredData);
+    }
+
+    public function delete(int $id): void
+    {
+        $this->rest_delete($id);
     }
 }
