@@ -20,6 +20,8 @@ class ProductPhoto extends BaseResource
     public ?string   $filename     = null;
     public ?string   $alttext      = null;
     public bool      $is_mainphoto = false;
+    public ?string   $file_type    = null;
+    public ?string   $source       = null;
     public ?string   $deeplink     = null;
     public ?stdClass $parent       = null;
     //SONAR_IGNORE_END
