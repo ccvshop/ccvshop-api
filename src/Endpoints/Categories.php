@@ -95,7 +95,8 @@ class Categories extends BaseEndpoint implements
             'photo_source'       => $category->photo_source,
             'photo_file_type'    => $category->photo_file_type,
             'show_on_website'    => $category->show_on_website,
-
+            'no_index'           => $category->no_index,
+            'no_follow'          => $category->no_follow,
 
 
         ];
@@ -135,6 +136,8 @@ class Categories extends BaseEndpoint implements
             'photo_source'       => $category->photo_source,
             'photo_file_type'    => $category->photo_file_type,
             'show_on_website'    => $category->show_on_website,
+            'no_index'           => $category->no_index,
+            'no_follow'          => $category->no_follow,
 
         ];
 
