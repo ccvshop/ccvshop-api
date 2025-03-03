@@ -103,7 +103,14 @@ class ProductToCategories extends BaseEndpoint implements
 
         return $this->rest_post($filteredData);
     }
-
+    
+    /**
+     * @param int $id
+     * @return void
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
     public function delete(int $id): void
     {
         $this->rest_delete($id);
