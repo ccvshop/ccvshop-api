@@ -50,8 +50,12 @@ class ExceptionFactory
             $trace ?? 'no_trace';
 
         if(!isset($exceptionData->code)) {
+            $message .= 'Raw exception data: ' . var_export($exceptionData, true);
             // In case something goes wrong that is not in the correct format that the API should deliver.
-            return new Exception($message, $exceptionData->status ?? var_export($exceptionData, true));
+            if(!isset($exceptionData->status)) {
+                $exceptionData->status = 500;
+            }
+            return new Exception($message, $exceptionData->status);
         }
 
         switch ($exceptionData->code) {
