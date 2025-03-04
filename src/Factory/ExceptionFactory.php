@@ -49,6 +49,11 @@ class ExceptionFactory
             ($exceptionData->developermessage ?? '-NO DEVELOPER MESSAGE SET-') . "\n\n" .
             $trace ?? 'no_trace';
 
+        if(!isset($exceptionData->code)) {
+            // In case something goes wrong that is not in the correct format that the API should deliver.
+            return new Exception($message, $exceptionData->status ?? var_export($exceptionData, true));
+        }
+
         switch ($exceptionData->code) {
             case '404.20':
                 // Method Not Allowed
