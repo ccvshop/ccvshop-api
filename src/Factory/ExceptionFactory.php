@@ -46,7 +46,7 @@ class ExceptionFactory
         $message =
             'Call to:' . ($uri ?? 'unknown_uri') . ' got an exception' . "\n\n\t" .
             'Method used:' . ($method ?? 'unknown_method') . "\n\n" .
-            $exceptionData->developermessage . "\n\n" .
+            ($exceptionData->developermessage ?? '-NO DEVELOPER MESSAGE SET-') . "\n\n" .
             $trace ?? 'no_trace';
 
         switch ($exceptionData->code) {
