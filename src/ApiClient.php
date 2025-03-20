@@ -76,7 +76,7 @@ class ApiClient
      * @param string $apiPublic
      * @param string $apiSecret
      */
-    public function __construct(string $hostName, string $apiPublic, string $apiSecret)
+    public function __construct(string $hostName = '', string $apiPublic = '', string $apiSecret = '')
     {
         $this->apiCredentials = new ApiCredentials(
             $hostName,
