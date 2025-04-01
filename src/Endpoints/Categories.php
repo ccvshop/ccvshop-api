@@ -97,8 +97,7 @@ class Categories extends BaseEndpoint implements
             'show_on_website'    => $category->show_on_website,
             'no_index'           => $category->no_index,
             'no_follow'          => $category->no_follow,
-
-
+            'items_per_page'     => $category->items_per_page,
         ];
 
         // Filter the array to remove entries with null values
@@ -138,7 +137,7 @@ class Categories extends BaseEndpoint implements
             'show_on_website'    => $category->show_on_website,
             'no_index'           => $category->no_index,
             'no_follow'          => $category->no_follow,
-
+            'items_per_page'     => $category->items_per_page,
         ];
 
         // Filter the array to remove entries with null values
