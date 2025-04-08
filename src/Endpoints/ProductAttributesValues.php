@@ -12,7 +12,7 @@ use CCVShop\Api\Interfaces\Endpoints\GetAll;
 use CCVShop\Api\Interfaces\Endpoints\Patch;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\Product;
-use CCVShop\Api\Resources\ProductAttribute;
+use CCVShop\Api\Resources\ProductAttributeValue;
 use CCVShop\Api\Resources\ProductAttributeCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
@@ -27,11 +27,11 @@ class ProductAttributesValues extends BaseEndpoint implements Get
     protected string $resourcePath = 'productattributevalues';
 
     /**
-     * @return ProductAttribute
+     * @return ProductAttributeValue
      */
-    protected function getResourceObject(): ProductAttribute
+    protected function getResourceObject(): ProductAttributeValue
     {
-        return new ProductAttribute($this->client);
+        return new ProductAttributeValue($this->client);
     }
 
     /**
@@ -44,15 +44,15 @@ class ProductAttributesValues extends BaseEndpoint implements Get
 
     /**
      * @param int $id
-     * @return ProductAttribute
+     * @return ProductAttributeValue
      * @throws InvalidHashOnResult
      * @throws InvalidResponseException
      * @throws JsonException
      * @throws ReflectionException
      */
-    public function get(int $id): ProductAttribute
+    public function get(int $id): ProductAttributeValue
     {
-        /** @var ProductAttribute $result */
+        /** @var ProductAttributeValue $result */
         return $this->rest_getOne($id, []);
     }
 

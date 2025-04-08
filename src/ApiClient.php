@@ -76,7 +76,7 @@ class ApiClient
     public ProductProperties           $productProperties;
     public ProductPropertyOptions      $productPropertyOptions;
     public ProductPropertyValues       $productPropertyValues;
-    public ProductAttributesValues     $productAttributes;
+    public ProductAttributesValues     $productAttributeValues;
     public ProductAttributeSets        $productAttributesSets;
     public Redirects                   $redirects;
 
@@ -123,7 +123,7 @@ class ApiClient
         $this->productPropertyValues       = new ProductPropertyValues($this);
         $this->productPropertyOptions      = new ProductPropertyOptions($this);
         $this->productToPropertyGroups     = new ProductToPropertyGroups($this);
-        $this->productAttributes           = new ProductAttributesValues($this);
+        $this->productAttributeValues      = new ProductAttributesValues($this);
         $this->productAttributesSets       = new ProductAttributeSets($this);
         $this->attributes                  = new Attributes($this);
         $this->attributeValues             = new AttributeValues($this);

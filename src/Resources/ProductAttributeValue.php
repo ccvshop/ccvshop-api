@@ -5,7 +5,7 @@ namespace CCVShop\Api\Resources;
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Endpoints\ProductAttributesValues;
 
-class ProductAttribute extends BaseResource
+class ProductAttributeValue extends BaseResource
 {
     public ?int    $id               = null;
     public ?int    $optionid         = null;
