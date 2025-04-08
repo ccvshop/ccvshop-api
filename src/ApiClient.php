@@ -6,6 +6,8 @@ namespace CCVShop\Api;
 use CCVShop\Api\Endpoints\AppCodeBlocks;
 use CCVShop\Api\Endpoints\AppConfigs;
 use CCVShop\Api\Endpoints\AppMessages;
+use CCVShop\Api\Endpoints\Attributes;
+use CCVShop\Api\Endpoints\AttributeValues;
 use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Categories;
 use CCVShop\Api\Endpoints\CategoryTree;
@@ -16,6 +18,8 @@ use CCVShop\Api\Endpoints\Languages;
 use CCVShop\Api\Endpoints\OrderLabels;
 use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Packages;
+use CCVShop\Api\Endpoints\ProductAttributesValues;
+use CCVShop\Api\Endpoints\ProductAttributeSets;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
 use CCVShop\Api\Endpoints\ProductProperties;
@@ -41,6 +45,8 @@ class ApiClient
      * @var ApiCredentials
      */
     public ApiCredentials              $apiCredentials;
+    public Attributes                  $attributes;
+    public AttributeValues             $attributeValues;
     public Credentials                 $credentials;
     public Endpoints\Merchant          $merchant;
     public Webshops                    $webshops;
@@ -70,6 +76,8 @@ class ApiClient
     public ProductProperties           $productProperties;
     public ProductPropertyOptions      $productPropertyOptions;
     public ProductPropertyValues       $productPropertyValues;
+    public ProductAttributesValues     $productAttributes;
+    public ProductAttributeSets        $productAttributesSets;
     public Redirects                   $redirects;
 
 
@@ -86,35 +94,39 @@ class ApiClient
             $apiSecret,
         );
 
-        $this->credentials = new Credentials($this);
-        $this->merchant = new Merchant($this);
-        $this->webshops = new Webshops($this);
-        $this->apps = new Apps($this);
-        $this->webhooks = new Webhooks($this);
-        $this->orders = new Orders($this);
-        $this->orderRows = new OrderRows($this);
+        $this->credentials                 = new Credentials($this);
+        $this->merchant                    = new Merchant($this);
+        $this->webshops                    = new Webshops($this);
+        $this->apps                        = new Apps($this);
+        $this->webhooks                    = new Webhooks($this);
+        $this->orders                      = new Orders($this);
+        $this->orderRows                   = new OrderRows($this);
         $this->fiscalTransactionSignatures = new FiscalTransactionSignatures($this);
-        $this->appCodeBlocks = new AppCodeBlocks($this);
-        $this->appConfigs = new AppConfigs($this);
-        $this->productsRelevant = new ProductsRelevant($this);
-        $this->appMessages = new AppMessages($this);
-        $this->cashUps = new CashUps($this);
-        $this->languages = new Languages($this);
-        $this->settings = new Settings($this);
-        $this->products = new Products($this);
-        $this->packages = new Packages($this);
-        $this->categories = new Categories($this);
-        $this->categoryTree = new CategoryTree($this);
-        $this->productPhotos = new ProductPhotos($this);
-        $this->productToCategories = new ProductToCategories($this);
-        $this->labels = new Labels($this);
-        $this->productLabels = new ProductLabels($this);
-        $this->orderLabels = new OrderLabels($this);
-        $this->productPropertyGroups = new ProductPropertyGroups($this);
-        $this->productProperties = new ProductProperties($this);
-        $this->productPropertyValues = new ProductPropertyValues($this);
-        $this->productPropertyOptions = new ProductPropertyOptions($this);
-        $this->productToPropertyGroups = new ProductToPropertyGroups($this);
-        $this->redirects = new Redirects($this);
+        $this->appCodeBlocks               = new AppCodeBlocks($this);
+        $this->appConfigs                  = new AppConfigs($this);
+        $this->productsRelevant            = new ProductsRelevant($this);
+        $this->appMessages                 = new AppMessages($this);
+        $this->cashUps                     = new CashUps($this);
+        $this->languages                   = new Languages($this);
+        $this->settings                    = new Settings($this);
+        $this->products                    = new Products($this);
+        $this->packages                    = new Packages($this);
+        $this->categories                  = new Categories($this);
+        $this->categoryTree                = new CategoryTree($this);
+        $this->productPhotos               = new ProductPhotos($this);
+        $this->productToCategories         = new ProductToCategories($this);
+        $this->labels                      = new Labels($this);
+        $this->productLabels               = new ProductLabels($this);
+        $this->orderLabels                 = new OrderLabels($this);
+        $this->productPropertyGroups       = new ProductPropertyGroups($this);
+        $this->productProperties           = new ProductProperties($this);
+        $this->productPropertyValues       = new ProductPropertyValues($this);
+        $this->productPropertyOptions      = new ProductPropertyOptions($this);
+        $this->productToPropertyGroups     = new ProductToPropertyGroups($this);
+        $this->productAttributes           = new ProductAttributesValues($this);
+        $this->productAttributesSets       = new ProductAttributeSets($this);
+        $this->attributes                  = new Attributes($this);
+        $this->attributeValues             = new AttributeValues($this);
+        $this->redirects                   = new Redirects($this);
     }
 }
