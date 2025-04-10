@@ -24,6 +24,7 @@ use CCVShop\Api\Endpoints\ProductPropertyOptions;
 use CCVShop\Api\Endpoints\ProductPropertyValues;
 use CCVShop\Api\Endpoints\ProductToCategories;
 use CCVShop\Api\Endpoints\ProductToPropertyGroups;
+use CCVShop\Api\Endpoints\Redirects;
 use CCVShop\Api\Endpoints\Settings;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
@@ -69,6 +70,7 @@ class ApiClient
     public ProductProperties           $productProperties;
     public ProductPropertyOptions      $productPropertyOptions;
     public ProductPropertyValues       $productPropertyValues;
+    public Redirects                   $redirects;
 
 
     /**
@@ -113,5 +115,6 @@ class ApiClient
         $this->productPropertyValues = new ProductPropertyValues($this);
         $this->productPropertyOptions = new ProductPropertyOptions($this);
         $this->productToPropertyGroups = new ProductToPropertyGroups($this);
+        $this->redirects = new Redirects($this);
     }
 }
