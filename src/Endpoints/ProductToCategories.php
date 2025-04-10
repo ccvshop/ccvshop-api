@@ -103,7 +103,7 @@ class ProductToCategories extends BaseEndpoint implements
 
         return $this->rest_post($filteredData);
     }
-    
+
     /**
      * @param int $id
      * @return void
