@@ -46,8 +46,17 @@ class ExceptionFactory
         $message =
             'Call to:' . ($uri ?? 'unknown_uri') . ' got an exception' . "\n\n\t" .
             'Method used:' . ($method ?? 'unknown_method') . "\n\n" .
-            $exceptionData->developermessage . "\n\n" .
+            ($exceptionData->developermessage ?? '-NO DEVELOPER MESSAGE SET-') . "\n\n" .
             $trace ?? 'no_trace';
+
+        if(!isset($exceptionData->code)) {
+            $message .= 'Raw exception data: ' . var_export($exceptionData, true);
+            // In case something goes wrong that is not in the correct format that the API should deliver.
+            if(!isset($exceptionData->status)) {
+                $exceptionData->status = 500;
+            }
+            return new Exception($message, $exceptionData->status);
+        }
 
         switch ($exceptionData->code) {
             case '404.20':

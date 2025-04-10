@@ -72,16 +72,16 @@ class ApiClient
 
 
     /**
-     * @param string|null $hostName Fallback in .env['CCVSHOP_API_HOSTNAME']
-     * @param string|null $apiPublic Fallback in .env['CCVSHOP_API_PUBLIC']
-     * @param string|null $apiSecret Fallback in .env['CCVSHOP_API_SECRET']
+     * @param string $hostName
+     * @param string $apiPublic
+     * @param string $apiSecret
      */
-    public function __construct(?string $hostName = null, ?string $apiPublic = null, ?string $apiSecret = null)
+    public function __construct(string $hostName = '', string $apiPublic = '', string $apiSecret = '')
     {
         $this->apiCredentials = new ApiCredentials(
-            $hostName ?? $_ENV['CCVSHOP_API_HOSTNAME'],
-            $apiPublic ?? $_ENV['CCVSHOP_API_PUBLIC'],
-            $apiSecret ?? $_ENV['CCVSHOP_API_SECRET']
+            $hostName,
+            $apiPublic,
+            $apiSecret,
         );
 
         $this->credentials = new Credentials($this);
