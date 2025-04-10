@@ -99,11 +99,8 @@ class Categories extends BaseEndpoint implements
             'no_follow'               => $category->no_follow,
             'items_per_page'          => $category->items_per_page,
             'layout_of_categories_id' => $category->layout_of_categories_id,
+            'layout_of_products_id' => $category->layout_of_products->id ?? null,
         ];
-
-        if (isset($category->layout_of_products) && !empty($category->layout_of_products->id)) {
-            $data['layout_of_products_id'] = $category->layout_of_products->id;
-        }
 
         // Filter the array to remove entries with null values
         $data = array_filter($data, function ($value) {
@@ -144,11 +141,8 @@ class Categories extends BaseEndpoint implements
             'no_follow'               => $category->no_follow,
             'items_per_page'          => $category->items_per_page,
             'layout_of_categories_id' => $category->layout_of_categories_id,
+            'layout_of_products_id' => $category->layout_of_products->id ?? null,
         ];
-
-        if (isset($category->layout_of_products) && !empty($category->layout_of_products->id)) {
-            $data['layout_of_products_id'] = $category->layout_of_products->id;
-        }
 
         // Filter the array to remove entries with null values
         $data = array_filter($data, function ($value) {
