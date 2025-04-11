@@ -4,6 +4,7 @@ namespace CCVShop\Api\Resources;
 
 use CCVShop\Api\BaseResource;
 use CCVShop\Api\Endpoints\ProductAttributesValues;
+use stdClass;
 
 class ProductAttributeValue extends BaseResource
 {
@@ -14,6 +15,8 @@ class ProductAttributeValue extends BaseResource
     public ?string $optionname       = null;
     public ?int    $optionposition   = null;
     public ?int    $price            = null;
+    public ?stdClass    $parent            = null;
+
 
 
     public function getEndpoint(): ProductAttributesValues
