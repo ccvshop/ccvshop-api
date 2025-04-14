@@ -377,9 +377,15 @@ abstract class BaseEndpoint
      */
     private function doCall(string $uri, array $data): ?stdClass
     {
-        $client = new Client([
+        $options = [
             'base_uri' => $this->client->apiCredentials->getHostName(),
-        ]);
+        ];
+
+        if($this->client->sslCheckDisabled()) {
+            $options['verify'] = false;
+        }
+
+        $client = new Client($options);
 
         try {
             $res = $client->request($this->getCurrentMethod(), $uri, $data);
