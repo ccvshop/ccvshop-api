@@ -72,6 +72,8 @@ class ApiClient
     public ProductPropertyValues       $productPropertyValues;
     public Redirects                   $redirects;
 
+    public bool $ssl_check_disabled = false;
+
 
     /**
      * @param string $hostName
@@ -116,5 +118,20 @@ class ApiClient
         $this->productPropertyOptions = new ProductPropertyOptions($this);
         $this->productToPropertyGroups = new ProductToPropertyGroups($this);
         $this->redirects = new Redirects($this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function sslCheckDisabled(): bool {
+        return $this->ssl_check_disabled;
+    }
+
+    /**
+     * @param bool $disabled
+     * @return void
+     */
+    public function setSslCheckDisabled(bool $disabled = true): void {
+        $this->ssl_check_disabled = $disabled;
     }
 }
