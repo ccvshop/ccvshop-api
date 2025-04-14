@@ -72,7 +72,7 @@ class ApiClient
     public ProductPropertyValues       $productPropertyValues;
     public Redirects                   $redirects;
 
-    public bool $ssl_check_disabled = false;
+    public bool $sslCheckDisabled = false;
 
 
     /**
@@ -123,15 +123,17 @@ class ApiClient
     /**
      * @return bool
      */
-    public function sslCheckDisabled(): bool {
-        return $this->ssl_check_disabled;
+    public function sslCheckDisabled(): bool
+    {
+        return $this->sslCheckDisabled;
     }
 
     /**
      * @param bool $disabled
      * @return void
      */
-    public function setSslCheckDisabled(bool $disabled = true): void {
-        $this->ssl_check_disabled = $disabled;
+    public function setSslCheckDisabled(bool $disabled = true): void
+    {
+        $this->sslCheckDisabled = $disabled;
     }
 }
