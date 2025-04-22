@@ -12,6 +12,9 @@ class ProductAttributeSet extends BaseResource
     public ?int    $attributeposition = null;
     public ?string $type              = null;
 
+    /**
+     * @return ProductAttributeSets
+     */
     public function getEndpoint(): ProductAttributeSets
     {
         return $this->client->productAttributesSets;

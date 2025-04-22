@@ -28,7 +28,9 @@ class ProductAttributeValue extends BaseResource
     //SONAR_IGNORE_END
 
 
-
+    /**
+     * @return ProductAttributesValues
+     */
     public function getEndpoint(): ProductAttributesValues
     {
         return $this->client->productAttributes;
