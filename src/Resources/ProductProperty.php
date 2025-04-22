@@ -16,7 +16,7 @@ class ProductProperty extends BaseResource
     public ?string $description;
     public ?int    $position = null;
     public string  $type;
-
+    public ?array  $children = [];
     //SONAR_IGNORE_END
 
     public function getEndpoint(): ProductProperties
