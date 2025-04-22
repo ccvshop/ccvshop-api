@@ -80,6 +80,8 @@ class ApiClient
     public ProductAttributeSets        $productAttributesSets;
     public Redirects                   $redirects;
 
+    public bool $sslCheckDisabled = false;
+
 
     /**
      * @param string $hostName
@@ -128,5 +130,22 @@ class ApiClient
         $this->attributes                  = new Attributes($this);
         $this->attributeValues             = new AttributeValues($this);
         $this->redirects                   = new Redirects($this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function sslCheckDisabled(): bool
+    {
+        return $this->sslCheckDisabled;
+    }
+
+    /**
+     * @param bool $disabled
+     * @return void
+     */
+    public function setSslCheckDisabled(bool $disabled = true): void
+    {
+        $this->sslCheckDisabled = $disabled;
     }
 }
