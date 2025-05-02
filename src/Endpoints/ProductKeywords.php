@@ -54,9 +54,7 @@ class ProductKeywords extends BaseEndpoint implements
         /**
          * @var ProductKeyword $result
          */
-        $result = $this->rest_getOne($id, []);
-
-        return $result;
+        return $this->rest_getOne($id, []);
     }
 
     /**
