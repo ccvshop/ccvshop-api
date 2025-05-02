@@ -20,6 +20,7 @@ use CCVShop\Api\Endpoints\OrderRows;
 use CCVShop\Api\Endpoints\Packages;
 use CCVShop\Api\Endpoints\ProductAttributesValues;
 use CCVShop\Api\Endpoints\ProductAttributeSets;
+use CCVShop\Api\Endpoints\ProductKeywords;
 use CCVShop\Api\Endpoints\ProductPhotos;
 use CCVShop\Api\Endpoints\ProductLabels;
 use CCVShop\Api\Endpoints\ProductProperties;
@@ -79,6 +80,7 @@ class ApiClient
     public ProductAttributesValues     $productAttributeValues;
     public ProductAttributeSets        $productAttributesSets;
     public Redirects                   $redirects;
+    public ProductKeywords             $productKeywords;
 
     public bool $sslCheckDisabled = false;
 
@@ -127,6 +129,7 @@ class ApiClient
         $this->productToPropertyGroups     = new ProductToPropertyGroups($this);
         $this->productAttributeValues      = new ProductAttributesValues($this);
         $this->productAttributesSets       = new ProductAttributeSets($this);
+        $this->productKeywords             = new ProductKeywords($this);
         $this->attributes                  = new Attributes($this);
         $this->attributeValues             = new AttributeValues($this);
         $this->redirects                   = new Redirects($this);
