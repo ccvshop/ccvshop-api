@@ -74,7 +74,7 @@ class ProductKeywords extends BaseEndpoint implements
             throw new InvalidArgumentException(ProductKeyword::class . ' required');
         }
 
-        $data = ['$items' => $productKeyword->items];
+        $data = ['items' => $productKeyword->items];
 
         $data = array_filter($data, function ($value) {
             return !is_null($value);
