@@ -6,6 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
+use CCVShop\Api\Resources\Product;
 use CCVShop\Api\Resources\ProductKeyword;
 use CCVShop\Api\Resources\ProductKeywordCollection;
 use GuzzleHttp\Exception\GuzzleException;
@@ -69,7 +70,7 @@ class ProductKeywords extends BaseEndpoint
     }
 
     /**
-     * @param ProductKeyword $productKeyword
+     * @param Product $product
      * @param array $parameters
      * @return ProductKeywordCollection
      * @throws GuzzleException
@@ -78,9 +79,9 @@ class ProductKeywords extends BaseEndpoint
      * @throws JsonException
      * @throws ReflectionException
      */
-    public function getFor(ProductKeyword $productKeyword, array $parameters = []): ProductKeywordCollection
+    public function getFor(Product $product, array $parameters = []): ProductKeywordCollection
     {
-        $this->setParent(ResourceFactory::createParentFromResource($productKeyword));
+        $this->setParent(ResourceFactory::createParentFromResource($product));
         /** @var ProductKeywordCollection $result */
         return $this->rest_getAll(null, null, $parameters);
     }
