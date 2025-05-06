@@ -58,7 +58,6 @@ class ProductKeywords extends BaseEndpoint
 
         $data = [
             'keyword' => $productKeyword
-
         ];
 
         // Filter the array to remove entries with null values
