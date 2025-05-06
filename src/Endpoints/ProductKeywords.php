@@ -6,8 +6,7 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
-use CCVShop\Api\Interfaces\Endpoints\Get;
-use CCVShop\Api\Interfaces\Endpoints\Post;
+use CCVShop\Api\Resources\Product;
 use CCVShop\Api\Resources\ProductKeyword;
 use CCVShop\Api\Resources\ProductKeywordCollection;
 use GuzzleHttp\Exception\GuzzleException;
@@ -15,9 +14,7 @@ use InvalidArgumentException;
 use JsonException;
 use ReflectionException;
 
-class ProductKeywords extends BaseEndpoint implements
-    Get,
-    Post
+class ProductKeywords extends BaseEndpoint
 {
     protected string  $resourcePath       = 'productkeywords';
     protected ?string $parentResourcePath = 'products';
@@ -39,27 +36,7 @@ class ProductKeywords extends BaseEndpoint implements
     }
 
     /**
-     * @param int $id
-     * @return ProductKeyword
-     * @throws InvalidHashOnResult
-     * @throws InvalidResponseException
-     * @throws JsonException|ReflectionException
-     */
-    public function get(int $id): ProductKeyword
-    {
-        if ($id === null) {
-            throw new InvalidArgumentException('product id is required');
-        }
-
-        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
-
-        /**
-         * @var ProductKeyword $result
-         */
-        return $this->rest_getOne($id, []);
-    }
-
-    /**
+     * @param int|null $productId
      * @param ProductKeyword|null $productKeyword
      * @return ProductKeyword
      * @throws InvalidHashOnResult
@@ -68,18 +45,44 @@ class ProductKeywords extends BaseEndpoint implements
      * @throws ReflectionException
      * @throws GuzzleException
      */
-    public function post(?ProductKeyword $productKeyword = null): ProductKeyword
+    public function post(int $productId = null, ProductKeyword $productKeyword = null): ProductKeyword
     {
-        if (is_null($productKeyword)) {
+        if ($productId === null) {
+            throw new InvalidArgumentException('product id is required');
+        }
+
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $productId));
+
+        if ($productKeyword === null) {
             throw new InvalidArgumentException(ProductKeyword::class . ' required');
         }
 
-        $data = ['items' => $productKeyword->items];
+        $data = [
+            'keyword' => $productKeyword
+        ];
 
+        // Filter the array to remove entries with null values
         $data = array_filter($data, function ($value) {
             return !is_null($value);
         });
 
         return $this->rest_post($data);
+    }
+
+    /**
+     * @param Product $product
+     * @param array $parameters
+     * @return ProductKeywordCollection
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
+    public function getFor(Product $product, array $parameters = []): ProductKeywordCollection
+    {
+        $this->setParent(ResourceFactory::createParentFromResource($product));
+        /** @var ProductKeywordCollection $result */
+        return $this->rest_getAll(null, null, $parameters);
     }
 }
