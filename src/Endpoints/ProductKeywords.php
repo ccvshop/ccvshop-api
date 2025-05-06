@@ -8,8 +8,11 @@ use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
+use CCVShop\Api\Resources\AppCodeBlock;
 use CCVShop\Api\Resources\ProductKeyword;
 use CCVShop\Api\Resources\ProductKeywordCollection;
+use CCVShop\Api\Resources\ProductProperty;
+use CCVShop\Api\Resources\ProductPropertyOptionCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use JsonException;
@@ -39,27 +42,6 @@ class ProductKeywords extends BaseEndpoint implements
     }
 
     /**
-     * @param int $id
-     * @return ProductKeyword
-     * @throws InvalidHashOnResult
-     * @throws InvalidResponseException
-     * @throws JsonException|ReflectionException
-     */
-    public function get(int $id): ProductKeyword
-    {
-        if ($id === null) {
-            throw new InvalidArgumentException('product id is required');
-        }
-
-        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
-
-        /**
-         * @var ProductKeyword $result
-         */
-        return $this->rest_getOne($id, []);
-    }
-
-    /**
      * @param ProductKeyword|null $productKeyword
      * @return ProductKeyword
      * @throws InvalidHashOnResult
@@ -71,15 +53,31 @@ class ProductKeywords extends BaseEndpoint implements
     public function post(?ProductKeyword $productKeyword = null): ProductKeyword
     {
         if (is_null($productKeyword)) {
-            throw new InvalidArgumentException(ProductKeyword::class . ' required');
+            throw new InvalidArgumentException(AppCodeBlock::class . ' required');
         }
 
-        $data = ['items' => $productKeyword->items];
+        $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $productKeyword->id));
 
-        $data = array_filter($data, function ($value) {
-            return !is_null($value);
-        });
+        /** @var AppCodeBlock */
+        return $this->rest_post([
+            'items' => $productKeyword->items
+        ]);
+    }
 
-        return $this->rest_post($data);
+    /**
+     * @param ProductKeyword $productKeyword
+     * @param array $parameters
+     * @return ProductKeywordCollection
+     * @throws GuzzleException
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
+    public function getFor(ProductKeyword $productKeyword, array $parameters = []): ProductKeywordCollection
+    {
+        $this->setParent(ResourceFactory::createParentFromResource($productKeyword));
+        /** @var ProductPropertyOptionCollection $result */
+        return $this->rest_getAll(null, null, $parameters);
     }
 }

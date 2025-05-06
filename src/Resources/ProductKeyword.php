@@ -7,6 +7,7 @@ use CCVShop\Api\Endpoints\ProductKeywords;
 
 class ProductKeyword extends BaseResource
 {
+    public ?int                    $id          = null;
     //SONAR_IGNORE_START
     public ?string                 $href        = null;
     public ?Entities\Keyword\Items $items       = null;
