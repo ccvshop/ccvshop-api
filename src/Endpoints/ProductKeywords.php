@@ -56,7 +56,7 @@ class ProductKeywords extends BaseEndpoint implements
             throw new InvalidArgumentException(AppCodeBlock::class . ' required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->apps->getResourcePath(), $productKeyword->id));
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $productKeyword->id));
 
         /** @var AppCodeBlock */
         return $this->rest_post([
