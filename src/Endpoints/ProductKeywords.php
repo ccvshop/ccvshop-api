@@ -6,12 +6,10 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
-use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\AppCodeBlock;
 use CCVShop\Api\Resources\ProductKeyword;
 use CCVShop\Api\Resources\ProductKeywordCollection;
-use CCVShop\Api\Resources\ProductProperty;
 use CCVShop\Api\Resources\ProductPropertyOptionCollection;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
@@ -19,7 +17,6 @@ use JsonException;
 use ReflectionException;
 
 class ProductKeywords extends BaseEndpoint implements
-    Get,
     Post
 {
     protected string  $resourcePath       = 'productkeywords';
@@ -53,7 +50,7 @@ class ProductKeywords extends BaseEndpoint implements
     public function post(?ProductKeyword $productKeyword = null): ProductKeyword
     {
         if (is_null($productKeyword)) {
-            throw new InvalidArgumentException(AppCodeBlock::class . ' required');
+            throw new InvalidArgumentException(ProductKeyword::class . ' required');
         }
 
         $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $productKeyword->id));
