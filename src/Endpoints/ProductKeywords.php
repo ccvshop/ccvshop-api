@@ -6,7 +6,6 @@ use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\Exceptions\InvalidHashOnResult;
 use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
-use CCVShop\Api\Interfaces\Endpoints\Post;
 use CCVShop\Api\Resources\ProductKeyword;
 use CCVShop\Api\Resources\ProductKeywordCollection;
 use GuzzleHttp\Exception\GuzzleException;
@@ -14,8 +13,7 @@ use InvalidArgumentException;
 use JsonException;
 use ReflectionException;
 
-class ProductKeywords extends BaseEndpoint implements
-    Post
+class ProductKeywords extends BaseEndpoint
 {
     protected string  $resourcePath       = 'productkeywords';
     protected ?string $parentResourcePath = 'products';
@@ -37,6 +35,7 @@ class ProductKeywords extends BaseEndpoint implements
     }
 
     /**
+     * @param int|null $productId
      * @param ProductKeyword|null $productKeyword
      * @return ProductKeyword
      * @throws InvalidHashOnResult
@@ -45,18 +44,29 @@ class ProductKeywords extends BaseEndpoint implements
      * @throws ReflectionException
      * @throws GuzzleException
      */
-    public function post(?ProductKeyword $productKeyword = null): ProductKeyword
+    public function post(int $productId = null, ProductKeyword $productKeyword = null): ProductKeyword
     {
-        if (is_null($productKeyword)) {
+        if ($productId === null) {
+            throw new InvalidArgumentException('product id is required');
+        }
+
+        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $productId));
+
+        if ($productKeyword === null) {
             throw new InvalidArgumentException(ProductKeyword::class . ' required');
         }
 
-        $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), 0));
+        $data = [
+            'keyword' => $productKeyword
 
-        /** @var ProductKeyword */
-        return $this->rest_post([
-            'items' => $productKeyword->items
-        ]);
+        ];
+
+        // Filter the array to remove entries with null values
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+        return $this->rest_post($data);
     }
 
     /**
