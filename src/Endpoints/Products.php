@@ -57,6 +57,12 @@ class Products extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    public function getWithParameters(int $id, array $parameters): Product
+    {
+        /** @var Product $result */
+        return $this->rest_getOne($id, $parameters);
+    }
+
     /**
      * @param array $parameters
      * @return ProductCollection
