@@ -57,6 +57,15 @@ class Products extends BaseEndpoint implements
         return $this->rest_getOne($id, []);
     }
 
+    /**
+     * @param int $id
+     * @param array $parameters
+     * @return Product
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     * @throws ReflectionException
+     */
     public function getWithParameters(int $id, array $parameters): Product
     {
         /** @var Product $result */
