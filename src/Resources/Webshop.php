@@ -9,6 +9,7 @@ use CCVShop\Api\Endpoints\Webshops;
 
 class Webshop extends BaseResource
 {
+    //SONAR_IGNORE_START
     public ?string $href                = null;
     public ?int    $id                  = null;
 
@@ -19,6 +20,8 @@ class Webshop extends BaseResource
     public ?int    $product_limit       = null;
     public ?int    $product_limit_left  = null;
     public ?string $api_root            = null;
+
+    //SONAR_IGNORE_END
 
     public function getEndpoint(): Webshops
     {
