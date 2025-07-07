@@ -2,17 +2,15 @@
 
 namespace CCVShop\Api\Resources;
 
-use CCVShop\Api\BaseEndpoint;
 use CCVShop\Api\BaseResource;
-use CCVShop\Api\Endpoints\Credentials;
 use CCVShop\Api\Endpoints\Webshops;
+use DateTime;
 
 class Webshop extends BaseResource
 {
     //SONAR_IGNORE_START
     public ?string $href                = null;
     public ?int    $id                  = null;
-
     public ?DateTime    $create_date    = null;
     public ?string $name                = null;
     public ?bool   $is_multishop_system = null;
@@ -20,6 +18,8 @@ class Webshop extends BaseResource
     public ?int    $product_limit       = null;
     public ?int    $product_limit_left  = null;
     public ?string $api_root            = null;
+
+    public array $dates = ['create_date'];
 
     //SONAR_IGNORE_END
 
