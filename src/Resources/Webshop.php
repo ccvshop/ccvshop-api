@@ -9,8 +9,8 @@ use DateTime;
 class Webshop extends BaseResource
 {
     public ?string $href                = null;
-    public ?int    $id                  = null
-    public ?DateTime    $create_date    = null;;
+    public ?int    $id                  = null;
+    public ?DateTime    $create_date    = null;
     public ?string $name                = null;
     public ?bool   $is_multishop_system = null;
     public ?bool   $is_salespos         = null;
