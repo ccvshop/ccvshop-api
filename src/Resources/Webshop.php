@@ -8,7 +8,6 @@ use DateTime;
 
 class Webshop extends BaseResource
 {
-    //SONAR_IGNORE_START
     public ?string $href                = null;
     public ?int    $id                  = null;
     public ?DateTime    $create_date    = null;
@@ -21,7 +20,6 @@ class Webshop extends BaseResource
 
      public array $dates = ['create_date'];
 
-    //SONAR_IGNORE_END
 
     public function getEndpoint(): Webshops
     {
