@@ -8,6 +8,7 @@ use CCVShop\Api\Exceptions\InvalidResponseException;
 use CCVShop\Api\Factory\ResourceFactory;
 use CCVShop\Api\Interfaces\Endpoints\Get;
 use CCVShop\Api\Interfaces\Endpoints\Put;
+use CCVShop\Api\Resources\LabelCollection;
 use CCVShop\Api\Resources\OrderLabel;
 use CCVShop\Api\Resources\OrderLabelCollection;
 use InvalidArgumentException;
@@ -75,5 +76,23 @@ class OrderLabels extends BaseEndpoint implements
         $this->setParent(ResourceFactory::createParent($this->client->products->getResourcePath(), $id));
         $this->rest_put($parameters);
 
+    }
+
+    /**
+     * @param int $labelId
+     * @param array $orderLabels
+     * @return null
+     * @throws InvalidHashOnResult
+     * @throws InvalidResponseException
+     * @throws JsonException
+     */
+    public function putOrderLabel(int $labelId, array $orderLabels): void
+    {
+        if ($labelId === null) {
+            throw new InvalidArgumentException('label id is required');
+        }
+        $this->setParent(ResourceFactory::createParent($this->client->orders->getResourcePath(), $labelId));
+
+        $this->rest_put($orderLabels);
     }
 }
