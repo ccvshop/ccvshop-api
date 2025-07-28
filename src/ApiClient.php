@@ -12,6 +12,8 @@ use CCVShop\Api\Endpoints\CashUps;
 use CCVShop\Api\Endpoints\Categories;
 use CCVShop\Api\Endpoints\CategoryTree;
 use CCVShop\Api\Endpoints\Credentials;
+use CCVShop\Api\Endpoints\CreditpointMutations;
+use CCVShop\Api\Endpoints\CreditPoints;
 use CCVShop\Api\Endpoints\FiscalTransactionSignatures;
 use CCVShop\Api\Endpoints\Labels;
 use CCVShop\Api\Endpoints\Languages;
@@ -31,6 +33,7 @@ use CCVShop\Api\Endpoints\ProductToCategories;
 use CCVShop\Api\Endpoints\ProductToPropertyGroups;
 use CCVShop\Api\Endpoints\Redirects;
 use CCVShop\Api\Endpoints\Settings;
+use CCVShop\Api\Endpoints\Users;
 use CCVShop\Api\Endpoints\Webhooks;
 use CCVShop\Api\Endpoints\Webshops;
 use CCVShop\Api\Endpoints\Merchant;
@@ -81,6 +84,9 @@ class ApiClient
     public ProductAttributeSets        $productAttributesSets;
     public Redirects                   $redirects;
     public ProductKeywords             $productKeywords;
+    public Users                       $users;
+    public CreditPoints                $creditPoints;
+	public CreditpointMutations 	   $creditpointMutations;
 
     public bool $sslCheckDisabled = false;
 
@@ -133,6 +139,9 @@ class ApiClient
         $this->attributes                  = new Attributes($this);
         $this->attributeValues             = new AttributeValues($this);
         $this->redirects                   = new Redirects($this);
+        $this->users                       = new Users($this);
+        $this->creditPoints                = new CreditPoints($this);
+		$this->creditpointMutations        = new CreditpointMutations($this);
     }
 
     /**
