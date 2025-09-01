@@ -1,0 +1,119 @@
+# Bootstrap variables and templates
+variables:
+  REGISTRY: ${GITLAB_REGISTRY}
+  DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+
+.qa-workbench: &qa-workbench
+  #template voor alle qa-workbench stages
+  image:
+    name: ${REGISTRY}/ccv/middleware/qa-workbench/php-7.4:latest
+  services:
+    - name: docker:dind
+  rules:
+    # Enkel draaien in Merge Requests en niet op de master.
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && $CI_MERGE_REQUEST_EVENT_TYPE
+      when: on_success
+  stage: verify
+  # Deze suit kan altijd draaien
+  needs: [ ]
+  tags:
+    - docker
+  before_script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+
+.qa-workbench_83: &qa-workbench_83
+  #template voor alle qa-workbench stages
+  image:
+    name: ${REGISTRY}/ccv/middleware/qa-workbench/php-8.3:latest
+  services:
+    - name: docker:dind
+  rules:
+    # Enkel draaien in Merge Requests en niet op de master.
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && $CI_MERGE_REQUEST_EVENT_TYPE
+      when: on_success
+  stage: verify
+  # Deze suit kan altijd draaien
+  needs: [ ]
+  tags:
+    - docker
+  before_script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+
+# Stages
+linting-phpcs:
+  <<: *qa-workbench
+  script:
+    - composer phpcs
+
+linting-php-cs-fixer:
+  <<: *qa-workbench
+  script:
+    - composer php-cs-fixer
+
+linting-phpmd:
+  <<: *qa-workbench
+  script:
+    - composer phpmd
+
+linting-phpstan:
+  <<: *qa-workbench
+  script:
+    - composer phpstan
+
+# Stages
+83_linting-phpcs:
+    <<: *qa-workbench_83
+    script:
+        - composer phpcs
+
+83_linting-php-cs-fixer:
+    <<: *qa-workbench_83
+    script:
+        - composer php-cs-fixer
+
+83_linting-phpmd:
+    <<: *qa-workbench_83
+    script:
+        - composer phpmd
+
+83_linting-phpstan:
+    <<: *qa-workbench_83
+    script:
+        - composer phpstan
+
+sonarqube:
+  stage: verify
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'master'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'develop'
+  image:
+    name: sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]
+  tags:
+    - docker-sonar
+  variables:
+    # Defines the location of the analysis task cache
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    # Tells git to fetch all the branches of the project, required by the analysis task
+    GIT_DEPTH: "0"
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - sonar-scanner/
+  script:
+    - >
+        sonar-scanner
+        -D sonar.qualitygate.wait=true
+        -D sonar.host.url="${SONAR_HOST_URL}"
+        -D sonar.token="${SONAR_TOKEN}"
+        -D sonar.projectKey="${SONAR_PROJECT_KEY}"
+        -D sonar.php.coverage.reportPaths=./.phpunit.cache/coverage.xml
+        -D sonar.sources=./src
+        -D sonar.tests=./tests
+  allow_failure: false
