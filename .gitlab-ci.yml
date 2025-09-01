@@ -1,0 +1,37 @@
+stages:
+    - test
+    - verify
+    - build
+    - deploy
+
+include:
+    - '/ci-cd/qa-tooling-ci.yml'
+    - '/ci-cd/deploy-ci.yml'
+
+unittest:
+    image:
+        name: ${REGISTRY}/ccv/middleware/qa-workbench/php-7.4:latest
+    services:
+        -   name: docker:dind
+    rules:
+        # Enkel draaien in Merge Requests en niet op de master.
+        -   if: $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && $CI_MERGE_REQUEST_EVENT_TYPE
+            when: on_success
+    stage: test
+    # Deze suit kan altijd draaien
+    needs: [ ]
+    tags:
+        - docker
+    before_script:
+        - git config --global --add safe.directory $CI_PROJECT_DIR
+        - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+        - mkdir .phpunit.cache
+    script:
+        - ./vendor/bin/phpunit --stop-on-failure --coverage-clover=.phpunit.cache/coverage.xml
+    # artifacts van andere stages zijn niet belangrijk.
+    dependencies: [ ]
+    artifacts:
+        when: on_success
+        paths:
+            - .phpunit.cache/coverage.xml
+        expire_in: 1 days
