@@ -1,0 +1,165 @@
+.qa-workbench: &qa-workbench
+  #template voor alle qa-workbench stages
+  image:
+    name: ${GITLAB_REGISTRY}/ccv/middleware/qa-workbench/qa-tooling-7.4:v0.3.5
+  rules:
+    # Enkel draaien in Merge Requests en niet op de master.
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && $CI_MERGE_REQUEST_EVENT_TYPE
+      when: on_success
+  stage: verify
+  # Deze suite kan altijd draaien
+  needs: [ ]
+  tags:
+    - kubernetes
+  before_script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+
+.qa-workbench_83: &qa-workbench_83
+  #template voor alle qa-workbench stages
+  image:
+    name: ${GITLAB_REGISTRY}/ccv/middleware/qa-workbench/qa-tooling-8.3:v0.3.5
+  rules:
+    # Enkel draaien in Merge Requests en niet op de master.
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && $CI_MERGE_REQUEST_EVENT_TYPE
+      when: on_success
+  stage: verify
+  # Deze suite kan altijd draaien
+  needs: [ ]
+  tags:
+    - kubernetes
+  before_script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+
+# Stages
+linting-phpcs:
+  <<: *qa-workbench
+  script:
+    - composer phpcs
+
+linting-php-cs-fixer:
+  <<: *qa-workbench
+  script:
+    - composer php-cs-fixer
+
+linting-phpmd:
+  <<: *qa-workbench
+  script:
+    - composer phpmd
+
+linting-phpstan:
+  <<: *qa-workbench
+  script:
+    - composer phpstan
+
+# Stages
+83_linting-phpcs:
+  <<: *qa-workbench_83
+  script:
+    - composer phpcs
+
+83_linting-php-cs-fixer:
+  <<: *qa-workbench_83
+  script:
+    - composer php-cs-fixer
+
+83_linting-phpmd:
+  <<: *qa-workbench_83
+  script:
+    - composer phpmd
+
+83_linting-phpstan:
+  <<: *qa-workbench_83
+  script:
+    - composer phpstan
+
+# Extracts the project version from CHANGELOG.md and exposes it as a dotenv artifact.
+# Runs in a separate Alpine job because the sonar-scanner-cli image does not include sed.
+# The dotenv artifact injects SONAR_PROJECT_VERSION into downstream jobs automatically.
+verify:sonar-version:
+  stage: verify
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'master'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'develop'
+    - if: $CI_COMMIT_BRANCH == 'release'
+  image:
+    name: alpine:3.22
+    pull_policy: if-not-present
+  # Deze suite kan altijd draaien
+  needs: [ ]
+  tags:
+    - kubernetes
+  script:
+    # Extract the first version tag from CHANGELOG.md, e.g. "v1.2.3" from "## [v1.2.3] - ..."
+    - VERSION="$(sed -n 's/^## \[\(v[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)\].*/\1/p' CHANGELOG.md | head -n1 || true)"
+    - echo "SONAR_PROJECT_VERSION=${VERSION}" >> sonar.env
+  artifacts:
+    reports:
+      dotenv: sonar.env
+
+verify:sonarqube:
+  stage: verify
+  needs:
+    # Depend on the version extraction job to receive SONAR_PROJECT_VERSION via dotenv artifact
+    - job: verify:sonar-version
+      artifacts: true
+    - job: test:unittest
+      artifacts: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'master'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'develop'
+    - if: $CI_COMMIT_BRANCH == 'release'
+  image:
+    name: sonarsource/sonar-scanner-cli:12
+    # Override entrypoint so GitLab CI can invoke its own shell inside the container
+    entrypoint: [""]
+    pull_policy: if-not-present
+  tags:
+    - kubernetes
+  variables:
+    # Defines the location of the analysis task cache
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    # Tells git to fetch all the branches of the project, required by the analysis task
+    GIT_DEPTH: "0"
+  script:
+    - |
+      echo "=== Verify changelog version (MR / Merge Train) ==="
+      echo "Pipeline:"
+      echo "  CI_PIPELINE_SOURCE=${CI_PIPELINE_SOURCE:-<unset>}"
+      echo "  CI_PROJECT_PATH=${CI_PROJECT_PATH:-<unset>}"
+      echo "  CI_PROJECT_ID=${CI_PROJECT_ID:-<unset>}"
+      echo "  CI_COMMIT_SHA=${CI_COMMIT_SHA:-<unset>}"
+      echo "  CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME:-<unset>}"
+      echo "  CI_COMMIT_BRANCH=${CI_COMMIT_BRANCH:-<empty in MR/merge-train pipelines>}"
+      echo "Merge Request:"
+      echo "  CI_MERGE_REQUEST_IID=${CI_MERGE_REQUEST_IID:-<unset>}"
+      echo "  SOURCE=${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME:-<unset>}"
+      echo "  TARGET=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-<unset>}"
+      echo "  SONAR_PROJECT_VERSION=${SONAR_PROJECT_VERSION:-<unset>}"
+      echo ""
+    - |
+      # Base arguments used for every pipeline type
+      SONAR_ARGS="-Dsonar.qualitygate.wait=true -Dsonar.sourceEncoding=UTF-8"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.projectVersion=${SONAR_PROJECT_VERSION}"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.projectKey=${SONAR_PROJECT_KEY}"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.host.url=${SONAR_HOST_URL}"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.token=${SONAR_TOKEN}"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.php.coverage.reportPaths=./.phpunit.cache/coverage.xml"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.sources=./src"
+      SONAR_ARGS="${SONAR_ARGS} -Dsonar.tests=./tests"
+
+      # Pull request decoration parameters must only be set during MR pipelines.
+      # Passing them on a branch analysis (master/release) causes SonarQube to reject the scan.
+      if [ "${CI_PIPELINE_SOURCE}" = "merge_request_event" ]; then
+        SONAR_ARGS="${SONAR_ARGS} -Dsonar.pullrequest.key=${CI_MERGE_REQUEST_IID}"
+        SONAR_ARGS="${SONAR_ARGS} -Dsonar.pullrequest.branch=${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}"
+        SONAR_ARGS="${SONAR_ARGS} -Dsonar.pullrequest.base=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+      fi
+
+      sonar-scanner ${SONAR_ARGS}
+  allow_failure: false
