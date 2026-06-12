@@ -1,0 +1,53 @@
+{
+    "name": "ccvshop/ccvshop-api-sdk",
+    "description": "PHP SDK for CCVShop API calls",
+    "version": "0.5.0",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://www.ccvshop.nl",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "CCV Shop",
+            "email": "support@ccvshop.nl"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "php": ">=7.4|^8.3",
+        "guzzlehttp/guzzle": "~7.5",
+        "vlucas/phpdotenv": "~5.0",
+        "nesbot/carbon": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3.66",
+        "phpmd/phpmd": "^2.15",
+        "slevomat/coding-standard": "^8.26",
+        "squizlabs/php_codesniffer": "^4",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^9.6",
+        "justinrainbow/json-schema": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CCVShop\\Api\\": "src/",
+            "CCVShop\\ApiTests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "checkcode": "composer phpcs; composer php-cs-fixer; composer phpmd; composer phpstan",
+        "fixcode": "composer phpcs-fix; composer php-cs-fixer-fix",
+        "phpcs": "vendor/bin/phpcs --standard=./ci-cd/config/phpcs/phpcs.xml --no-cache",
+        "php-cs-fixer": "vendor/bin/php-cs-fixer --config=./ci-cd/config/php-cs-fixer/php-cs-fixer.dist.php check -vv",
+        "phpmd": "vendor/bin/phpmd src/ text ./ci-cd/config/phpmd/ruleset.phpmd.xml",
+        "phpstan": "vendor/bin/phpstan analyse -c ci-cd/config/phpstan/phpstan.neon --ansi",
+        "phpcs-fix": "vendor/bin/phpcbf --standard=./ci-cd/config/phpcs/phpcs.xml --no-cache",
+        "php-cs-fixer-fix": "vendor/bin/php-cs-fixer --config=./ci-cd/config/php-cs-fixer/php-cs-fixer.dist.php fix -vv"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
