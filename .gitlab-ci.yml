@@ -1,0 +1,37 @@
+stages:
+  - test
+  - verify
+  - build
+  - deploy
+
+include:
+  - '/ci-cd/qa-tooling-ci.yml'
+  - '/ci-cd/deploy-ci.yml'
+
+test:unittest:
+  image:
+    name: gitlab.biedmeer.nl:5555/ccv/middleware/qa-workbench/qa-tooling-7.4:v0.3.5
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'master'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'develop'
+
+  stage: test
+  # Deze suit kan altijd draaien
+  needs: [ ]
+  tags:
+    - kubernetes
+  before_script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - composer install  --no-interaction --no-scripts --no-progress --prefer-dist --no-ansi
+    - mkdir .phpunit.cache
+  script:
+    - ./vendor/bin/phpunit --stop-on-failure --coverage-clover=.phpunit.cache/coverage.xml
+  # artifacts van andere stages zijn niet belangrijk.
+  dependencies: [ ]
+  artifacts:
+    when: on_success
+    paths:
+      - .phpunit.cache/coverage.xml
+    expire_in: 1 days
