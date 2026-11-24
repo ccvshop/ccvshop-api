@@ -1,0 +1,11 @@
+parameters:
+  level: 6
+  paths:
+    - ../../../src
+  excludePaths:
+    analyse:
+      - ../../../vendor
+  reportUnmatchedIgnoredErrors: false
+  ignoreErrors:
+    - '#Constant .* is unused.#'
+    - '#PHPDoc tag @SuppressWarnings has invalid value .*#'
